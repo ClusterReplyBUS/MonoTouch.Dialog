@@ -12,7 +12,7 @@ namespace MonoTouch.Dialog
 		public ReadonlyElement (string caption, string value):base(caption,value)
 		{
 		}
-		
+
 		public override MonoTouch.UIKit.UITableViewCell GetCell (MonoTouch.UIKit.UITableView tv)
 		{
 			var cell = base.GetCell (tv);

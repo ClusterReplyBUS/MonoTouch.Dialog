@@ -112,6 +112,7 @@
     <Compile Include="Elements\Custom\TaggedRootElement.cs" />
     <Compile Include="Elements\Custom\TwoStateElement.cs" />
     <Compile Include="Elements\Custom\SimpleMultilineEntryElement.cs" />
+    <Compile Include="Elements\Custom\SelectableMultilineEntryElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />

@@ -684,6 +684,11 @@ namespace MonoTouch.Dialog
 		{
 			Tapped += tapped;
 		}
+		public StringElement (string caption, string value,  NSAction tapped) : base (caption)
+		{
+			this.Value = value;
+			Tapped += tapped;
+		}
 		
 		public event NSAction Tapped;
 				
@@ -697,7 +702,9 @@ namespace MonoTouch.Dialog
 			cell.Accessory = UITableViewCellAccessory.None;
 			cell.TextLabel.Text = Caption;
 			cell.TextLabel.TextAlignment = Alignment;
-			
+			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+
+
 			// The check is needed because the cell might have been recycled.
 			if (cell.DetailTextLabel != null)
 				cell.DetailTextLabel.Text = Value == null ? "" : Value;
