@@ -3,3 +3,7 @@
 *.pidb
 
 .DS_Store
+
+MonoTouch.Dialog-unified/obj/
+
+MonoTouch.Dialog/obj/
