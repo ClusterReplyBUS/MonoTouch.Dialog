@@ -273,6 +273,7 @@ namespace MonoTouch.Dialog
 		}		
 	}
 	
+#if !TVOS
 	/// <summary>
 	/// Used to display switch on the screen.
 	/// </summary>
@@ -339,6 +340,7 @@ namespace MonoTouch.Dialog
 			}
 		}
 	}
+#endif // !TVOS
 	
 	/// <summary>
 	///  This class is used to render a string + a state in the form
@@ -464,6 +466,7 @@ namespace MonoTouch.Dialog
 		}
 	}
 	
+#if !TVOS
 	/// <summary>
 	///  Used to display a slider on the screen.
 	/// </summary>
@@ -544,7 +547,9 @@ namespace MonoTouch.Dialog
 			}
 		}		
 	}
+#endif // !TVOS
 
+#if !TVOS
 	/// <summary>
 	///  Used to display a cell that will launch a web browser when selected.
 	/// </summary>
@@ -662,6 +667,7 @@ namespace MonoTouch.Dialog
 			web.LoadRequest (NSUrlRequest.FromUrl (nsUrl));
 		}
 	}
+#endif // !TVOS
 
 	/// <summary>
 	///   The string element can be used to render some text in a cell 
@@ -929,6 +935,65 @@ namespace MonoTouch.Dialog
 				tapped ();
 		}
 	}
+
+#if TVOS
+	internal static class Helper {
+
+		static public CGSize StringSize (this string self, UIFont font)
+		{
+			return ((NSString) self).GetSizeUsingAttributes (new UIStringAttributes () {
+				Font = font,
+			});
+		}
+
+		static public CGSize StringSize (this string self, UIFont font, CGSize size, UILineBreakMode mode)
+		{
+			// FIXME: use GetBoundingRect instead
+			return ((NSString) self).GetSizeUsingAttributes (new UIStringAttributes () {
+				Font = font,
+			});
+		}
+
+		static public CGSize StringSize (this NSString self, UIFont font, CGSize size, UILineBreakMode mode)
+		{
+			return self.GetSizeUsingAttributes (new UIStringAttributes () {
+				Font = font,
+			});
+		}
+
+		static public CGSize StringSize (this NSString self, UIFont font, float width, UILineBreakMode mode)
+		{
+			// FIXME: use GetBoundingRect instead
+			return self.GetSizeUsingAttributes (new UIStringAttributes () {
+				Font = font,
+			});
+		}
+
+		static public CGSize DrawString (this string self, CGRect rect, UIFont font)
+		{
+			// FIXME
+		return rect.Size;
+		}
+
+		static public CGSize DrawString (this NSString self, CGRect rect, UIFont font, UILineBreakMode mode)
+		{
+			// FIXME
+			return rect.Size;
+		}
+
+		static public CGSize DrawString (this string self, CGPoint point, float width, UIFont font, UILineBreakMode mode)
+		{
+			// FIXME
+			return new CGSize (width, 0);
+		}
+
+		static public CGSize DrawString (this string self, CGRect rect, UIFont font, UILineBreakMode mode, UITextAlignment alignment)
+		{
+			// FIXME
+			return rect.Size;
+		}
+	}
+#endif
 	
 	public partial class StyledMultilineElement : StyledStringElement, IElementSizing {
 		public StyledMultilineElement (string caption) : base (caption) {}
@@ -1160,6 +1225,7 @@ namespace MonoTouch.Dialog
 
 	}
 	
+#if !TVOS
 	public partial class ImageElement : Element {
 		public UIImage Value;
 		static CGRect rect = new CGRect (0, 0, dimx, dimy);
@@ -1336,6 +1402,7 @@ namespace MonoTouch.Dialog
 			currentController = dvc;
 		}
 	}
+#endif // !TVOS
 	
 	/// <summary>
 	/// An element that can be used to enter text.
@@ -1768,6 +1835,7 @@ namespace MonoTouch.Dialog
 		}
 	}
 	
+#if !TVOS
 	public partial class DateTimeElement : StringElement {
 		public DateTime DateValue;
 		public UIDatePicker datePicker;
@@ -1938,6 +2006,7 @@ namespace MonoTouch.Dialog
 			return picker;
 		}
 	}
+#endif // !TVOS
 	
 	/// <summary>
 	///   This element can be used to insert an arbitrary UIView
