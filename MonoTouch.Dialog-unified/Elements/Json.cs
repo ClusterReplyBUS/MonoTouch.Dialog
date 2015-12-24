@@ -36,9 +36,9 @@ using nint = global::System.Int32;
 using nuint = global::System.UInt32;
 using nfloat = global::System.Single;
 
-using CGSize = global::System.Drawing.SizeF;
-using CGPoint = global::System.Drawing.PointF;
-using CGRect = global::System.Drawing.RectangleF;
+using CGSize = global::System.Drawing.CGSize;
+using CGPoint = global::System.Drawing.CGPoint;
+using CGRect = global::System.Drawing.CGRect;
 #endif
 
 namespace MonoTouch.Dialog {
@@ -51,8 +51,8 @@ namespace MonoTouch.Dialog {
 		public string Url;
 		bool loading;
 
-		public static DateTimeKind DateKind { get; set; } //= DateTimeKind.Unspecified;
-
+        public static DateTimeKind DateKind { get; set; } //= DateTimeKind.Unspecified;
+        
 		UIActivityIndicatorView StartSpinner (UITableViewCell cell)
 		{
 			var cvb = cell.ContentView.Bounds;
@@ -724,7 +724,7 @@ namespace MonoTouch.Dialog {
 			return new CheckboxElement (caption, value, group);
 		}
 
-		static DateTime GetDateWithKind (DateTime dt, DateTimeKind parsedKind)
+        static DateTime GetDateWithKind(DateTime dt, DateTimeKind parsedKind)
 		{
 			// First we check if the given date has a specified Kind, we just return the same date if found.
 			if (dt.Kind != DateTimeKind.Unspecified)
@@ -732,26 +732,26 @@ namespace MonoTouch.Dialog {
 
 			// If not found then we check if we were able to parse a DateTimeKind from the parsedKind param
 			else if (parsedKind != DateTimeKind.Unspecified)
-				return DateTime.SpecifyKind (dt, parsedKind);
+                return DateTime.SpecifyKind(dt, parsedKind);
 
 			// If no DateTimeKind from the parsedKind param was found then we check our global property from JsonElement.DateKind
 			else if (JsonElement.DateKind != DateTimeKind.Unspecified)
-				return DateTime.SpecifyKind (dt, JsonElement.DateKind);
+                return DateTime.SpecifyKind(dt, JsonElement.DateKind);
 
 			// If none of the above is found then we just defaut to local
 			else
-				return DateTime.SpecifyKind (dt, DateTimeKind.Local);
+                return DateTime.SpecifyKind(dt, DateTimeKind.Local);
 		}
 
-		static Element LoadDateTime (JsonObject json, string type)
+		static Element LoadNSDate (JsonObject json, string type)
 		{
 			var caption = GetString (json, "caption");
 			var date = GetString (json, "value");
 			var kind = GetString (json, "kind");
-			DateTime datetime;
+            DateTime dateT;
 			DateTimeKind dateKind;
 
-			if (!DateTime.TryParse (date, out datetime))
+            if (!DateTime.TryParse(date, out dateT))
 				return null;
 
 			if (kind != null) {
@@ -769,15 +769,15 @@ namespace MonoTouch.Dialog {
 			} else
 				dateKind = DateTimeKind.Unspecified;
 
-			datetime = GetDateWithKind (datetime, dateKind);
+            dateT = GetDateWithKind(dateT, dateKind);
 
 			switch (type){
 			case "date":
-				return new DateElement (caption, datetime);
+                    return new DateElement(caption, dateT.ToNSDate());
 			case "time":
-				return new TimeElement (caption, datetime);
-			case "datetime":
-				return new DateTimeElement (caption, datetime);
+                    return new TimeElement(caption, dateT.ToNSDate());
+			case "NSDate":
+                    return new DateTimeElement(caption, dateT.ToNSDate());
 			default:
 				return null;
 			}
@@ -830,10 +830,10 @@ namespace MonoTouch.Dialog {
 						element = LoadCheckbox (json, data);
 						break;
 						
-					case "datetime":
+					case "NSDate":
 					case "date":
 					case "time":
-						element = LoadDateTime (json, type);
+						element = LoadNSDate (json, type);
 						break;
 						
 					case "html":
