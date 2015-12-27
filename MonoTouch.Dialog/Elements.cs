@@ -65,7 +65,34 @@ namespace MonoTouch.Dialog
 		///  The caption to display for this given element
 		/// </summary>
 		public string Caption;
-		
+        protected int Offset = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 20 : 90;
+
+        private RectangleF _labelSize;
+        protected RectangleF LabelSize
+        {
+            get
+            {
+                if (_labelSize == default(RectangleF))
+                {
+                    float width = 650;
+                    var tv = GetContainerTableView();
+                    if (tv != null)
+                        width = tv.Frame.Width - Offset;
+                    RefreshLabelSizeForWidth(width);
+                }
+                return _labelSize;
+            }
+        }
+
+        public virtual void RefreshLabelSizeForWidth(float width)
+        {
+            _labelSize = new NSString(Caption).
+                 GetBoundingRect(
+                     new SizeF(width, float.MaxValue),
+                     NSStringDrawingOptions.UsesLineFragmentOrigin,
+                     new UIStringAttributes() { Font = UIFont.BoldSystemFontOfSize(17) },
+                     null);
+        }
 		/// <summary>
 		///  Initializes the element with the given caption.
 		/// </summary>
@@ -1412,7 +1439,7 @@ namespace MonoTouch.Dialog
 	///     
 	/// The Text fields in a given section are aligned with each other.
 	/// </remarks>
-	public partial class EntryElement : Element {
+	public partial class EntryElement : Element, IElementSizing{
 		/// <summary>
 		///   The value of the EntryElement
 		/// </summary>
@@ -1436,7 +1463,8 @@ namespace MonoTouch.Dialog
 			}
 		}
 		protected string val;
-
+        
+        
 		/// <summary>
 		/// The key used for reusable UITableViewCells.
 		/// </summary>
@@ -1623,9 +1651,9 @@ namespace MonoTouch.Dialog
 					if (ee != null
 						&& !String.IsNullOrEmpty(ee.Caption)) {
 								
-						var size = ee.Caption.StringSize (font);
-
-						maxWidth = (nfloat) Math.Max (size.Width, maxWidth);
+                        var size = ee.Caption.StringSize (font);
+                            
+						maxWidth = (nfloat) Math.Max (size.Width / 3*2, maxWidth);
 						maxHeight = (nfloat) Math.Max (size.Height, maxHeight);
 					}
 				}
@@ -1655,7 +1683,6 @@ namespace MonoTouch.Dialog
 				return isPassword ? passwordKey : cellkey;
 			}
 		}
-
 		UITableViewCell cell;
 		public override UITableViewCell GetCell (UITableView tv)
 		{
@@ -1664,11 +1691,14 @@ namespace MonoTouch.Dialog
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 				cell.TextLabel.Font = font;
 
-			} 
-			cell.TextLabel.Text = Caption;
-
-			var offset = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 20 : 90;
-			cell.Frame = new CGRect(cell.Frame.X, cell.Frame.Y, tv.Frame.Width-offset, cell.Frame.Height);
+			}
+            cell.TextLabel.Text = Caption;
+            cell.TextLabel.LineBreakMode = MonoTouch.UIKit.UILineBreakMode.WordWrap;
+            var labelWidth = cell.TextLabel.Frame.Width / 2;
+            RefreshLabelSizeForWidth(labelWidth);
+            cell.TextLabel.Frame = new RectangleF(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, labelWidth, LabelSize.Height);
+            cell.TextLabel.Lines = 0;
+            cell.Frame = new CGRect(cell.Frame.X, cell.Frame.Y, tv.Frame.Width - Offset, cell.Frame.Height);
 			CGSize size = ComputeEntryPosition (tv, cell);
 			nfloat yOffset = (cell.ContentView.Bounds.Height - size.Height) / 2 - 1;
 			nfloat width = cell.ContentView.Bounds.Width - size.Width;
@@ -1676,8 +1706,8 @@ namespace MonoTouch.Dialog
 				// Add padding if right aligned
 				width -= 10;
 			}
-			var entryFrame = new CGRect (size.Width, yOffset, width, size.Height);
 
+			var entryFrame = new CGRect (size.Width, yOffset, width, size.Height);
 			if (entry == null) {
 				entry = CreateTextField (entryFrame);
 				entry.EditingChanged += delegate {
@@ -1792,7 +1822,6 @@ namespace MonoTouch.Dialog
 				}
 			}
 		}
-
 		public override void Selected (DialogViewController dvc, UITableView tableView, NSIndexPath indexPath)
 		{
 			BecomeFirstResponder(true);
@@ -1833,7 +1862,17 @@ namespace MonoTouch.Dialog
 			if (entry != null)
 				entry.ResignFirstResponder ();
 		}
-	}
+
+        #region IElementSizing Members
+
+        //public nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    RefreshLabelSizeForWidth(tableView.Frame.Width - Offset /2);
+        //    return Math.Max(LabelSize.Height, base;
+        //}
+
+        #endregion
+    }
 	
 #if !TVOS
 	public partial class DateTimeElement : StringElement {

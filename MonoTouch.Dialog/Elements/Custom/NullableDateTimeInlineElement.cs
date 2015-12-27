@@ -19,13 +19,15 @@ namespace MonoTouch.Dialog
 		private InlineDateElement _inline_date_element = null;
 		private bool _picker_present = false;
 		private UIColor _defaultColor = UIColor.White;
+        private UIDatePickerMode _mode = UIDatePickerMode.Date;
 
-		public NullableDateElementInline(string caption, DateTime? date)
+        public NullableDateElementInline(string caption, DateTime? date) : this(caption, date, UIDatePickerMode.Date) { }
+		public NullableDateElementInline(string caption, DateTime? date, UIDatePickerMode mode)
 			: base(caption)
 		{
 			DateValue = date;
-			Value = FormatDate(date);
-
+            _mode = mode;
+            Value = FormatDate(date);
 		}
 
 		/// <summary>
@@ -37,31 +39,43 @@ namespace MonoTouch.Dialog
 			return _picker_present;
 		}
 
-		protected internal NSDateFormatter fmt = new NSDateFormatter()
-		{
-			DateStyle = NSDateFormatterStyle.Medium
-		};
+        //protected internal NSDateFormatter DateFormatter
+        //{
+        //    get
+        //    {
+        //        return new NSDateFormatter()
+        //        {
+        //            DateStyle = _mode == UIDatePickerMode.DateAndTime ? NSDateFormatterStyle.Medium
+        //        };
+        //    }
+        //}
 
-		protected override void Dispose(bool disposing)
-		{
-			base.Dispose(disposing);
-			if (disposing)
-			{
-				if (fmt != null)
-				{
-					fmt.Dispose();
-					fmt = null;
-				}
-			}
-		}
+        //protected override void Dispose(bool disposing)
+        //{
+        //    base.Dispose(disposing);
+        //    if (disposing)
+        //    {
+        //        if (DateFormatter != null)
+        //        {
+        //            DateFormatter.Dispose();
+        //            //DateFormatter = null;
+        //        }
+        //    }
+        //}
 
 		public virtual string FormatDate(DateTime? dt)
 		{
 			if (!dt.HasValue)
 				return " ";
 
-			dt = GetDateWithKind(dt);
-			return fmt.ToString(dt);
+			dt = GetDateWithKind(dt).Value.ToLocalTime();
+            //var s = DateFormatter.ToString(dt);
+            //if (_mode ==UIDatePickerMode.DateAndTime)
+            //{
+            //    s+=" " + dt.Value.ToShortTimeString();
+            //}
+            //return s;
+            return _mode == UIDatePickerMode.DateAndTime ? dt.Value.ToShortDateString() + " " + dt.Value.ToShortTimeString() : dt.Value.ToShortDateString();
 		}
 
 		protected DateTime? GetDateWithKind(DateTime? dt)
@@ -132,7 +146,7 @@ namespace MonoTouch.Dialog
 				{
 					// Show the picker.
 					cell.DetailTextLabel.TextColor = UIColor.Red;
-					_inline_date_element = new InlineDateElement(DateValue);
+					_inline_date_element = new InlineDateElement(DateValue, _mode);
 
 					_inline_date_element.DateSelected += (DateTime? date) =>
 					{
@@ -228,12 +242,13 @@ namespace MonoTouch.Dialog
 			private SizeF _picker_size;
 			private SizeF _cell_size;
 
-			public InlineDateElement(DateTime? current_date)
+            public InlineDateElement(DateTime? current_date) : this(current_date, UIDatePickerMode.Date) { }
+			public InlineDateElement(DateTime? current_date, UIDatePickerMode mode)
 				: base("")
 			{
 				_current_date = current_date;
 				_date_picker = new UIDatePicker();
-				_date_picker.Mode = UIDatePickerMode.Date;
+				_date_picker.Mode = mode;
 				_picker_size = _date_picker.SizeThatFits(SizeF.Empty);
 				_cell_size = _picker_size;
 				_cell_size.Height += 30f; // Add a little bit for the clear button
