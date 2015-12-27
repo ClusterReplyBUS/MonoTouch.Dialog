@@ -5,5 +5,7 @@
 .DS_Store
 
 MonoTouch.Dialog-unified/obj/
+MonoTouch.Dialog-unified/bin/
 
 MonoTouch.Dialog/obj/
+MonoTouch.Dialog/bin/
