@@ -28,7 +28,7 @@ namespace MonoTouch.Dialog
 			var picker = new UIDatePicker(RectangleF.Empty)
 			{
 				AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
-				Mode = UIDatePickerMode.DateAndTime,
+				Mode = UIDatePickerMode.Date,
 				Date = DateValue
 			};
 			return picker;
