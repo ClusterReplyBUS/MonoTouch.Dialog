@@ -172,10 +172,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoTouch.Dialog-unified\MonoTouch.Dialog-unified.csproj">
-      <Project>{a752f24f-beb3-4596-bba6-7d8723498772}</Project>
+      <Project>{A752F24F-BEB3-4596-BBA6-7D8723498772}</Project>
       <Name>MonoTouch.Dialog-unified</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
+      <IsAppExtension>False</IsAppExtension>
+      <IsWatchApp>False</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

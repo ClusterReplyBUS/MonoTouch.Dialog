@@ -47,7 +47,7 @@ namespace Sample
 				new Section ("Custom API"){
 					new StringElement ("LeadCapture Sample", LeadCaptureApi),
                 },
-				/*new Section ("Element API"){
+				new Section ("Element API"){
 					new StringElement ("iPhone Settings Sample", DemoElementApi),
 					new StringElement ("Dynamically load data", DemoDynamic),
 					new StringElement ("Add/Remove demo", DemoAddRemove),
@@ -74,7 +74,7 @@ namespace Sample
 				},
 				new Section ("Auto-mapped", footer){
 					new StringElement ("Reflection API", DemoReflectionApi)
-				},*/
+				},
 			};
             /*
             //

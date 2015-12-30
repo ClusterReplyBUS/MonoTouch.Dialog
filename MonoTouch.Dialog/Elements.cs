@@ -51,7 +51,7 @@ namespace MonoTouch.Dialog
 	/// Base class for all elements in MonoTouch.Dialog
 	/// </summary>
 	public partial class Element : IDisposable {
-        protected readonly int WIDTH_OFFSET = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 20 : 90;
+		protected readonly nfloat WIDTH_OFFSET = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ?  40f : 110f;
 		/// <summary>
 		///  Handle to the container object.
 		/// </summary>
@@ -86,15 +86,20 @@ namespace MonoTouch.Dialog
 		protected virtual void Dispose (bool disposing)
 		{
 		}
-        public virtual nfloat CaptionLabelHeightForWidth(nfloat width)
+		public virtual nfloat HeightForWidth(nfloat width)
+		{
+			return HeightForWidth (Caption, width);
+		}
+        public virtual nfloat HeightForWidth(string value, nfloat width)
         {
             //_labelSize = new NSString(Caption).
-            return new NSString(Caption).
+			var h = new NSString(value).
                  GetBoundingRect(
                      new CGSize(width, float.MaxValue),
                      NSStringDrawingOptions.UsesLineFragmentOrigin,
                      new UIStringAttributes() { Font = UIFont.BoldSystemFontOfSize(17) },
                      null).Height;
+			return h;
         }
 
 		static NSString cellkey = new NSString ("xx");
@@ -721,18 +726,22 @@ namespace MonoTouch.Dialog
             cell.TextLabel.Text = Caption;
 			cell.TextLabel.TextAlignment = Alignment;
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
             nfloat width = 600;
             if (tv.Frame != default(CGRect))
-                width = cell.TextLabel.Frame.Width - WIDTH_OFFSET;
-            if (cell.TextLabel.Frame != default(CGRect))
-                width = cell.TextLabel.Frame.Width;
-            var newHeight = CaptionLabelHeightForWidth(width);
-            cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, cell.TextLabel.Frame.Width, newHeight);
+				width = (tv.Frame.Width - WIDTH_OFFSET) /2;
+            var newHeight = HeightForWidth(Caption, width);
+
+			cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, width, newHeight);
 
 			// The check is needed because the cell might have been recycled.
-			if (cell.DetailTextLabel != null)
-				cell.DetailTextLabel.Text = Value == null ? "" : Value;
-			
+			if (cell.DetailTextLabel != null) {	
+				cell.DetailTextLabel.Text = Value ?? string.Empty;
+				cell.DetailTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+				newHeight = HeightForWidth(cell.DetailTextLabel.Text , width);
+				cell.DetailTextLabel.Frame = new CGRect(cell.DetailTextLabel.Frame.X, cell.DetailTextLabel.Frame.Y, width, newHeight);
+
+			}
 			return cell;
 		}
 
@@ -1024,8 +1033,7 @@ namespace MonoTouch.Dialog
 
 		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
-			float margin = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 40f : 110f;
-			CGSize maxSize = new CGSize (tableView.Bounds.Width - margin, float.MaxValue);
+			CGSize maxSize = new CGSize (tableView.Bounds.Width - WIDTH_OFFSET, float.MaxValue);
 			
 			if (this.Accessory != UITableViewCellAccessory.None)
 				maxSize.Width -= 20;
@@ -1148,8 +1156,7 @@ namespace MonoTouch.Dialog
 		
 		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
-			float margin = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 40f : 110f;
-			CGSize size = new CGSize (tableView.Bounds.Width - margin, float.MaxValue);
+			CGSize size = new CGSize (tableView.Bounds.Width - WIDTH_OFFSET, float.MaxValue);
 			UIFont font = UIFont.BoldSystemFontOfSize (17);
 			string c = Caption;
 			// ensure the (single-line) Value will be rendered inside the cell
@@ -1684,6 +1691,14 @@ namespace MonoTouch.Dialog
 
 			} 
 			cell.TextLabel.Text = Caption;
+			cell.TextLabel.Lines = 0;
+			nfloat nwidth = 600;
+			if (tv.Frame != default(CGRect))
+				nwidth = (tv.Frame.Width - WIDTH_OFFSET) /2;
+			var newHeight = HeightForWidth(Caption, nwidth);
+
+			cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, nwidth, newHeight);
+
 
 			var offset = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 20 : 90;
 			cell.Frame = new CGRect(cell.Frame.X, cell.Frame.Y, tv.Frame.Width-offset, cell.Frame.Height);

@@ -26,7 +26,7 @@ using MonoTouch.Dialog.Utilities;
 
 namespace MonoTouch.Dialog
 {
-	public class RightAlignEntryElement : EntryElement
+	public class RightAlignEntryElement : EntryElement, IElementSizing
 	{
 		#region PRIVATE MEMBERS
 		private string _placeholder;
@@ -93,22 +93,14 @@ namespace MonoTouch.Dialog
 				cell.BackgroundColor = _defaultColor ?? UIColor.White;
 			return cell;
 		}
-		/*
-		protected override UITextField CreateTextField (CGRect frame)
+
+		public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
-			//CGRect newFrame = new CGRect (152f, 10.5f, 168f, 21f);
-			return new UITextField (new CGRect (152f, 10.5f, 520f, 21f)) {
-				AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleLeftMargin,
-				Placeholder = _placeholder ?? "",
-				SecureTextEntry = IsPassword,
-				Text = Value ?? "",
-				Tag = 1,
-			//BackgroundColor = UIColor.LightTextColor,
-				TextAlignment = UITextAlignment.Right,
-				ClearButtonMode = UITextFieldViewMode.WhileEditing,
-			};
+			var width = (tableView.Frame.Width- WIDTH_OFFSET )/2;
+			string reference = (Caption ?? string.Empty).Length > (Value ?? string.Empty).Length ? Caption : Value;
+			return (nfloat)Math.Max(HeightForWidth(reference, width), 40F);
+
 		}
-		*/
 		#endregion
 	}
 	
