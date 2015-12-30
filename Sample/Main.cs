@@ -47,7 +47,7 @@ namespace Sample
 				new Section ("Custom API"){
 					new StringElement ("LeadCapture Sample", LeadCaptureApi),
                 },
-				new Section ("Element API"){
+				/*new Section ("Element API"){
 					new StringElement ("iPhone Settings Sample", DemoElementApi),
 					new StringElement ("Dynamically load data", DemoDynamic),
 					new StringElement ("Add/Remove demo", DemoAddRemove),
@@ -74,18 +74,19 @@ namespace Sample
 				},
 				new Section ("Auto-mapped", footer){
 					new StringElement ("Reflection API", DemoReflectionApi)
-				},
+				},*/
 			};
-			
-			//
-			// Lookup elements by ID:
-			//
-			var jsonSection = sampleJson ["section-1"] as Section;
-			Console.WriteLine ("The section has {0} elements", jsonSection.Count);
-			var booleanElement = sampleJson ["first-boolean"] as BooleanElement;
-			Console.WriteLine ("The state of the first-boolean value is {0}", booleanElement.Value);
-			
-			//
+            /*
+            //
+            // Lookup elements by ID:
+            //
+            var jsonSection = sampleJson ["section-1"] as Section;
+            Console.WriteLine ("The section has {0} elements", jsonSection.Count);
+            var booleanElement = sampleJson ["first-boolean"] as BooleanElement;
+            Console.WriteLine ("The state of the first-boolean value is {0}", booleanElement.Value);
+            */
+
+            //
 			// Create our UI and add it to the current toplevel navigation controller
 			// this will allow us to have nice navigation animations.
 			//
@@ -98,10 +99,10 @@ namespace Sample
 			// On iOS5 we use the new window.RootViewController, on older versions, we add the subview
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 			window.MakeKeyAndVisible ();
-            if (UIDevice.CurrentDevice.CheckSystemVersion (5, 0))
+            //if (UIDevice.CurrentDevice.CheckSystemVersion (5, 0))
 				window.RootViewController = navigation;	
-			else
-				window.AddSubview (navigation.View);
+            //else
+            //    window.AddSubview (navigation.View);
 			
 			return true;
 		}

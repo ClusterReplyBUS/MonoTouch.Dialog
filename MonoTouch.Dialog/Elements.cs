@@ -51,6 +51,7 @@ namespace MonoTouch.Dialog
 	/// Base class for all elements in MonoTouch.Dialog
 	/// </summary>
 	public partial class Element : IDisposable {
+        protected readonly int WIDTH_OFFSET = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 20 : 90;
 		/// <summary>
 		///  Handle to the container object.
 		/// </summary>
@@ -85,7 +86,17 @@ namespace MonoTouch.Dialog
 		protected virtual void Dispose (bool disposing)
 		{
 		}
-		
+        public virtual nfloat CaptionLabelHeightForWidth(nfloat width)
+        {
+            //_labelSize = new NSString(Caption).
+            return new NSString(Caption).
+                 GetBoundingRect(
+                     new CGSize(width, float.MaxValue),
+                     NSStringDrawingOptions.UsesLineFragmentOrigin,
+                     new UIStringAttributes() { Font = UIFont.BoldSystemFontOfSize(17) },
+                     null).Height;
+        }
+
 		static NSString cellkey = new NSString ("xx");
 		/// <summary>
 		/// Subclasses that override the GetCell method should override this method as well
@@ -703,13 +714,20 @@ namespace MonoTouch.Dialog
 			var cell = tv.DequeueReusableCell (Value == null ? skey : skeyvalue);
 			if (cell == null){
 				cell = new UITableViewCell (Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1, Value == null ? skey : skeyvalue);
-				cell.SelectionStyle = (Tapped != null) ? UITableViewCellSelectionStyle.Blue : UITableViewCellSelectionStyle.None;
 			}
-			cell.Accessory = UITableViewCellAccessory.None;
-			cell.TextLabel.Text = Caption;
+            cell.SelectionStyle = (Tapped != null) ? UITableViewCellSelectionStyle.Blue : UITableViewCellSelectionStyle.None;
+            cell.Accessory = UITableViewCellAccessory.None;
+			
+            cell.TextLabel.Text = Caption;
 			cell.TextLabel.TextAlignment = Alignment;
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
-
+            nfloat width = 600;
+            if (tv.Frame != default(CGRect))
+                width = cell.TextLabel.Frame.Width - WIDTH_OFFSET;
+            if (cell.TextLabel.Frame != default(CGRect))
+                width = cell.TextLabel.Frame.Width;
+            var newHeight = CaptionLabelHeightForWidth(width);
+            cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, cell.TextLabel.Frame.Width, newHeight);
 
 			// The check is needed because the cell might have been recycled.
 			if (cell.DetailTextLabel != null)

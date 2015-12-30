@@ -27,7 +27,7 @@ namespace Sample
             return new RootElement("Settings") {
 				new Section ("Read only"){
 					new ReadonlyElement (SmallText, SmallText),
-					new ReadonlyElement (MediumText, SmallText),
+					new ReadonlyElement (MediumText, MediumText),
 					new ReadonlyElement (LargeText, LargeText),
 					new ReadonlyElement (WellINeverWhatAWhopperString, WellINeverWhatAWhopperString),
 				}
