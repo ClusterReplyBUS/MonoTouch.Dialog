@@ -2,10 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
+using System.Drawing;
 using MonoTouch.Dialog.Utilities;
 
 namespace MonoTouch.Dialog
@@ -58,11 +74,11 @@ namespace MonoTouch.Dialog
 
 			sc.InsertSegment (choices [0].Text, 0, false);
 			sc.InsertSegment (choices [1].Text, 1, false);
-			sc.Frame = new RectangleF (570f, 8f, 150f, 26f);
+			sc.Frame = new CGRect (570f, 8f, 150f, 26f);
 
 			sc.SelectedSegment = choices.FindIndex (e => e.Id == val.Id);
 			sc.AddTarget (delegate {
-				Value = choices [sc.SelectedSegment];
+				Value = choices [(int)sc.SelectedSegment];
 			}, UIControlEvent.ValueChanged);
 
 			var cell = tv.DequeueReusableCell (CellKey);

@@ -1,7 +1,24 @@
 using System;
 using MonoTouch.Dialog;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 using System.Drawing;
 using System.IO;
 
@@ -13,11 +30,11 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public override MonoTouch.UIKit.UITableViewCell GetCell (MonoTouch.UIKit.UITableView tv)
+		public override UITableViewCell GetCell (UITableView tv)
 		{
 			var cell = base.GetCell (tv);
 			if (cell.DetailTextLabel != null) {
-				cell.DetailTextLabel.LineBreakMode = MonoTouch.UIKit.UILineBreakMode.WordWrap;
+				cell.DetailTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 				if (cell != null && cell.DetailTextLabel != null && !string.IsNullOrWhiteSpace (cell.DetailTextLabel.Text)) {
 					int lineCount = 0;
 					using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
@@ -31,7 +48,7 @@ namespace MonoTouch.Dialog
 			return cell;
 		}
 		
-		public virtual float GetHeight (UITableView tableView, NSIndexPath indexPath)
+		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = GetCell (tableView);
 			int lineCount = 0;
@@ -48,12 +65,12 @@ namespace MonoTouch.Dialog
 						lineCount++;
 				}
 			}
-			float lineHeight;
-			SizeF size = new SizeF (280, float.MaxValue);
+			nfloat lineHeight;
+			CGSize size = new CGSize (280, float.MaxValue);
 			using (var font = UIFont.FromName ("Helvetica", 17f))
-				lineHeight = tableView.StringSize (Caption, font, size, UILineBreakMode.WordWrap).Height + 3;
+				lineHeight = Caption.StringSize (font, size, UILineBreakMode.WordWrap).Height + 3;
 			
-			return Math.Max (lineHeight * lineCount + 20, cell.Frame.Height);
+			return (nfloat) Math.Max (lineHeight * lineCount + 20, cell.Frame.Height);
 		}
 	}
 	

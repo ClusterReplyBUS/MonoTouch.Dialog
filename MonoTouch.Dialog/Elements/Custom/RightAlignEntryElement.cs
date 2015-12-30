@@ -2,10 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
+using System.Drawing;
 using MonoTouch.Dialog.Utilities;
 
 namespace MonoTouch.Dialog
@@ -78,10 +94,10 @@ namespace MonoTouch.Dialog
 			return cell;
 		}
 		/*
-		protected override UITextField CreateTextField (RectangleF frame)
+		protected override UITextField CreateTextField (CGRect frame)
 		{
-			//RectangleF newFrame = new RectangleF (152f, 10.5f, 168f, 21f);
-			return new UITextField (new RectangleF (152f, 10.5f, 520f, 21f)) {
+			//CGRect newFrame = new CGRect (152f, 10.5f, 168f, 21f);
+			return new UITextField (new CGRect (152f, 10.5f, 520f, 21f)) {
 				AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleLeftMargin,
 				Placeholder = _placeholder ?? "",
 				SecureTextEntry = IsPassword,

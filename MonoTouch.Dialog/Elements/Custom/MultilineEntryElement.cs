@@ -1,7 +1,24 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using System.Drawing;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
+using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 
 namespace MonoTouch.Dialog
 {
@@ -168,7 +185,7 @@ namespace MonoTouch.Dialog
 		// 
 		// Computes the X position for the entry by aligning all the entries in the Section
 		//
-		SizeF ComputeEntryPosition (UITableView tv, UITableViewCell cell)
+		CGSize ComputeEntryPosition (UITableView tv, UITableViewCell cell)
 		{
 //			Section s = Parent as Section;
 //			if (s.EntryAlignment.Width != 0)
@@ -176,7 +193,7 @@ namespace MonoTouch.Dialog
 //			
 //			// If all EntryElements have a null Caption, align UITextField with the Caption
 //			// offset of normal cells (at 10px).
-//			SizeF max = new SizeF (-15, tv.StringSize ("M", font).Height);
+//			CGSize max = new CGSize (-15, tv.StringSize ("M", font).Height);
 //			foreach (var e in s.Elements) {
 //				var ee = e as EntryElement;
 //				if (ee == null)
@@ -188,12 +205,12 @@ namespace MonoTouch.Dialog
 //						max = size;
 //				}
 //			}
-//			s.EntryAlignment = new SizeF (25 + Math.Min (max.Width, 160), max.Height);
+//			s.EntryAlignment = new CGSize (25 + Math.Min (max.Width, 160), max.Height);
 //			return s.EntryAlignment;
-			return tv.StringSize (Caption, font);
+			return Caption.StringSize (font);
 		}
 
-		protected virtual UITextView CreateTextField (RectangleF frame)
+		protected virtual UITextView CreateTextField (CGRect frame)
 		{
 			return new UITextView (frame) {
 				AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleLeftMargin,
@@ -223,11 +240,11 @@ namespace MonoTouch.Dialog
 				RemoveTag (cell, 1);
 			
 			if (entry == null) {
-				SizeF size = ComputeEntryPosition (tv, cell);
-				float yOffset = (cell.ContentView.Bounds.Height - size.Height) / 2 - 1;
-				float width = cell.ContentView.Bounds.Width - size.Width;
+				CGSize size = ComputeEntryPosition (tv, cell);
+				nfloat yOffset = (cell.ContentView.Bounds.Height - size.Height) / 2 - 1;
+				nfloat width = cell.ContentView.Bounds.Width - size.Width;
 				
-				entry = CreateTextField (new RectangleF (size.Width + 30, yOffset, width - 40, size.Height + (height - 44)));
+				entry = CreateTextField (new CGRect (size.Width + 30, yOffset, width - 40, size.Height + (height - 44)));
 				entry.Font = inputFont;
 				
 				entry.Changed += delegate {
@@ -361,7 +378,7 @@ namespace MonoTouch.Dialog
 		}
 
 		#region IElementSizing implementation
-		public float GetHeight (MonoTouch.UIKit.UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
+		public nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			return height;
 		}

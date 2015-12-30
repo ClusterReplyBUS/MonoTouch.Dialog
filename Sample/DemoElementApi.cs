@@ -66,13 +66,8 @@ namespace Sample
 						EnablesReturnKeyAutomatically = true,
 						AlignEntryWithAllSections = true,
 					},
-#if XAMCORE_2_0
-					new DateElement ("Select Date", DateTime.Now.ToNSDate()),
-					new TimeElement ("Select Time", DateTime.Now.ToNSDate()),
-#else
 					new DateElement ("Select Date", DateTime.Now),
 					new TimeElement ("Select Time", DateTime.Now),
-#endif
 				},
 				new Section () {
 					new EntryElement ("Another Field", "Aligns with above fields", null)

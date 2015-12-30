@@ -1,8 +1,25 @@
 using System;
 using MonoTouch.Dialog;
 using System.Drawing;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 
 namespace MonoTouch.Dialog
 {
@@ -11,7 +28,7 @@ namespace MonoTouch.Dialog
 //		private const string CELL_IDENTIFIER = "SignatureCell";
 //		private DrawView _drawView;
 //		
-//		public SignatureElement (UIViewController parent) : base(string.Empty, new DrawView(new RectangleF(5f,5f,1000,200), parent), false)
+//		public SignatureElement (UIViewController parent) : base(string.Empty, new DrawView(new CGRect(5f,5f,1000,200), parent), false)
 //		{
 //			base.Flags = UIViewElement.CellFlags.DisableSelection;
 //			_drawView = (DrawView)base.View;
@@ -67,7 +84,7 @@ namespace MonoTouch.Dialog
 		}
 
 		#region IElementSizing implementation
-		public virtual float GetHeight (UITableView tableView, NSIndexPath indexPath)
+		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			return 200;
 		}
@@ -127,10 +144,7 @@ namespace MonoTouch.Dialog
 			Camera.TakePicture (dvc, (obj) => {
 				var photo = obj.ValueForKey (new NSString ("UIImagePickerControllerOriginalImage")) as UIImage;
 				//Value = photo;
-				Value = photo.Scale (new SizeF (
-					this.newHeight * photo.Size.Width / photo.Size.Height,
-					this.newHeight )
-				);
+				Value = photo.Scale (new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
 				var selected = OnSelected;
 				if (selected != null)
 					selected (this, EventArgs.Empty);
@@ -140,11 +154,11 @@ namespace MonoTouch.Dialog
 				Autorotate = dvc.Autorotate,
 			};
 			
-//			DrawView dv = new DrawView (new RectangleF (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600), null) {
+//			DrawView dv = new DrawView (new CGRect (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600), null) {
 //				BackgroundColor = UIColor.White,
 //				AutoresizingMask = UIViewAutoresizing.All,
 //			};
-			SmoothedBIView dv = new SmoothedBIView(new RectangleF (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600)){
+			SmoothedBIView dv = new SmoothedBIView(new CGRect (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600)){
 				BackgroundColor = UIColor.FromWhiteAlpha(1f,1f),
 				AutoresizingMask = UIViewAutoresizing.All,
 			};
@@ -158,7 +172,7 @@ namespace MonoTouch.Dialog
 				Console.WriteLine ("Unable to load images/Signature.png for background image");
 			}
 
-			RectangleF frame = new RectangleF (20, 20, signatureController.View.Frame.Width - 40, 300);
+			CGRect frame = new CGRect (20, 20, signatureController.View.Frame.Width - 40, 300);
 			UITextView disclaimerView = new UITextView (frame);
 			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
 			disclaimerView.TextColor = UIColor.White;

@@ -1,6 +1,24 @@
 using System;
 using MonoTouch.Dialog;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 
 namespace MonoTouch.Dialog
 {
@@ -27,7 +45,7 @@ namespace MonoTouch.Dialog
 			this.IsMandatory = false;
 		}
 		
-		public override MonoTouch.UIKit.UITableViewCell GetCell (MonoTouch.UIKit.UITableView tv)
+		public override UITableViewCell GetCell (UITableView tv)
 		{
 			var cell = base.GetCell (tv);
             cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);

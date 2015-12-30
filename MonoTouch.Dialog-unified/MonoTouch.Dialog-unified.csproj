@@ -34,42 +34,104 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DialogViewController.cs" />
-    <Compile Include="Elements.cs" />
-    <Compile Include="Elements\ActivityElement.cs" />
-    <Compile Include="Elements\Custom\CapturePhotoElement.cs" />
-    <Compile Include="Elements\Custom\GridElement.cs" />
-    <Compile Include="Elements\Custom\MultilineEntryElement.cs" />
-    <Compile Include="Elements\Custom\NullableDateTimeInlineElement.cs" />
-    <Compile Include="Elements\Custom\ProductOfInterestRadioElement.cs" />
-    <Compile Include="Elements\Custom\ReadonlyElement.cs" />
-    <Compile Include="Elements\Custom\RightAlignEntryElement.cs" />
-    <Compile Include="Elements\Custom\SelectableMultilineEntryElement.cs" />
-    <Compile Include="Elements\Custom\SignatureElement.cs" />
-    <Compile Include="Elements\Custom\SimpleMultilineEntryElement.cs" />
-    <Compile Include="Elements\Custom\SmoothedBIView.cs" />
-    <Compile Include="Elements\Custom\StaticImageElement.cs" />
-    <Compile Include="Elements\Custom\TaggedDateElement.cs" />
-    <Compile Include="Elements\Custom\TaggedRadioElement.cs" />
-    <Compile Include="Elements\Custom\TaggedRootElement.cs" />
-    <Compile Include="Elements\Custom\TwoStateElement.cs" />
-    <Compile Include="Elements\ElementBadge.cs" />
-    <Compile Include="Elements\Json.cs" />
-    <Compile Include="Elements\MessageElement.cs" />
-    <Compile Include="Elements\OwnerDrawnElement.cs" />
-    <Compile Include="OldElements\LoadMoreElement.cs" />
+    <Compile Include="..\MonoTouch.Dialog\DialogViewController.cs">
+      <Link>DialogViewController.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements.cs">
+      <Link>Elements.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\ActivityElement.cs">
+      <Link>Elements\ActivityElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\CapturePhotoElement.cs">
+      <Link>Elements\Custom\CapturePhotoElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\GridElement.cs">
+      <Link>Elements\Custom\GridElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\MultilineEntryElement.cs">
+      <Link>Elements\Custom\MultilineEntryElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\NullableDateTimeInlineElement.cs">
+      <Link>Elements\Custom\NullableDateTimeInlineElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\ProductOfInterestRadioElement.cs">
+      <Link>Elements\Custom\ProductOfInterestRadioElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\ReadonlyElement.cs">
+      <Link>Elements\Custom\ReadonlyElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\RightAlignEntryElement.cs">
+      <Link>Elements\Custom\RightAlignEntryElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\SelectableMultilineEntryElement.cs">
+      <Link>Elements\Custom\SelectableMultilineEntryElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\SignatureElement.cs">
+      <Link>Elements\Custom\SignatureElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\SimpleMultilineEntryElement.cs">
+      <Link>Elements\Custom\SimpleMultilineEntryElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\SmoothedBIView.cs">
+      <Link>Elements\Custom\SmoothedBIView.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\StaticImageElement.cs">
+      <Link>Elements\Custom\StaticImageElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedDateElement.cs">
+      <Link>Elements\Custom\TaggedDateElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedRadioElement.cs">
+      <Link>Elements\Custom\TaggedRadioElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedRootElement.cs">
+      <Link>Elements\Custom\TaggedRootElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TwoStateElement.cs">
+      <Link>Elements\Custom\TwoStateElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\ElementBadge.cs">
+      <Link>Elements\ElementBadge.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Json.cs">
+      <Link>Elements\Json.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\MessageElement.cs">
+      <Link>Elements\MessageElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\OwnerDrawnElement.cs">
+      <Link>Elements\OwnerDrawnElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\OldElements\LoadMoreElement.cs">
+      <Link>Elements\LoadMoreElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Reflect.cs">
+      <Link>Reflect.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\Controls.cs">
+      <Link>Utilities\Controls.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\Extensions.cs">
+      <Link>Elements\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\GlassButton.cs">
+      <Link>Utilities\GlassButton.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\Graphics.cs">
+      <Link>Utilities\Graphics.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\ImageLoader.cs">
+      <Link>Utilities\ImageLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\LocalizationExtensions.cs">
+      <Link>Utilities\LocalizationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Utilities\LRUCache.cs">
+      <Link>Utilities\LRUCache.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflect.cs" />
-    <Compile Include="Utilities\Controls.cs" />
-    <Compile Include="Utilities\GlassButton.cs" />
-    <Compile Include="Utilities\Graphics.cs" />
-    <Compile Include="Utilities\ImageLoader.cs" />
-    <Compile Include="Utilities\LocalizationExtensions.cs" />
-    <Compile Include="Utilities\LRUCache.cs" />
     <Compile Include="Utilities\Math.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Images\arrow.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -77,6 +139,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">
+      <Link>Images\arrow.png</Link>
+    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

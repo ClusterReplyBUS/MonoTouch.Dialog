@@ -1,6 +1,23 @@
 ﻿using System;
-using MonoTouch.Foundation;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -61,7 +78,7 @@ namespace MonoTouch.Dialog
 				return " ";
 
 			dt = GetDateWithKind(dt);
-			return fmt.ToString(dt);
+			return fmt.ToString(dt.Value.ToNSDate());
 		}
 
 		protected DateTime? GetDateWithKind(DateTime? dt)
@@ -225,8 +242,8 @@ namespace MonoTouch.Dialog
 			public event Action ClearPressed;
 
 			private DateTime? _current_date;
-			private SizeF _picker_size;
-			private SizeF _cell_size;
+			private CGSize _picker_size;
+			private CGSize _cell_size;
 
 			public InlineDateElement(DateTime? current_date)
 				: base("")
@@ -234,7 +251,7 @@ namespace MonoTouch.Dialog
 				_current_date = current_date;
 				_date_picker = new UIDatePicker();
 				_date_picker.Mode = UIDatePickerMode.Date;
-				_picker_size = _date_picker.SizeThatFits(SizeF.Empty);
+				_picker_size = _date_picker.SizeThatFits(CGSize.Empty);
 				_cell_size = _picker_size;
 				_cell_size.Height += 30f; // Add a little bit for the clear button
 			}
@@ -253,12 +270,12 @@ namespace MonoTouch.Dialog
 				if (!_current_date.HasValue && DateSelected != null)
 					DateSelected(DateTime.Now);
 				else if (_current_date.HasValue)
-					_date_picker.Date = _current_date;
+					_date_picker.Date = _current_date.Value.ToNSDate();
 
 				_date_picker.ValueChanged += (object sender, EventArgs e) =>
 				{
 					if (DateSelected != null)
-						DateSelected(_date_picker.Date);
+						DateSelected(_date_picker.Date.ToDateTime());
 				};
 
 				if (_clear_cancel_button == null)
@@ -266,8 +283,8 @@ namespace MonoTouch.Dialog
 					_clear_cancel_button = UIButton.FromType(UIButtonType.RoundedRect);
 					_clear_cancel_button.SetTitle("Clear", UIControlState.Normal);                 
 				}
-				_clear_cancel_button.Frame = new RectangleF(tv.Frame.Width/2 - 20f, _cell_size.Height - 40f, 40f, 40f);
-				_date_picker.Frame = new RectangleF(tv.Frame.Width / 2 - _picker_size.Width / 2, _cell_size.Height / 2 - _picker_size.Height / 2, _picker_size.Width, _picker_size.Height);
+				_clear_cancel_button.Frame = new CGRect(tv.Frame.Width/2 - 20f, _cell_size.Height - 40f, 40f, 40f);
+				_date_picker.Frame = new CGRect(tv.Frame.Width / 2 - _picker_size.Width / 2, _cell_size.Height / 2 - _picker_size.Height / 2, _picker_size.Width, _picker_size.Height);
 				_clear_cancel_button.TouchUpInside += (object sender, EventArgs e) =>
 				{
 					// Clear button pressed. 
@@ -288,7 +305,7 @@ namespace MonoTouch.Dialog
 			/// <param name="tableView"></param>
 			/// <param name="indexPath"></param>
 			/// <returns></returns>
-			public float GetHeight(UITableView tableView, NSIndexPath indexPath)
+			public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 			{
 				return _cell_size.Height;
 			}

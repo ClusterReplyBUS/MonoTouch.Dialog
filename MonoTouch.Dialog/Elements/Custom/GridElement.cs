@@ -3,10 +3,26 @@ using System.Linq;
 using System.Collections.Generic;
 using MonoTouch.Dialog;
 using System.Drawing;
+
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using MonoTouch.CoreGraphics;
-//using Reply.CNH.APAC.LCPS.App.BL;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 using System.IO;
 
 namespace MonoTouch.Dialog
@@ -68,7 +84,7 @@ namespace MonoTouch.Dialog
 			}
 
 			if (cell.DetailTextLabel != null) {
-				cell.DetailTextLabel.LineBreakMode = MonoTouch.UIKit.UILineBreakMode.WordWrap;
+				cell.DetailTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 				if (cell != null && cell.DetailTextLabel != null && !string.IsNullOrWhiteSpace (cell.DetailTextLabel.Text)) {
 					int lineCount = 0;
 					using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
@@ -82,7 +98,7 @@ namespace MonoTouch.Dialog
 			return cell;
 		}
 
-		public virtual float GetHeight (UITableView tableView, NSIndexPath indexPath)
+		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = GetCell (tableView);
 			int lineCount = 0;
@@ -99,13 +115,14 @@ namespace MonoTouch.Dialog
 						lineCount++;
 				}
 			}
-			float lineHeight;
-			SizeF size = new SizeF (280, float.MaxValue);
+            nfloat lineHeight;
+            CGSize size = new CGSize(280, float.MaxValue);
 			using (var font = UIFont.FromName ("Helvetica", 17f))
-				lineHeight = tableView.StringSize (Caption, font, size, UILineBreakMode.WordWrap).Height + 3;
+				lineHeight =  Caption.StringSize(font, size, UILineBreakMode.WordWrap).Height + 3;
 
-			return Math.Max (lineHeight * lineCount + 20, cell.Frame.Height);
-		}
+            return (nfloat)Math.Max(lineHeight * lineCount + 20, cell.Frame.Height);
+
+        }
 		
 		// We use this class to dispose the web control when it is not
 		// in use, as it could be a bit of a pig, and we do not want to
@@ -138,11 +155,11 @@ namespace MonoTouch.Dialog
 
 			var cellSize = 112;
 
-			RectangleF frame = new RectangleF (0, 0, ((Columns.Count + 1 ) * (cellSize +15)), gridController.View.Frame.Height );
-//			RectangleF frame = new RectangleF (0, 0, gridController.View.Frame.Width + 
+			CGRect frame = new CGRect (0, 0, ((Columns.Count + 1 ) * (cellSize +15)), gridController.View.Frame.Height );
+//			CGRect frame = new CGRect (0, 0, gridController.View.Frame.Width + 
 //				(Columns.Count > 4 ? (Columns.Count -4) * (cellSize +4) : 0), gridController.View.Frame.Height );
-			RectangleF frame2 = gridController.View.Frame;
-			//RectangleF frame2 = new RectangleF (20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height - 40);
+			CGRect frame2 = gridController.View.Frame;
+			//CGRect frame2 = new CGRect (20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height - 40);
 //			UITextView disclaimerView = new UITextView (frame);
 //			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
 //			disclaimerView.TextColor = UIColor.White;
@@ -193,7 +210,7 @@ namespace MonoTouch.Dialog
 
 			var layout = new UICollectionViewFlowLayout ();
 			layout.SectionInset = new UIEdgeInsets (1,1,1,1);
-			layout.ItemSize = new SizeF ((float)cellSize-1, (float)cellSize-1);
+			layout.ItemSize = new CGSize ((float)cellSize-1, (float)cellSize-1);
 			var collectionViewUser = new UICollectionView (frame, layout);
 			collectionViewUser.BackgroundColor = UIColor.White;
 
@@ -210,7 +227,7 @@ namespace MonoTouch.Dialog
 			scroll.AddSubview (collectionViewUser);
 			scroll.ContentSize = frame.Size;
 			if (scroll.ContentSize.Width < gridController.View.Frame.Width)
-				scroll.ContentOffset = new PointF (scroll.ContentSize.Width / 2 - scroll.Bounds.Size.Width / 2 +10, 0f);
+				scroll.ContentOffset = new CGPoint (scroll.ContentSize.Width / 2 - scroll.Bounds.Size.Width / 2 +10, 0f);
 			gridController.View.AddSubview (scroll);
 
 
@@ -238,7 +255,12 @@ namespace MonoTouch.Dialog
 				var selected = OnSelected;
 				if (selected != null)
 					selected (this, EventArgs.Empty);
-				gridController.NavigationController.PopViewControllerAnimated (true);
+				gridController.NavigationController
+#if XAMCORE_2_0
+                    .PopViewController (true);
+#else
+                    .PopViewControllerAnimated (true);  
+#endif
 			});	
 			
 			dvc.ActivateController (gridController);
@@ -263,7 +285,7 @@ namespace MonoTouch.Dialog
 			public GridAnswerType GridType { get; set; }
 			public Single FontSize { get; set; }
 
-
+#if !XAMCORE_2_0
 			public override Int32 NumberOfSections(UICollectionView collectionView)
 			{
 				return Rows.Count;
@@ -273,7 +295,7 @@ namespace MonoTouch.Dialog
 			{
 				return Rows[section].Count;
 			}
-
+#endif
 			public override Boolean ShouldHighlightItem(UICollectionView collectionView, NSIndexPath indexPath)
 			{
 				return true;
@@ -403,7 +425,7 @@ namespace MonoTouch.Dialog
 			public static NSString CellID = new NSString("UserSource");
 
 			[Export ("initWithFrame:")]
-			public UserCell (System.Drawing.RectangleF frame) : base (frame)
+			public UserCell (CGRect frame) : base (frame)
 			{
 				BackgroundView = new UIView{BackgroundColor = UIColor.Black};
 
@@ -443,11 +465,11 @@ namespace MonoTouch.Dialog
 
 				LabelView.Font = UIFont.FromName("HelveticaNeue-Bold", fontSize);
 
-				LabelView.Frame = new RectangleF(0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
+				LabelView.Frame = new CGRect(0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
 
 				if (element.Type == GridAnswerType.Text || element.Type == GridAnswerType.Number) {
-					LabelView.Frame = new RectangleF (0, 0, 0, 0);
-					TextBox.Frame = new RectangleF (0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
+					LabelView.Frame = new CGRect (0, 0, 0, 0);
+					TextBox.Frame = new CGRect (0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
 					//TextBox.BorderStyle = UITextBorderStyle.Line;
 
 					TextBox.TextAlignment = UITextAlignment.Center;
@@ -459,7 +481,7 @@ namespace MonoTouch.Dialog
 					if (element.Type == GridAnswerType.Number)
 						TextBox.KeyboardType = UIKeyboardType.NumberPad;
 
-					OtherView.Frame = new RectangleF (0, ContentView.Frame.Height - 30, ContentView.Frame.Width, 1);
+					OtherView.Frame = new CGRect (0, ContentView.Frame.Height - 30, ContentView.Frame.Width, 1);
 				}
 			}
 		}

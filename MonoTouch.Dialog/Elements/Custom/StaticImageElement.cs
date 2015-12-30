@@ -1,8 +1,24 @@
 using System;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
-using System.Drawing;
 using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
+using System.Drawing;
 
 namespace MonoTouch.Dialog
 {
@@ -28,7 +44,7 @@ namespace MonoTouch.Dialog
 		public UIImage Scaled {
 			get {
 				if (_scaled == null)
-					_scaled = Value.Scale (new SizeF (_width, _height));
+					_scaled = Value.Scale (new CGSize (_width, _height));
 				return _scaled;
 			}
 		}
@@ -49,7 +65,7 @@ namespace MonoTouch.Dialog
 			using (var cs = CGColorSpace.CreateDeviceRGB ()) {
 				using (var bit = new CGBitmapContext (IntPtr.Zero, _width, _height, 8, 0, cs, CGImageAlphaInfo.PremultipliedFirst)) {
 					bit.SetStrokeColor (1, 0, 0, 0.5f);
-					bit.FillRect (new RectangleF (0, 0, _width, _height));
+					bit.FillRect (new CGRect (0, 0, _width, _height));
 					
 					return UIImage.FromImage (bit.ToImage ());
 				}
@@ -74,7 +90,7 @@ namespace MonoTouch.Dialog
 		#endregion
 		
 		#region IElementSizing implementation
-		public virtual float GetHeight (UITableView tableView, NSIndexPath indexPath)
+		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			return _height + 10;
 		}
@@ -170,7 +186,7 @@ namespace MonoTouch.Dialog
 			using (var cs = CGColorSpace.CreateDeviceRGB ()) {
 				using (var bit = new CGBitmapContext (IntPtr.Zero, width, height, 8, 0, cs, CGImageAlphaInfo.PremultipliedFirst)) {
 					//bit.SetStrokeColor (0, 0, 0, 0);
-					//bit.FillRect (new RectangleF (0, 0, _width, _height));
+					//bit.FillRect (new CGRect (0, 0, _width, _height));
 
 					return UIImage.FromImage (bit.ToImage ());
 				}

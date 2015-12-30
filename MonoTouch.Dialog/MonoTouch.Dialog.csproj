@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -85,6 +85,7 @@
     <Compile Include="Elements.cs" />
     <Compile Include="DialogViewController.cs" />
     <Compile Include="Reflect.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\Graphics.cs" />
     <Compile Include="OldElements\LoadMoreElement.cs" />
     <Compile Include="Utilities\ImageLoader.cs" />
@@ -114,13 +115,7 @@
     <Compile Include="Elements\Custom\SimpleMultilineEntryElement.cs" />
     <Compile Include="Elements\Custom\SelectableMultilineEntryElement.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="OldElements\" />
-    <Folder Include="Elements\" />
-    <Folder Include="Elements\Custom\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Images\arrow.png">
       <LogicalName>arrow.png</LogicalName>

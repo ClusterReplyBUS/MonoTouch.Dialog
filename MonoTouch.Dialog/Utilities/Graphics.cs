@@ -24,7 +24,7 @@ namespace MonoTouch.Dialog
 		///    Creates a path for a rectangle with rounded corners
 		/// </summary>
 		/// <param name="rect">
-		/// The <see cref="RectangleF"/> rectangle bounds
+		/// The <see cref="CGRect"/> rectangle bounds
 		/// </param>
 		/// <param name="radius">
 		/// The <see cref="System.Single"/> size of the rounded corners

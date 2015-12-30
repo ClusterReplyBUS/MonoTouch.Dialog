@@ -1,6 +1,23 @@
 using System;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 
 namespace MonoTouch.Dialog
 {
@@ -22,7 +39,12 @@ namespace MonoTouch.Dialog
 			var selected = OnSelected;
 			if (selected != null)
 				selected (this, EventArgs.Empty);
-			dvc.NavigationController.PopViewControllerAnimated (true);
+			dvc.NavigationController.
+#if XAMCORE_2_0
+                PopViewController(true);
+#else
+                PopViewControllerAnimated (true);
+#endif
 		}
 
 		public event EventHandler<EventArgs> OnSelected;

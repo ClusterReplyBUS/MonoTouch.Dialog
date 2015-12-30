@@ -7,10 +7,26 @@
 //
 
 using System;
-using MonoTouch.Foundation;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+#endif
 using System.Drawing;
 using MonoTouch.Dialog;
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 
 namespace ElementPack
 {
@@ -163,7 +179,7 @@ namespace ElementPack
 		// 
 		// Computes the X position for the entry by aligning all the entries in the Section
 		//
-		SizeF ComputeEntryPosition (UITableView tv, UITableViewCell cell)
+		CGSize ComputeEntryPosition (UITableView tv, UITableViewCell cell)
 		{
 			Section s = Parent as Section;
 			if (s.EntryAlignment.Width != 0)
@@ -171,22 +187,22 @@ namespace ElementPack
 			
 			// If all EntryElements have a null Caption, align UITextField with the Caption
 			// offset of normal cells (at 10px).
-			SizeF max = new SizeF (-15, tv.StringSize ("M", font).Height);
+            CGSize max = new CGSize(-15, "M".StringSize(font).Height);
 			foreach (var e in s.Elements) {
 				if (e == null)
 					continue;
 				
 				if (e.Caption != null) {
-					var size = tv.StringSize (e.Caption, font);
+					var size = e.Caption.StringSize (font);
 					if (size.Width > max.Width)
 						max = size;
 				}
 			}
-			s.EntryAlignment = new SizeF (25 + Math.Min (max.Width, 160), max.Height);
+            s.EntryAlignment = new CGSize(25 + Math.Min(max.Width, 160), max.Height);
 			return s.EntryAlignment;
 		}
 
-		protected virtual UITextView CreateTextField (RectangleF frame)
+		protected virtual UITextView CreateTextField (CGRect frame)
 		{
 			return new UITextView (frame) {
 				AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleLeftMargin,
@@ -215,11 +231,11 @@ namespace ElementPack
 				RemoveTag (cell, 1);
 			
 			if (entry == null) {
-				SizeF size = ComputeEntryPosition (tv, cell);
-				float yOffset = (cell.ContentView.Bounds.Height - size.Height) / 2 - 1;
-				float width = cell.ContentView.Bounds.Width - size.Width;
+                CGSize size = ComputeEntryPosition(tv, cell);
+				nfloat yOffset = (cell.ContentView.Bounds.Height - size.Height) / 2 - 1;
+				nfloat width = cell.ContentView.Bounds.Width - size.Width;
 				
-				entry = CreateTextField (new RectangleF (size.Width, yOffset, width, size.Height + (height - 44)));
+				entry = CreateTextField (new CGRect (size.Width, yOffset, width, size.Height + (height - 44)));
 				entry.Font = inputFont;
 				
 				entry.Changed += delegate {
@@ -334,7 +350,7 @@ namespace ElementPack
 		}
 
 		#region IElementSizing implementation
-		public float GetHeight (MonoTouch.UIKit.UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
+		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
 			return height;
 		}

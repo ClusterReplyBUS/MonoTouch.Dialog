@@ -1,8 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
+#if XAMCORE_2_0
+using UIKit;
+using Foundation;
+using CoreGraphics;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+using MonoTouch.CoreGraphics;
+#endif
+
+#if !XAMCORE_2_0
+using nint = global::System.Int32;
+using nuint = global::System.UInt32;
+using nfloat = global::System.Single;
+
+using CGSize = global::System.Drawing.SizeF;
+using CGPoint = global::System.Drawing.PointF;
+using CGRect = global::System.Drawing.RectangleF;
+#endif
 using System.Drawing;
 
 namespace MonoTouch.Dialog
@@ -25,11 +42,11 @@ namespace MonoTouch.Dialog
 
 		public override UIDatePicker CreatePicker()
 		{
-			var picker = new UIDatePicker(RectangleF.Empty)
+			var picker = new UIDatePicker(CGRect.Empty)
 			{
 				AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
 				Mode = UIDatePickerMode.Date,
-				Date = DateValue
+				Date = DateValue.ToNSDate(),
 			};
 			return picker;
 		}
@@ -43,9 +60,9 @@ namespace MonoTouch.Dialog
 				// Whenever the DatePicker is changed, get the DateTimeElement cell and change the text.
 				datePicker.ValueChanged += (object sender, EventArgs e) =>
 				{
-					this.DateValue = datePicker.Date;
+					this.DateValue = datePicker.Date.ToDateTime();
 					var cell = tableView.CellAt(path);
-					cell.DetailTextLabel.Text = FormatDate(datePicker.Date);
+					cell.DetailTextLabel.Text = FormatDate(datePicker.Date.ToDateTime());
 					if(DateSelected != null)		// Fire our changed event.
 						DateSelected();
 				};
