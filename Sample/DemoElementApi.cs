@@ -4,7 +4,15 @@
 using System;
 using System.Linq;
 using MonoTouch.Dialog;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+#endif
 
 namespace Sample
 {
@@ -33,7 +41,9 @@ namespace Sample
 					CreateSoundSection (),
 					new RootElement ("Brightness"){
 						new Section (){
+#if !XAMCORE_2_0
 							new FloatElement (null, null, 0.5f),
+#endif
 							new BooleanElement ("Auto-brightness", false),
 						}
 					},
@@ -56,8 +66,13 @@ namespace Sample
 						EnablesReturnKeyAutomatically = true,
 						AlignEntryWithAllSections = true,
 					},
+#if XAMCORE_2_0
+					new DateElement ("Select Date", DateTime.Now.ToNSDate()),
+					new TimeElement ("Select Time", DateTime.Now.ToNSDate()),
+#else
 					new DateElement ("Select Date", DateTime.Now),
 					new TimeElement ("Select Time", DateTime.Now),
+#endif
 				},
 				new Section () {
 					new EntryElement ("Another Field", "Aligns with above fields", null)
@@ -90,7 +105,9 @@ namespace Sample
 				},
 				new Section ("Ring") {
 					new BooleanElement ("Vibrate", true),
+#if !XAMCORE_2_0
 					new FloatElement (null, null, 0.8f),
+#endif
 					new RootElement ("Ringtone", new RadioGroup (0)){
 						new Section ("Custom"){
 							new RadioElement ("Circus Music"),

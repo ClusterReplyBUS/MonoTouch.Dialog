@@ -1,8 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+#endif
 using MonoTouch.Dialog;
 using System.IO;
 using System.Drawing;
@@ -37,6 +44,9 @@ namespace Sample
 			var p = Path.GetFullPath ("background.png");
 
 			var menu = new RootElement ("Demos"){
+				new Section ("Custom API"){
+					new StringElement ("LeadCapture Sample", LeadCaptureApi),
+                },
 				new Section ("Element API"){
 					new StringElement ("iPhone Settings Sample", DemoElementApi),
 					new StringElement ("Dynamically load data", DemoDynamic),
@@ -46,7 +56,9 @@ namespace Sample
 					new StringElement ("Load More Sample", DemoLoadMore),
 					new StringElement ("Row Editing Support", DemoEditing),
 					new StringElement ("Advanced Editing Support", DemoAdvancedEditing),
+#if !XAMCORE_2_0
 					new StringElement ("Owner Drawn Element", DemoOwnerDrawnElement),
+#endif
 					new StringElement ("UIViewElement insets", DemoInsets),
 				},
 				new Section ("Container features"){

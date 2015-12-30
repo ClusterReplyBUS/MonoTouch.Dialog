@@ -4,8 +4,15 @@
 using System;
 using System.Collections.Generic;
 using MonoTouch.Dialog;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+#endif
 
 namespace Sample
 {

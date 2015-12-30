@@ -1,6 +1,14 @@
 using System;
 using System.IO;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
 using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+#endif
 using MonoTouch.Dialog;
 using MonoTouch.Dialog.Utilities;
 using System.Threading;

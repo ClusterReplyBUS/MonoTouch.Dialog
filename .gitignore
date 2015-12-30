@@ -1,11 +1,15 @@
 *~
 *.userprefs
 *.pidb
-
-.DS_Store
-
-MonoTouch.Dialog-unified/obj/
-MonoTouch.Dialog-unified/bin/
+*.v12.suo
 
 MonoTouch.Dialog/obj/
 MonoTouch.Dialog/bin/
+MonoTouch.Dialog-unified/obj/
+MonoTouch.Dialog-unified/bin/
+Sample/obj/
+Sample/bin/
+Sample-unified/obj/
+Sample-unified/bin/
+
+.DS_Store

@@ -10,6 +10,7 @@ namespace Sample
 {
 	public partial class AppDelegate
 	{
+
 		private const string SmallText="Lorem ipsum dolor sit amet";
 		private const string MediumText = "Integer molestie rhoncus bibendum. Cras ullamcorper magna a enim laoreet";
 		private const string LargeText = "Phasellus laoreet, massa non cursus porttitor, sapien tellus placerat metus, vitae ornare urna mi sit amet dui.";

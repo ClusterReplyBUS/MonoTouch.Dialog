@@ -11,9 +11,16 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using MonoTouch.UIKit;
 using MonoTouch.Dialog;
+#if XAMCORE_2_0
+using UIKit;
+using CoreGraphics;
+using Foundation;
+#else
+using MonoTouch.UIKit;
+using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+#endif
 
 namespace Sample
 {

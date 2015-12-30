@@ -1990,6 +1990,7 @@ namespace MonoTouch.Dialog
 	}
 	
 	public partial class TimeElement : DateTimeElement {
+        public TimeElement(string caption, DateTime date) : this(caption, date.ToNSDate()) { }
 		public TimeElement (string caption, NSDate date) : base (caption, date)
 		{
 		}

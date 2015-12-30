@@ -1,7 +1,11 @@
 using System;
+#if XAMCORE_2_0
+using UIKit;
+#else
 using MonoTouch.UIKit;
-using MonoTouch.Dialog;
+#endif
 using System.Threading;
+using MonoTouch.Dialog;
 
 namespace Sample
 {

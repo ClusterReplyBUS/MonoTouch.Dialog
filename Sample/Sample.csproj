@@ -76,6 +76,7 @@
     <Reference Include="System.Json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LeadCaptureApi.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="DemoElementApi.cs" />
     <Compile Include="DemoReflectionApi.cs" />
