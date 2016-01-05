@@ -69,7 +69,7 @@ namespace MonoTouch.Dialog
         public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
         {
 //			var width = (tableView.Frame.Width- WIDTH_OFFSET )/2;
-			var width = 320f;
+			var width = 500f;
 			string reference = (Caption ?? string.Empty).Length > (Value ?? string.Empty).Length ? Caption : Value;
 			return (nfloat)Math.Max(HeightForWidth(reference, width), 40F);
 

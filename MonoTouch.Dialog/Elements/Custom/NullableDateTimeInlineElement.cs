@@ -80,8 +80,9 @@ namespace MonoTouch.Dialog
 			if (!dt.HasValue)
 				return " ";
 
-			dt = GetDateWithKind(dt);
-			return fmt.ToString(dt.Value.ToNSDate());
+			dt = GetDateWithKind(dt).Value.ToLocalTime();
+			//return fmt.ToString(dt.Value.ToNSDate());
+            return _mode == UIDatePickerMode.DateAndTime ? dt.Value.ToShortDateString() + " " + dt.Value.ToShortTimeString() : dt.Value.ToShortDateString();
 		}
 
 		protected DateTime? GetDateWithKind(DateTime? dt)

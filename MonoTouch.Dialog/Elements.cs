@@ -93,7 +93,7 @@ namespace MonoTouch.Dialog
         public virtual nfloat HeightForWidth(string value, nfloat width)
         {
             //_labelSize = new NSString(Caption).
-			var h = new NSString(value).
+			var h = new NSString(value ?? " ").
                  GetBoundingRect(
                      new CGSize(width, float.MaxValue),
                      NSStringDrawingOptions.UsesLineFragmentOrigin,
@@ -729,7 +729,7 @@ namespace MonoTouch.Dialog
 			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
             nfloat width = 600;
             if (tv.Frame != default(CGRect))
-				width = (tv.Frame.Width - WIDTH_OFFSET) /2;
+				width = (tv.Frame.Width - WIDTH_OFFSET);
             var newHeight = HeightForWidth(Caption, width);
 
 			cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, width, newHeight);
