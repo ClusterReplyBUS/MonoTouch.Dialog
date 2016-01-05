@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Elements.cs" />
     <Compile Include="DialogViewController.cs" />
+    <Compile Include="Elements\Custom\TextOnlyElement.cs" />
     <Compile Include="Reflect.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\Graphics.cs" />

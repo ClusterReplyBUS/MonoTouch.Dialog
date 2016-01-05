@@ -48,6 +48,9 @@
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\GridElement.cs">
       <Link>Elements\Custom\GridElement.cs</Link>
     </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\ITaggedNodeElement.cs">
+      <Link>Elements\Custom\ITaggedNodeElement.cs</Link>
+    </Compile>
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\MultilineEntryElement.cs">
       <Link>Elements\Custom\MultilineEntryElement.cs</Link>
     </Compile>
@@ -86,6 +89,9 @@
     </Compile>
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedRootElement.cs">
       <Link>Elements\Custom\TaggedRootElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TextOnlyElement.cs">
+      <Link>Elements\Custom\TextOnlyElement.cs</Link>
     </Compile>
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TwoStateElement.cs">
       <Link>Elements\Custom\TwoStateElement.cs</Link>
