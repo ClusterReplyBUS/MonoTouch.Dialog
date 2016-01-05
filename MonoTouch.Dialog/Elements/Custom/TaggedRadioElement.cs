@@ -21,7 +21,7 @@ using CGRect = global::System.Drawing.RectangleF;
 
 namespace MonoTouch.Dialog
 {
-	public class TaggedRadioElement :RadioElement
+	public class TaggedRadioElement :RadioElement, ITaggedNodeElement
 	{
 		public object Tag { get; set; }
 		

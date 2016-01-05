@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <DefineConstants>XAMCORE_2_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\MonoTouch.Dialog\DialogViewController.cs">

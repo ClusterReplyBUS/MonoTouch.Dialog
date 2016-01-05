@@ -114,6 +114,7 @@
     <Compile Include="Elements\Custom\TwoStateElement.cs" />
     <Compile Include="Elements\Custom\SimpleMultilineEntryElement.cs" />
     <Compile Include="Elements\Custom\SelectableMultilineEntryElement.cs" />
+    <Compile Include="Elements\Custom\ITaggedNodeElement.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
