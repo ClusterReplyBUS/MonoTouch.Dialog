@@ -52,9 +52,12 @@ namespace MonoTouch.Dialog
 
         public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
         {
-            var baseHeigth = base.GetHeight(tableView, indexPath);
-            var height = HeightForWidth(tableView.Frame.Width - WIDTH_OFFSET);
-            return Math.Max(baseHeigth, height);
+            //return base.GetHeight(tableView, indexPath);
+            //return LabelSize.Height + 30;
+            var cell = GetCell(tableView);
+            var height = HeightForWidth(cell.Frame.Width);
+            //return Math.Max(cell.Frame.Height, height);
+            return height;
         }
     }
 }

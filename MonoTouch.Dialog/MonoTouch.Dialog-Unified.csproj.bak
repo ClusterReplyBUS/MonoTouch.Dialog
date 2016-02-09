@@ -6,15 +6,6 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyName />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|iPhone'">
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|iPhone'">
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator'">
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System" />
@@ -39,7 +30,12 @@
     <Compile Include="Utilities\LocalizationExtensions.cs" />
     <Compile Include="Elements\Json.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="OldElements\" />
+    <Folder Include="Elements\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\arrow.png">
       <LogicalName>arrow.png</LogicalName>

@@ -1,22 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <XIPlatform>Unified</XIPlatform>
-    <ProjectGuid>{2B7FBE6D-3AD0-4805-9E09-4EBA09C0932C}</ProjectGuid>
-    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <XIPlatform>monotouch</XIPlatform>
+    <ProjectGuid>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyName />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|iPhone'">
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|iPhone'">
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator'">
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XAMCORE_2_0</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Xamarin.iOS" />
+    <Reference Include="monotouch" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -39,12 +30,17 @@
     <Compile Include="Utilities\LocalizationExtensions.cs" />
     <Compile Include="Elements\Json.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="OldElements\" />
+    <Folder Include="Elements\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\arrow.png">
       <LogicalName>arrow.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="MonoTouch.Dialog.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
 </Project>

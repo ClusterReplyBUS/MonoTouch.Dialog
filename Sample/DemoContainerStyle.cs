@@ -1,11 +1,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
-<<<<<<< HEAD
-#if XAMCORE_2_0
-=======
 #if __UNIFIED__
->>>>>>> migueldeicaza/master
 using UIKit;
 #else
 using MonoTouch.UIKit;

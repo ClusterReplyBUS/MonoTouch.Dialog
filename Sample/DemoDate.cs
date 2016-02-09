@@ -3,12 +3,7 @@
 //
 
 using System;
-<<<<<<< HEAD
-using MonoTouch.Dialog;
-#if XAMCORE_2_0
-=======
 #if __UNIFIED__
->>>>>>> migueldeicaza/master
 using UIKit;
 using Foundation;
 #else
