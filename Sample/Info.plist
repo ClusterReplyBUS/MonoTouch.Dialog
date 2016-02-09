@@ -3,11 +3,33 @@
 <plist version="1.0">
 <dict>
 	<key>MinimumOSVersion</key>
+<<<<<<< HEAD
 	<string>7.0</string>
+=======
+	<string>5.1.1</string>
+>>>>>>> migueldeicaza/master
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
 		<integer>2</integer>
+<<<<<<< HEAD
+=======
+	</array>
+	<key>CFBundleName</key>
+	<string>Sample</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.sample.monotouchdialog</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+>>>>>>> migueldeicaza/master
 	</array>
 	<key>CFBundleDisplayName</key>
 	<string></string>

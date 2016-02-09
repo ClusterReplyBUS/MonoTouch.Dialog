@@ -4,9 +4,14 @@
 //
 using System;
 using MonoTouch.Dialog;
+<<<<<<< HEAD
 #if XAMCORE_2_0
 using UIKit;
 using CoreGraphics;
+=======
+#if __UNIFIED__
+using UIKit;
+>>>>>>> migueldeicaza/master
 using Foundation;
 #else
 using MonoTouch.UIKit;

@@ -1,9 +1,17 @@
 using System;
+<<<<<<< HEAD
 #if XAMCORE_2_0
+=======
+#if __UNIFIED__
+>>>>>>> migueldeicaza/master
 using UIKit;
 #else
 using MonoTouch.UIKit;
 #endif
+<<<<<<< HEAD
+=======
+using MonoTouch.Dialog;
+>>>>>>> migueldeicaza/master
 using System.Threading;
 using MonoTouch.Dialog;
 

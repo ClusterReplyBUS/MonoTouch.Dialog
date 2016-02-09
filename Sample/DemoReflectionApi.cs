@@ -1,12 +1,21 @@
 //
 // Sample showing the core Element-based API to create a dialog
 //
+
+#pragma warning disable 414 // The private field 'X' is assigned but its value is never used
+#pragma warning disable 169 // The private field 'X' is never used
+
 using System;
 using System.Collections.Generic;
 using MonoTouch.Dialog;
+<<<<<<< HEAD
 #if XAMCORE_2_0
 using UIKit;
 using CoreGraphics;
+=======
+#if __UNIFIED__
+using UIKit;
+>>>>>>> migueldeicaza/master
 using Foundation;
 #else
 using MonoTouch.UIKit;

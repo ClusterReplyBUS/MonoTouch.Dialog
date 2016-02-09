@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+<<<<<<< HEAD
 #if XAMCORE_2_0
 using UIKit;
 using CoreGraphics;
@@ -9,6 +10,12 @@ using Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+=======
+#if __UNIFIED__
+using UIKit;
+#else
+using MonoTouch.UIKit;
+>>>>>>> migueldeicaza/master
 #endif
 using MonoTouch.Dialog;
 
@@ -20,7 +27,9 @@ namespace Sample
 		{
 			var section = new Section () { 
 				HeaderView = new UIImageView (UIImage.FromFile ("caltemplate.png")),
+#if !__TVOS__
 				FooterView = new UISwitch (new RectangleF (0, 0, 80, 30)),
+#endif // !__TVOS__
 			};
 			
 			// Fill in some data 

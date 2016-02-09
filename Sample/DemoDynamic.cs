@@ -11,6 +11,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+<<<<<<< HEAD
 using MonoTouch.Dialog;
 #if XAMCORE_2_0
 using UIKit;
@@ -21,6 +22,17 @@ using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 #endif
+=======
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
+using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+#endif
+
+using MonoTouch.Dialog;
+>>>>>>> migueldeicaza/master
 
 namespace Sample
 {
@@ -47,10 +59,16 @@ namespace Sample
 		
 		bool Busy {
 			get {
+#if __TVOS__
+				return false;
+#else
 				return UIApplication.SharedApplication.NetworkActivityIndicatorVisible;
+#endif // __TVOS__
 			}
 			set {
+#if !__TVOS__
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = value;
+#endif // !__TVOS__
 			}
 		}
 		
@@ -114,9 +132,9 @@ namespace Sample
 			} catch (WebException e){
 				
 				InvokeOnMainThread (delegate {
-					using (var msg = new UIAlertView ("Error", "Code: " + e.Status, null, "Ok")){
-						msg.Show ();
-					}
+					var alertController = UIAlertController.Create ("Error", "Code: " + e.Status, UIAlertControllerStyle.Alert);
+					alertController.AddAction (UIAlertAction.Create ("Ok", UIAlertActionStyle.Default, (obj) => { }));
+					window.RootViewController.PresentViewController (alertController, true, null);
 				});
 			}
 		}

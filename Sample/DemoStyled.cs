@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+<<<<<<< HEAD
 #if XAMCORE_2_0
 using UIKit;
 using CoreGraphics;
@@ -8,6 +9,12 @@ using Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+=======
+#if __UNIFIED__
+using UIKit;
+#else
+using MonoTouch.UIKit;
+>>>>>>> migueldeicaza/master
 #endif
 using MonoTouch.Dialog;
 using MonoTouch.Dialog.Utilities;
@@ -44,8 +51,9 @@ namespace Sample
 			};
 			var sse = new StyledStringElement ("DetailDisclosureIndicator") { Accessory = UITableViewCellAccessory.DetailDisclosureButton };
 			sse.AccessoryTapped += delegate {
-				var alert = new UIAlertView ("Accessory", "Accessory clicked!", null, "Ok");
-				alert.Show ();
+				var alertController = UIAlertController.Create ("Accessory", "Accessory clicked", UIAlertControllerStyle.Alert);
+				alertController.AddAction (UIAlertAction.Create ("Ok", UIAlertActionStyle.Default, (obj) => { }));
+				window.RootViewController.PresentViewController (alertController, true, () => { });
 			};
 			var root = new RootElement("Styled Elements") {
 				new Section ("Image icon"){

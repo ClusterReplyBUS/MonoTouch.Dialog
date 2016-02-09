@@ -3,14 +3,23 @@
 //
 
 using System;
+<<<<<<< HEAD
 using MonoTouch.Dialog;
 #if XAMCORE_2_0
+=======
+#if __UNIFIED__
+>>>>>>> migueldeicaza/master
 using UIKit;
 using Foundation;
 #else
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 #endif
+<<<<<<< HEAD
+=======
+using MonoTouch.Dialog;
+
+>>>>>>> migueldeicaza/master
 namespace Sample
 {
 	public partial class AppDelegate

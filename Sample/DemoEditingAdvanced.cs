@@ -1,5 +1,6 @@
 using System;
 using MonoTouch.Dialog;
+<<<<<<< HEAD
 #if XAMCORE_2_0
 using UIKit;
 using CoreGraphics;
@@ -10,6 +11,15 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 #endif
 
+=======
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
+using MonoTouch.UIKit;
+using MonoTouch.Foundation;
+#endif
+>>>>>>> migueldeicaza/master
 namespace Sample
 {
 	// 
