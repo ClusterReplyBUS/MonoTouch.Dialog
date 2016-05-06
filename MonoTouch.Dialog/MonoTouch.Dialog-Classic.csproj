@@ -4,7 +4,15 @@
     <XIPlatform>monotouch</XIPlatform>
     <ProjectGuid>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AssemblyName />
+    <AssemblyName>MonoTouch.Dialog-Classic</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="monotouch" />
@@ -29,6 +37,25 @@
     <Compile Include="Utilities\GlassButton.cs" />
     <Compile Include="Utilities\LocalizationExtensions.cs" />
     <Compile Include="Elements\Json.cs" />
+    <Compile Include="Elements\Custom\CapturePhotoElement.cs" />
+    <Compile Include="Elements\Custom\GridElement.cs" />
+    <Compile Include="Elements\Custom\ITaggedNodeElement.cs" />
+    <Compile Include="Elements\Custom\MultilineEntryElement.cs" />
+    <Compile Include="Elements\Custom\NullableDateTimeInlineElement.cs" />
+    <Compile Include="Elements\Custom\ProductOfInterestRadioElement.cs" />
+    <Compile Include="Elements\Custom\ReadonlyElement.cs" />
+    <Compile Include="Elements\Custom\RightAlignEntryElement.cs" />
+    <Compile Include="Elements\Custom\SelectableMultilineEntryElement.cs" />
+    <Compile Include="Elements\Custom\SignatureElement.cs" />
+    <Compile Include="Elements\Custom\SimpleMultilineEntryElement.cs" />
+    <Compile Include="Elements\Custom\SmoothedBIView.cs" />
+    <Compile Include="Elements\Custom\StaticImageElement.cs" />
+    <Compile Include="Elements\Custom\TaggedDateElement.cs" />
+    <Compile Include="Elements\Custom\TaggedRadioElement.cs" />
+    <Compile Include="Elements\Custom\TaggedRootElement.cs" />
+    <Compile Include="Elements\Custom\TextOnlyElement.cs" />
+    <Compile Include="Elements\Custom\TwoStateElement.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
@@ -43,4 +70,7 @@
   </ItemGroup>
   <Import Project="MonoTouch.Dialog.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Info.plist" />
+  </ItemGroup>
 </Project>
