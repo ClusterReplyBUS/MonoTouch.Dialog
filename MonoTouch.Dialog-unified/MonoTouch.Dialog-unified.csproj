@@ -137,6 +137,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Math.cs" />
+    <Compile Include="Elements\Custom\TaggedRootElement.cs" />
+    <Compile Include="Elements\Custom\TaggedCheckboxElement.cs" />
+    <Compile Include="Elements\Custom\ProductOfInterestCheckboxElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

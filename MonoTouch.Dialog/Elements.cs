@@ -2711,7 +2711,8 @@ namespace MonoTouch.Dialog
 		{
 			this.group = group;
 		}
-		
+
+
 		internal List<Section> Sections = new List<Section> ();
 
 		internal NSIndexPath PathForRadio (int idx)

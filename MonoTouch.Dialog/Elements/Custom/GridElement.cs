@@ -116,7 +116,7 @@ namespace MonoTouch.Dialog
 				}
 			}
             nfloat lineHeight;
-            CGSize size = new CGSize(280, float.MaxValue);
+           CGSize size = new CGSize(280, float.MaxValue);
 			using (var font = UIFont.FromName ("Helvetica", 17f))
 				lineHeight =  Caption.StringSize(font, size, UILineBreakMode.WordWrap).Height + 3;
 
@@ -152,11 +152,22 @@ namespace MonoTouch.Dialog
 			var gridController = new GridViewController (this) {
 				Autorotate = dvc.Autorotate,
 			};
+			int cellSize = 0;
+			Console.WriteLine(UIDevice.CurrentDevice.Model);
+			if (UIDevice.CurrentDevice.Model.Contains("iPhone"))
+			{
+				cellSize = 60;
+			}
+			else
+			{ 
+				cellSize = 112;
+			}
 
-			var cellSize = 112;
+			//var cellSize = 60;
 
 			CGRect frame = new CGRect (0, 0, ((Columns.Count + 1 ) * (cellSize +15)), gridController.View.Frame.Height );
-//			CGRect frame = new CGRect (0, 0, gridController.View.Frame.Width + 
+
+			//			CGRect frame = new CGRect (0, 0, gridController.View.Frame.Width + 
 //				(Columns.Count > 4 ? (Columns.Count -4) * (cellSize +4) : 0), gridController.View.Frame.Height );
 			CGRect frame2 = gridController.View.Frame;
 			//CGRect frame2 = new CGRect (20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height - 40);
@@ -296,6 +307,17 @@ namespace MonoTouch.Dialog
 				return Rows[section].Count;
 			}
 #endif
+			public override nint NumberOfSections(UICollectionView collectionView)
+			{
+				return Rows.Count;
+			}
+
+			public override nint GetItemsCount(UICollectionView collectionView, nint section)
+			{
+				return Rows[(int)section].Count;
+			}
+
+
 			public override Boolean ShouldHighlightItem(UICollectionView collectionView, NSIndexPath indexPath)
 			{
 				return true;
