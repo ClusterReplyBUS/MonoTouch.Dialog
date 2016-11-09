@@ -2587,6 +2587,7 @@ namespace MonoTouch.Dialog
 	/// </summary>
 	public class Group {
 		public string Key;
+		public Group() : this(null){}
 		public Group (string key)
 		{
 			Key = key;
