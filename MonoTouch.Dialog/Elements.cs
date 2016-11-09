@@ -769,6 +769,7 @@ namespace MonoTouch.Dialog
 	///   options and can render images or background images either from UIImage parameters 
 	///   or by downloading them from the net.
 	/// </summary>
+	/// 
 	public partial class StyledStringElement : StringElement, IImageUpdated, IColorizeBackground {
 		static NSString [] skey = { new NSString (".1"), new NSString (".2"), new NSString (".3"), new NSString (".4") };
 		
@@ -2587,6 +2588,8 @@ namespace MonoTouch.Dialog
 	/// </summary>
 	public class Group {
 		public string Key;
+
+		public Group() : this(null){}
 		public Group (string key)
 		{
 			Key = key;

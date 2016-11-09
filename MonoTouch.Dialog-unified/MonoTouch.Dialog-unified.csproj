@@ -87,9 +87,6 @@
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedRadioElement.cs">
       <Link>Elements\Custom\TaggedRadioElement.cs</Link>
     </Compile>
-    <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TaggedRootElement.cs">
-      <Link>Elements\Custom\TaggedRootElement.cs</Link>
-    </Compile>
     <Compile Include="..\MonoTouch.Dialog\Elements\Custom\TextOnlyElement.cs">
       <Link>Elements\Custom\TextOnlyElement.cs</Link>
     </Compile>
@@ -140,6 +137,7 @@
     <Compile Include="Elements\Custom\TaggedRootElement.cs" />
     <Compile Include="Elements\Custom\TaggedCheckboxElement.cs" />
     <Compile Include="Elements\Custom\ProductOfInterestCheckboxElement.cs" />
+    <Compile Include="Elements\Custom\ButtonElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

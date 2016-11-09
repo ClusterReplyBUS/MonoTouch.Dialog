@@ -92,6 +92,7 @@ public class TaggedRootElement<ElementType> : RootElement
 			base.Selected(dvc, tableView, path);
 			dvc.NavigationItem.Title = _backButtonLabel;
 		}
-		#endif
+	
+#endif
 	}
 }
