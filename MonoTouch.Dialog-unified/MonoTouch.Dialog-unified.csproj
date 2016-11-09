@@ -150,7 +150,9 @@
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">
       <Link>Images\arrow.png</Link>
     </BundleResource>
-    <BundleResource Include="Images\Signature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Signature.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
