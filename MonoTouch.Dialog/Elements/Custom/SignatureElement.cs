@@ -132,9 +132,10 @@ namespace MonoTouch.Dialog
 //				BackgroundColor = UIColor.White,
 //				AutoresizingMask = UIViewAutoresizing.All,
 //			};
-            var rect = new CGRect(50, 500, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600);
+            var rect = new CGRect(20, signatureController.View.Frame.Height / 3, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height /3 * 2);
 			SmoothedBIView dv = new SmoothedBIView(rect){
-				BackgroundColor = UIColor.FromWhiteAlpha(1f,1f),
+				//BackgroundColor = UIColor.FromWhiteAlpha(1f, 1f),
+				BackgroundColor = UIColor.Yellow,
 				AutoresizingMask = UIViewAutoresizing.All,
 			};
 
@@ -153,7 +154,7 @@ namespace MonoTouch.Dialog
 #else
                 CGRect 
 #endif 
-                (20, 20, signatureController.View.Frame.Width - 40, 420);
+				(20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height / 4);
 			UITextView disclaimerView = new UITextView (frame);
 			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
 			disclaimerView.TextColor = UIColor.White;
