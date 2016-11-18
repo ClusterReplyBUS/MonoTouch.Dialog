@@ -7,7 +7,6 @@ namespace MonoTouch.Dialog
 {
 	public partial class TaggedCheckboxElement : CheckboxElement, ITaggedNodeElement
 	{
-		public object Tag { get; set; }
 
 		//public bool IsBlank { get; set; }
 

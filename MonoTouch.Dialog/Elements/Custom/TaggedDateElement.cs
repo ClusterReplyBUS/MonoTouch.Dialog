@@ -26,7 +26,6 @@ namespace MonoTouch.Dialog
 {
 	public class DateTimeInlineElement : DateTimeElement
 	{
-		public object Tag { get; set; }
 		public bool IsMandatory { get; set; }
 		private UIColor _defaultColor = UIColor.White;
 

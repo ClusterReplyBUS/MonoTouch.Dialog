@@ -36,7 +36,6 @@ namespace MonoTouch.Dialog
 		#endregion
 		
 		#region PUBLIC PROPERTIES
-		public object Tag{ get; set; }
 
 		public bool IsMandatory { get; set; }
 

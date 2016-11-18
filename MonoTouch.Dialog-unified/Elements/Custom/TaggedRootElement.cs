@@ -12,7 +12,6 @@ public class TaggedRootElement<ElementType> : RootElement
 		private Dictionary<object, ElementType> _selectedChilds;
 		private UIColor _defaultColor;
 
-		public object Tag { get; set; }
 		public bool IsMandatory { get; set; }
 
 		public ElementType SelectedChild

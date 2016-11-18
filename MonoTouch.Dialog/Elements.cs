@@ -63,6 +63,8 @@ namespace MonoTouch.Dialog
 		/// </remarks>
 		public Element Parent;
 
+		public object Tag { get; set; }
+
 		/// <summary>
 		///  The caption to display for this given element
 		/// </summary>

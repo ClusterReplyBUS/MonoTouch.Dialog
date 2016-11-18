@@ -42,7 +42,6 @@ namespace MonoTouch.Dialog
 
 		private string _saveLabel;
 
-		public object Tag { get; set; }
 		
 		public GridElement (string caption, string saveLabel) : this (caption)
 		{

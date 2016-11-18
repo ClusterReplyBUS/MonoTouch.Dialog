@@ -61,7 +61,6 @@ namespace MonoTouch.Dialog
 			}
 		}
 
-		public object Tag { get; set; }
 
 		float newHeight = 1024f;
 

@@ -28,7 +28,6 @@ namespace MonoTouch.Dialog
 {
 	public class TwoStateElement : Element
 	{
-		public object Tag{ get; set; }
 
 		public bool IsMandatory{ get; set; }
 

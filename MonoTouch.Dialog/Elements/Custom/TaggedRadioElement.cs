@@ -23,7 +23,6 @@ namespace MonoTouch.Dialog
 {
 	public class TaggedRadioElement :RadioElement, ITaggedNodeElement
 	{
-		public object Tag { get; set; }
 		
 		public bool IsBlank { get; set; }
 

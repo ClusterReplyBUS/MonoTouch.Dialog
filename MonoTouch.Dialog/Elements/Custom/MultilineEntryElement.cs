@@ -34,7 +34,6 @@ namespace MonoTouch.Dialog
 	{
 		///s.agostini
 		public bool IsMandatory{ get; set; }
-		public object Tag { get; set; }
 		///
 
 		public string Value { 
