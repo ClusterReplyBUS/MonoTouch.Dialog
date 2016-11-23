@@ -31,12 +31,12 @@ namespace MonoTouch.Dialog
 	{
         public bool Mandatory { get; set; }
 
-		public object Value{ get; set; }
+		public object ValueGrid{ get; set; }
 
 		public List<GridHeader> Rows { get; set; }
 		public List<GridHeader> Columns { get; set; }
 		public GridAnswerType GridType { get; set; }
-		public UserSource userSource;
+		public UserSource Source;
 
 		static NSString hkey = new NSString ("GridElement");
 
@@ -75,11 +75,11 @@ namespace MonoTouch.Dialog
 
 			//cell.TextLabel.TextColor = UIColor.Purple;
 			
-			if (this.Value != null) {
+			if (this.ValueGrid != null) {
 				cell.BackgroundColor = UIColor.FromRGB (1f, 1f, 0.8f);
 				//cell.ImageView.Image = this.Value;
 				//cell.ImageView.Frame.X = 20;
-				cell.DetailTextLabel.Text = (string)this.Value;
+				cell.DetailTextLabel.Text = (string)this.ValueGrid;
 			}
 
 			if (cell.DetailTextLabel != null) {
@@ -191,8 +191,8 @@ namespace MonoTouch.Dialog
 
 
 
-			if (userSource == null) {
-				userSource = new UserSource () {
+			if (Source == null) {
+				Source = new UserSource () {
 					GridType = this.GridType,
 				};
 				var lcol = new List<UserElement> ();
@@ -200,7 +200,7 @@ namespace MonoTouch.Dialog
 				foreach (var col in Columns) {
 					lcol.Add (new UserElement (col.Text));
 				}
-				userSource.Rows.Add (lcol);
+				Source.Rows.Add (lcol);
 				foreach (var row in Rows) {
 					var lrow = new List<UserElement> ();
 					lrow.Add (new UserElement (row.Text));
@@ -210,11 +210,11 @@ namespace MonoTouch.Dialog
 							ColumnId = col.AnswerId
 						});
 					}
-					userSource.Rows.Add (lrow);
+					Source.Rows.Add (lrow);
 				}
 			}
 
-			userSource.FontSize = 14f;
+			Source.FontSize = 14f;
 
 
 
@@ -229,7 +229,7 @@ namespace MonoTouch.Dialog
 			collectionViewUser.ShowsVerticalScrollIndicator = true;
 			collectionViewUser.ScrollEnabled = true;
 			collectionViewUser.DirectionalLockEnabled = false;
-			collectionViewUser.Source = userSource;
+			collectionViewUser.Source = Source;
 
 			collectionViewUser.ReloadData();
 
@@ -245,7 +245,7 @@ namespace MonoTouch.Dialog
 			gridController.NavigationItem.RightBarButtonItem = new UIBarButtonItem (string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) => {
 
 				string text = "";
-				foreach (var row in userSource.Rows) {
+				foreach (var row in Source.Rows) {
 					foreach (var el in row) {
 						if (el.Checked == true) {
 							if (text == "")
@@ -261,7 +261,7 @@ namespace MonoTouch.Dialog
 				}
 
 
-				Value = text;
+				ValueGrid = text;
 				var selected = OnSelected;
 				if (selected != null)
 					selected (this, EventArgs.Empty);
