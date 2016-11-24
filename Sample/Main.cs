@@ -1,23 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-<<<<<<< HEAD
-#if XAMCORE_2_0
-using UIKit;
-using CoreGraphics;
-using Foundation;
-#else
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-=======
+
 #if __UNIFIED__
 using Foundation;
 using UIKit;
 #else
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
->>>>>>> migueldeicaza/master
 #endif
 using MonoTouch.Dialog;
 using System.IO;
@@ -65,9 +55,7 @@ namespace Sample
 					new StringElement ("Load More Sample", DemoLoadMore),
 					new StringElement ("Row Editing Support", DemoEditing),
 					new StringElement ("Advanced Editing Support", DemoAdvancedEditing),
-#if !XAMCORE_2_0
-					new StringElement ("Owner Drawn Element", DemoOwnerDrawnElement),
-#endif
+
 					new StringElement ("UIViewElement insets", DemoInsets),
 				},
 				new Section ("Container features"){

@@ -1,21 +1,11 @@
 using System;
 using System.Drawing;
 using System.Linq;
-<<<<<<< HEAD
-#if XAMCORE_2_0
-using UIKit;
-using CoreGraphics;
-using Foundation;
-#else
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-=======
+
 #if __UNIFIED__
 using UIKit;
 #else
 using MonoTouch.UIKit;
->>>>>>> migueldeicaza/master
 #endif
 using MonoTouch.Dialog;
 

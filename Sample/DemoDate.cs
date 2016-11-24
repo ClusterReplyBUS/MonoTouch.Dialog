@@ -10,11 +10,8 @@ using Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 #endif
-<<<<<<< HEAD
-=======
 using MonoTouch.Dialog;
 
->>>>>>> migueldeicaza/master
 namespace Sample
 {
 	public partial class AppDelegate

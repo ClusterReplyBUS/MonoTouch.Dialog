@@ -46,6 +46,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>4bcf750b-240a-4631-87d8-90cb97ec384c</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -174,8 +175,6 @@
     <ProjectReference Include="..\MonoTouch.Dialog-unified\MonoTouch.Dialog-unified.csproj">
       <Project>{A752F24F-BEB3-4596-BBA6-7D8723498772}</Project>
       <Name>MonoTouch.Dialog-unified</Name>
-      <IsAppExtension>False</IsAppExtension>
-      <IsWatchApp>False</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
