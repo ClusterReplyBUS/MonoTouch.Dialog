@@ -50,13 +50,16 @@ namespace MonoTouch.Dialog
             var controller = new UIViewController();
 
             UITextView disclaimerView = new UITextView(controller.View.Frame);
-            //			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
-            //			disclaimerView.TextColor = UIColor.White;
-            //			disclaimerView.TextAlignment = UITextAlignment.Left;
-            if (!string.IsNullOrWhiteSpace(Value))
-                disclaimerView.Text = Value;
-            else
-                disclaimerView.Text = string.Empty;
+            			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
+            			disclaimerView.TextColor = UIColor.White;
+            			disclaimerView.TextAlignment = UITextAlignment.Left;
+			if (!string.IsNullOrWhiteSpace(Value))
+			{
+				disclaimerView.Text = Value;
+				disclaimerView.TextColor = UIColor.FromRGB(1f, 1f, 0.8f);
+			}
+			else
+				disclaimerView.Text = string.Empty;
 
             disclaimerView.Font = UIFont.SystemFontOfSize(16f);
             disclaimerView.Editable = true;
