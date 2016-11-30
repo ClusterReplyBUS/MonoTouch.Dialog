@@ -45,6 +45,8 @@ namespace MonoTouch.Dialog
 	//	}
 	public class CapturePhotoElement : Element, IElementSizing
 	{
+		public bool IsReadOnly { get; set; }
+
 		public bool Mandatory { get; set; }
 
 		public UIImage Value { get; set; }
@@ -78,18 +80,16 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorCancelLabel, string selectorTakePhotoLabel, string selectorPickImageLabel) : this(caption)
+		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel) : this(caption)
 		{
 			this.Base64Value = base64value;
 			this._showSelector = showSelector;
-			if (!string.IsNullOrWhiteSpace(selectorCancelLabel))
-				this._selectorCancelLabel = selectorCancelLabel;
 			if (!string.IsNullOrWhiteSpace(selectorPickImageLabel))
 				this._selectorPickImageLabel = selectorPickImageLabel;
 			if (!string.IsNullOrWhiteSpace(selectorTakePhotoLabel))
 				this._selectorTakePhotoLabel = selectorTakePhotoLabel;
 		}
-		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null, null)
+		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null)
 		{
 		}
 
