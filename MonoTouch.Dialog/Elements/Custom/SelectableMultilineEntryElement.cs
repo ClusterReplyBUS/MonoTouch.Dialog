@@ -51,7 +51,7 @@ namespace MonoTouch.Dialog
 
             UITextView disclaimerView = new UITextView(controller.View.Frame);
             			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
-            			disclaimerView.TextColor = UIColor.White;
+            			disclaimerView.TextColor = UIColor.Black;
             			disclaimerView.TextAlignment = UITextAlignment.Left;
 			if (!string.IsNullOrWhiteSpace(Value))
 			{
