@@ -55,7 +55,14 @@ namespace MonoTouch.Dialog
 		{
 			get
 			{
-				return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
+				if (Value != null)
+				{
+					return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
+				}
+				else
+				{
+					return string.Empty;
+				}
 			}
 			set
 			{
