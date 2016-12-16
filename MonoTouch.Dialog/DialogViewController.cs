@@ -52,6 +52,8 @@ namespace MonoTouch.Dialog
 		bool dirty;
 		bool reloading;
 
+		public static UIWindow window;
+
 		/// <summary>
 		/// The root element displayed by the DialogViewController, the value can be changed during runtime to update the contents.
 		/// </summary>
@@ -504,7 +506,11 @@ namespace MonoTouch.Dialog
 #if __TVOS__
 				PresentViewController (controller, true, null);
 #else
-				PresentModalViewController (controller, true);
+				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
+				{
+					PresentModalViewController(controller, true);
+				}
+
 #endif
 			}
 		}
@@ -533,6 +539,8 @@ namespace MonoTouch.Dialog
 			else
 				DismissModalViewControllerAnimated (animated);
 #endif
+			if (window != null)
+				DismissViewController(true, null);
 		}
 
 		void SetupSearch ()

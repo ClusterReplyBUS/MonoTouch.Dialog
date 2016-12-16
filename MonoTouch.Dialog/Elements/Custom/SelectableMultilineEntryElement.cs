@@ -56,7 +56,7 @@ namespace MonoTouch.Dialog
 			if (!string.IsNullOrWhiteSpace(Value))
 			{
 				disclaimerView.Text = Value;
-				disclaimerView.TextColor = UIColor.FromRGB(1f, 1f, 0.8f);
+				//disclaimerView.TextColor = UIColor.FromRGB(1f, 1f, 0.8f);
 			}
 			else
 				disclaimerView.Text = string.Empty;

@@ -138,6 +138,10 @@
     <Compile Include="Elements\Custom\TaggedCheckboxElement.cs" />
     <Compile Include="Elements\Custom\ProductOfInterestCheckboxElement.cs" />
     <Compile Include="Elements\Custom\ButtonElement.cs" />
+    <Compile Include="Elements\Custom\PhotoViewController.cs" />
+    <Compile Include="Elements\Custom\PhotoViewController.designer.cs">
+      <DependentUpon>PhotoViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -145,6 +149,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">
@@ -153,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\Signature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Elements\Custom\PhotoViewController.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

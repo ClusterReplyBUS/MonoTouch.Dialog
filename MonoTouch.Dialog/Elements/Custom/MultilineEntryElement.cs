@@ -216,6 +216,7 @@ namespace MonoTouch.Dialog
 				Text = Value ?? "",
 				Tag = 1,
 				BackgroundColor = UIColor.Clear,
+				TextColor=UIColor.Black,
 				Editable = editable,
 				//TextAlignment = UITextAlignment.Right,
 			};

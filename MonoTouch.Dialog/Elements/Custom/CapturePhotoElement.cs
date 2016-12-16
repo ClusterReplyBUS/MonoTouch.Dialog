@@ -168,156 +168,36 @@ namespace MonoTouch.Dialog
 
 		public override void Selected(DialogViewController dvc, UITableView tableView, NSIndexPath path)
 		{
-			if (_showSelector)
+			var PhotoVC = new PhotoViewController(_selectorPickImageLabel, _selectorTakePhotoLabel)
 			{
-				UIActionSheet actSheet = new UIActionSheet(
-					null,
-					null,
-					_selectorCancelLabel,
-					null,
-					_selectorTakePhotoLabel,
-					_selectorPickImageLabel
-				);
-				actSheet.Clicked += (object s, UIButtonEventArgs args) =>
-				{
-					switch (args.ButtonIndex)
-					{
-						case 0:
-							TakePhoto(dvc);
-							break;
-						case 1:
-							Camera.SelectPicture(dvc, (obj) =>
-							{
-								var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
-								//Value = photo;
-								Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
-								var selected = OnSelected;
-								if (selected != null)
-									selected(this, EventArgs.Empty);
-							});
-							break;
-					}
-				};
-				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
-					actSheet.ShowFromToolbar(dvc.NavigationController.Toolbar);
-				else {
-					var cell = tableView.CellAt(path);
-					actSheet.ShowFrom(cell.Bounds, cell, true);
-				}
-			}
-			else {
-				TakePhoto(dvc);
-			}
-
-			/*
-			var signatureController = new SignatureViewController (this) {
-				Autorotate = dvc.Autorotate,
+				Title =Caption
 			};
-			
-//			DrawView dv = new DrawView (new CGRect (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600), null) {
-//				BackgroundColor = UIColor.White,
-//				AutoresizingMask = UIViewAutoresizing.All,
-//			};
-			SmoothedBIView dv = new SmoothedBIView(new CGRect (50, 350, signatureController.View.Frame.Width - 100, signatureController.View.Frame.Height - 600)){
-				BackgroundColor = UIColor.FromWhiteAlpha(1f,1f),
-				AutoresizingMask = UIViewAutoresizing.All,
+			dvc.ActivateController(PhotoVC);
+
+			PhotoVC.SendResponse+= (s, e) =>
+			{
+				if(e.Value!=null)
+				Value = e.Value;
+				//OnSendResponse(e.Value);
 			};
-
-			try{
-				UIImageView background = new UIImageView (UIImage.FromFile ("images/Signature.png"));
-				background.Frame = dv.Frame;
-				signatureController.View.AddSubview (background);
-			}
-			catch{
-				Console.WriteLine ("Unable to load images/Signature.png for background image");
-			}
-
-			CGRect frame = new CGRect (20, 20, signatureController.View.Frame.Width - 40, 300);
-			UITextView disclaimerView = new UITextView (frame);
-			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
-			disclaimerView.TextColor = UIColor.White;
-			disclaimerView.TextAlignment = UITextAlignment.Center;
-			disclaimerView.Text = _disclaimer;
-			disclaimerView.Font = UIFont.SystemFontOfSize (16f);
-			disclaimerView.Editable = false;
-			disclaimerView.DataDetectorTypes = UIDataDetectorType.Link;
-			
-			signatureController.View.AddSubview (disclaimerView);
-			signatureController.View.AddSubview (dv);
-			signatureController.NavigationItem.Title = Caption;
-			signatureController.NavigationItem.RightBarButtonItem = new UIBarButtonItem (string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) => {
-				//Value = dv.GetDrawingImage ();
-				Value = dv.IncrementalImage;
-				var selected = OnSelected;
-				if (selected != null)
-					selected (this, EventArgs.Empty);
-				signatureController.NavigationController.PopViewControllerAnimated (true);
-			});	
-			
-			dvc.ActivateController (signatureController);
-*/
 		}
 
-		public event EventHandler<EventArgs> OnSelected;
+		//public event EventHandler<CapturePhotoEventArgs> SendResponse;
+		//private void OnSendResponse(UIImage image)
+		//{
+		//	if (SendResponse != null)
+		//	{
+		//		SendResponse(this, new CapturePhotoEventArgs { Value = image });
+		//	}
+		//}
 
-		private void TakePhoto(DialogViewController dvc)
-		{
-			Camera.TakePicture(dvc, (obj) =>
-			{
-				var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
-				//Value = photo;
-				Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
-				var selected = OnSelected;
-				if (selected != null)
-					selected(this, EventArgs.Empty);
-			});
-		}
-	}
+		//public class CapturePhotoEventArgs : EventArgs
+		//{
 
-	public static class Camera
-	{
-		static UIImagePickerController picker;
-		static Action<NSDictionary> _callback;
+		//	public UIImage Value { get; set; }
 
-		static void Init()
-		{
-			if (picker != null)
-				return;
+		//}
 
-			picker = new UIImagePickerController();
-			picker.Delegate = new CameraDelegate();
-		}
-
-		class CameraDelegate : UIImagePickerControllerDelegate
-		{
-			public override void FinishedPickingMedia(UIImagePickerController picker, NSDictionary info)
-			{
-				var cb = _callback;
-				_callback = null;
-
-				picker.DismissViewController(true, null);
-				//picker.PopViewControllerAnimated (true);
-				cb(info);
-			}
-		}
-
-		public static void TakePicture(UIViewController parent, Action<NSDictionary> callback)
-		{
-			Init();
-			picker.SourceType = UIImagePickerControllerSourceType.Camera;
-			_callback = callback;
-			//parent.PresentModalViewController (picker, true);
-			//parent.NavigationController.PushViewController (picker, true);
-			((DialogViewController)parent).ActivateController(picker);
-		}
-
-		public static void SelectPicture(UIViewController parent, Action<NSDictionary> callback)
-		{
-			Init();
-			picker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-			_callback = callback;
-			((DialogViewController)parent).ActivateController(picker);
-		}
+	
 	}
 }
-
