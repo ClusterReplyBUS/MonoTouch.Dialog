@@ -21,9 +21,8 @@ namespace MonoTouch.Dialog
 		{
 			base.ViewDidLoad();
 
+
 			SelectPhotoBtn.SetTitle(_BtnSelectPhoto, UIControlState.Normal);
-			//float X_Co = (float)(this.View.Frame.Size.Width);
-			//SelectPhotoBtn.Bounds = new CoreGraphics.CGRect(0, 5, this.View.Bounds.Size.Width, 50);
 
 			SelectPhotoBtn.TouchUpInside += (sender, e) =>
 			  {
