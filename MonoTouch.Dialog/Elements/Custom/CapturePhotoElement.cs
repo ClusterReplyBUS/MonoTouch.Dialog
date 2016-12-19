@@ -57,6 +57,7 @@ namespace MonoTouch.Dialog
 			{
 				if (Value != null)
 				{
+					
 					return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
 				}
 				else
@@ -67,7 +68,7 @@ namespace MonoTouch.Dialog
 			set
 			{
 				if (!String.IsNullOrWhiteSpace(value))
-					UIImage.LoadFromData(NSData.FromArray(Convert.FromBase64String(value)));
+					this.Value = UIImage.LoadFromData(NSData.FromArray(Convert.FromBase64String(value)));
 				else
 					this.Value = null;
 			}
@@ -78,7 +79,6 @@ namespace MonoTouch.Dialog
 		protected string _selectorTakePhotoLabel = "Take photo";
 		protected string _selectorPickImageLabel = "Pick image";
 
-
 		float newHeight = 1024f;
 
 		static NSString hkey = new NSString("CapturePhotoElement");
@@ -87,7 +87,7 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel) : this(caption)
+		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel,bool isReadOnly) : this(caption)
 		{
 			this.Base64Value = base64value;
 			this._showSelector = showSelector;
@@ -95,8 +95,9 @@ namespace MonoTouch.Dialog
 				this._selectorPickImageLabel = selectorPickImageLabel;
 			if (!string.IsNullOrWhiteSpace(selectorTakePhotoLabel))
 				this._selectorTakePhotoLabel = selectorTakePhotoLabel;
+			this.IsReadOnly = isReadOnly;
 		}
-		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null)
+		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null,false)
 		{
 		}
 
@@ -168,18 +169,26 @@ namespace MonoTouch.Dialog
 
 		public override void Selected(DialogViewController dvc, UITableView tableView, NSIndexPath path)
 		{
-			var PhotoVC = new PhotoViewController(_selectorPickImageLabel, _selectorTakePhotoLabel)
+			if (IsReadOnly)
 			{
-				Title =Caption
-			};
-			dvc.ActivateController(PhotoVC);
+				return;		
+			
+			}
+			else
+			{
+				var PhotoVC = new PhotoViewController(_selectorPickImageLabel, _selectorTakePhotoLabel)
+				{
+					Title = Caption
+				};
+				dvc.ActivateController(PhotoVC);
 
-			PhotoVC.SendResponse+= (s, e) =>
-			{
-				if(e.Value!=null)
-				Value = e.Value;
+				PhotoVC.SendResponse += (s, e) =>
+				 {
+					 if (e.Value != null)
+						 Value = e.Value;
 				//OnSendResponse(e.Value);
 			};
+			}
 		}
 
 		//public event EventHandler<CapturePhotoEventArgs> SendResponse;

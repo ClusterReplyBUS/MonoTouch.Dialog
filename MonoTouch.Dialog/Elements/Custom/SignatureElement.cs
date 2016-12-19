@@ -152,18 +152,19 @@ namespace MonoTouch.Dialog
 			//				BackgroundColor = UIColor.White,
 			//				AutoresizingMask = UIViewAutoresizing.All,
 			//			};
-			var rect = new CGRect(20, signatureController.View.Frame.Height / 3, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height / 3 * 2);
+			var rect = new CGRect(20, signatureController.View.Frame.Height / 3, signatureController.View.Frame.Width - 40, (signatureController.View.Frame.Height / 3 * 2) - 10);
 			SmoothedBIView dv = new SmoothedBIView(rect)
 			{
-				//BackgroundColor = UIColor.FromWhiteAlpha(1f, 1f),
-				BackgroundColor = UIColor.Gray,
+				BackgroundColor = UIColor.FromWhiteAlpha(1f, 0f),
 				AutoresizingMask = UIViewAutoresizing.All,
 			};
 
 			try
 			{
 				UIImageView background = new UIImageView(UIImage.FromFile("images/Signature.png"));
-				background.Frame = dv.Frame;
+				var newWidth = signatureController.View.Frame.Width - 40;
+				var newHeight = signatureController.View.Frame.Height * background.Frame.Height / background.Frame.Width;
+				background.Frame = new CGRect(20, signatureController.View.Frame.Height-40 - newHeight, newWidth, newHeight);
 				signatureController.View.AddSubview(background);
 			}
 			catch
@@ -187,9 +188,9 @@ namespace MonoTouch.Dialog
 			disclaimerView.Editable = false;
 			disclaimerView.DataDetectorTypes = UIDataDetectorType.Link;
 
-			disclaimerView.Text = "Disclaimer http://www.cnhindustrial.com/";
-			signatureController.View.AddSubview(disclaimerView);
+			disclaimerView.Text = _disclaimer;
 			signatureController.View.AddSubview(dv);
+			signatureController.View.AddSubview(disclaimerView);
 			signatureController.NavigationItem.Title = Caption;
 			signatureController.NavigationItem.RightBarButtonItem = new UIBarButtonItem(string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) =>
 			{
