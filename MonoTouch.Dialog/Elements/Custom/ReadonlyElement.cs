@@ -24,7 +24,7 @@ using System.IO;
 
 namespace MonoTouch.Dialog
 {
-    public class ReadonlyElement : StringElement, IElementSizing
+    public class ReadonlyElement : StringElement//, IElementSizing
     {
         public ReadonlyElement(string caption, string value)
             : base(caption, value)
@@ -40,6 +40,11 @@ namespace MonoTouch.Dialog
                 cell.TextLabel.Lines = 0;
             return cell;
         }
+		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		{
+			float heightBase=(float)base.GetHeight(tableView, indexPath)+1;
+			return Math.Max(70, heightBase);
+		}
         /*
         public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
         {
@@ -66,14 +71,16 @@ namespace MonoTouch.Dialog
             return (nfloat) Math.Max (lineHeight * lineCount + 20, cell.Frame.Height);
         }*/
 
-        public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
-        {
-//			var width = (tableView.Frame.Width- WIDTH_OFFSET )/2;
-			var width = 320f;
-			string reference = (Caption ?? string.Empty).Length > (Value ?? string.Empty).Length ? Caption : Value;
-			return (nfloat)Math.Max(HeightForWidth(reference, width), 40F);
-
-        }
+ //       public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+ //       {
+	//		var width = (tableView.Frame.Width- WIDTH_OFFSET );
+	////		var width = 320f;
+	//		string reference = (Caption ?? string.Empty).Length > (Value ?? string.Empty).Length ? Caption : Value;
+	//		int captionLenght = reference.Length;
+	//		int numLines = (int)Math.Ceiling(captionLenght / width);
+	//		var height=(nfloat)Math.Max(HeightForWidth(reference, width), 40F);
+	//		return numLines * height;
+ //       }
     }
 
 }

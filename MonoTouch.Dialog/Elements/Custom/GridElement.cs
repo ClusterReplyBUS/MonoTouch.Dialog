@@ -27,128 +27,192 @@ using System.IO;
 
 namespace MonoTouch.Dialog
 {
-	public class GridElement : Element, IElementSizing
+	public class GridElement : Element//, IElementSizing
 	{
-        public bool Mandatory { get; set; }
+		public bool Mandatory { get; set; }
 
-		public object ValueGrid{ get; set; }
+		public object ValueGrid { get; set; }
 
 		public List<GridHeader> Rows { get; set; }
 		public List<GridHeader> Columns { get; set; }
 		public GridAnswerType GridType { get; set; }
 		public UserSource Source;
 
-		static NSString hkey = new NSString ("GridElement");
+		static NSString hkey = new NSString("GridElement");
 
 		private string _saveLabel;
 
-		
-		public GridElement (string caption, string saveLabel) : this (caption)
+
+		public GridElement(string caption, string saveLabel) : this(caption)
 		{
 			_saveLabel = saveLabel;
 		}
-		public GridElement (string caption) : base (caption)
+		public GridElement(string caption) : base(caption)
 		{
 		}
-		
-		protected override NSString CellKey {
-			get {
+
+		protected override NSString CellKey
+		{
+			get
+			{
 				return hkey;
 			}
 		}
 
-		public override UITableViewCell GetCell (UITableView tv)
+		public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell (CellKey);
-			if (cell == null) {
-				cell = new UITableViewCell (UITableViewCellStyle.Value1, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+			var cell = base.GetCell(tv);
+			//cell.TextLabel.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, 50f, tv.Frame.Height);
+			//cell.TextLabel.BackgroundColor = UIColor.Yellow;
+			//cell.DetailTextLabel.Frame=new CGRect(tv.Frame.X, tv.Frame.Y, 80f, tv.Frame.Height);
+			cell.TextLabel.Lines = 0;
+			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
-            //s.agostini
+			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+			//s.agostini
 			cell.TextLabel.Text = Caption;
 			cell.DetailTextLabel.Text = "";
 
-            if (this.Mandatory)
-                cell.TextLabel.Text += '*';
+			if (this.Mandatory)
+				cell.TextLabel.Text += '*';
 
 			//cell.TextLabel.TextColor = UIColor.Purple;
-			
-			if (this.ValueGrid != null) {
-				cell.BackgroundColor = UIColor.FromRGB (1f, 1f, 0.8f);
+
+			if (this.ValueGrid != null)
+			{
+				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
 				//cell.ImageView.Image = this.Value;
 				//cell.ImageView.Frame.X = 20;
 				cell.DetailTextLabel.Text = (string)this.ValueGrid;
 			}
 
-			if (cell.DetailTextLabel != null) {
+			if (cell.DetailTextLabel != null)
+			{
 				cell.DetailTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
-				if (cell != null && cell.DetailTextLabel != null && !string.IsNullOrWhiteSpace (cell.DetailTextLabel.Text)) {
+				if (cell != null && cell.DetailTextLabel != null && !string.IsNullOrWhiteSpace(cell.DetailTextLabel.Text))
+				{
 					int lineCount = 0;
-					using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
-						while (r.ReadLine()!=null)
+					using (StringReader r = new StringReader(cell.DetailTextLabel.Text))
+					{
+						while (r.ReadLine() != null)
 							lineCount++;
 					}
 					cell.DetailTextLabel.Lines = 0;
-					cell.TextLabel.Lines = lineCount;
 				}
 			}
 			return cell;
 		}
 
-		public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
-		{
-			UITableViewCell cell = GetCell (tableView);
-			int lineCount = 0;
-			if (cell != null && cell.DetailTextLabel != null) {
-//				lineCount = cell.DetailTextLabel.Lines;
+//		public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+//		{
+//			UITableViewCell cell = GetCell(tableView);
+//			UIEdgeInsets margins = cell.LayoutMargins;
+//			/*int lineCount = 0;
+//			if (cell != null && cell.DetailTextLabel != null) {
+////				lineCount = cell.DetailTextLabel.Lines;
+////				using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
+////					string line;
+////					while ((line = r.ReadLine())!=null) {
+////						lineCount += (int)(line.Length / 50);
+////					}
+////				}
 //				using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
-//					string line;
-//					while ((line = r.ReadLine())!=null) {
-//						lineCount += (int)(line.Length / 50);
-//					}
+//					while (r.ReadLine()!=null)
+//						lineCount++;
 //				}
-				using (StringReader r = new StringReader(cell.DetailTextLabel.Text)) {
-					while (r.ReadLine()!=null)
-						lineCount++;
-				}
-			}
-            nfloat lineHeight;
-           CGSize size = new CGSize(280, float.MaxValue);
-			using (var font = UIFont.FromName ("Helvetica", 17f))
-				lineHeight =  Caption.StringSize(font, size, UILineBreakMode.WordWrap).Height + 3;
+//			}
+//            nfloat lineHeight;
+//           CGSize size = new CGSize(280, float.MaxValue);
+//			using (var font = UIFont.FromName ("Helvetica", 17f))
+//				lineHeight =  Caption.StringSize(font, size, UILineBreakMode.WordWrap).Height + 3;
 
-            return (nfloat)Math.Max(lineHeight * lineCount + 20, cell.Frame.Height);
+//            return (nfloat)Math.Max(lineHeight * lineCount + 20, cell.Frame.Height);*/
+//			//var width = (tableView.Frame.Width - WIDTH_OFFSET);
 
-        }
-		
+
+//			float width = 0f;
+//			float height = 0f;
+//			float widthFont;
+//			float heightFont;
+//			float widthScreen = (float)UIScreen.MainScreen.Bounds.Size.Width * (float)UIScreen.MainScreen.Scale;
+//			//width = widthFont / widthScreen Math.Floor
+//			////		var width = 320f;
+//			string reference = (Caption ?? string.Empty).Length > (cell.TextLabel.Text ?? string.Empty).Length ? Caption : cell.TextLabel.Text;
+//			int count = reference.Count(f => f == '\n');
+//			int captionLenght = reference.Length;
+//			if (captionLenght > 0)
+//			{
+//				//var Wfont = reference.Substring(0, 1).ToLower();
+//				NSString nsString = new NSString("A");
+//				UIStringAttributes attribs=null;
+//				if (UIDevice.CurrentDevice.Model.Contains("iPhone"))
+//				{
+//					attribs = new UIStringAttributes { Font = UIFont.BoldSystemFontOfSize(16) };
+//				}
+//				else
+//				{
+//					 attribs = new UIStringAttributes { Font = UIFont.BoldSystemFontOfSize(17) };	
+//				}
+//				SizeF size = (System.Drawing.SizeF)nsString.GetSizeUsingAttributes(attribs);
+//				if (UIDevice.CurrentDevice.Model.Contains("iPhone"))
+//				{
+//					widthFont = size.Width * (float)UIScreen.MainScreen.Scale;
+//				}
+//				else
+//				{
+//					widthFont = size.Width;
+//				}
+//				heightFont = size.Height + 1;
+//				width = (float)Math.Floor(widthScreen / widthFont);
+//				height = heightFont;
+//			}
+//			int numLines = (int)Math.Ceiling(captionLenght / width) + count;
+//			//cell.TextLabel.Lines = numLines;
+//			int lineCount = 0;
+//			if (cell != null && cell.DetailTextLabel != null)
+//			{
+//				lineCount = (int)cell.DetailTextLabel.Lines;
+
+//				using (StringReader r = new StringReader(cell.DetailTextLabel.Text))
+//				{
+//					while (r.ReadLine() != null)
+//						lineCount++;
+//				}
+//				//cell.DetailTextLabel.Lines = lineCount;
+//				numLines = numLines + lineCount;
+//			}
+//			//var height = (nfloat)Math.Max(HeightForWidth(reference, width), 40F);
+//			return (numLines * height);
+//		}
+
 		// We use this class to dispose the web control when it is not
 		// in use, as it could be a bit of a pig, and we do not want to
 		// wait for the GC to kick-in.
 		class GridViewController : UIViewController
 		{
-			public GridViewController (GridElement container) : base ()
+			public GridViewController(GridElement container) : base()
 			{
 				this.View.BackgroundColor = UIColor.White;
 			}
-			
-			public override void ViewWillDisappear (bool animated)
+
+			public override void ViewWillDisappear(bool animated)
 			{
-				base.ViewWillDisappear (animated);
+				base.ViewWillDisappear(animated);
 			}
 
 			public bool Autorotate { get; set; }
-			
-//			public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
-//			{
-//				return Autorotate;
-//			}
+
+			//			public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
+			//			{
+			//				return Autorotate;
+			//			}
 		}
-		
-		public override void Selected (DialogViewController dvc, UITableView tableView, NSIndexPath path)
+
+		public override void Selected(DialogViewController dvc, UITableView tableView, NSIndexPath path)
 		{
-			var gridController = new GridViewController (this) {
+			var gridController = new GridViewController(this)
+			{
 				Autorotate = dvc.Autorotate,
 			};
 			int cellSize = 0;
@@ -158,59 +222,65 @@ namespace MonoTouch.Dialog
 				cellSize = 60;
 			}
 			else
-			{ 
+			{
 				cellSize = 112;
 			}
 
 			//var cellSize = 60;
 
-			CGRect frame = new CGRect (0, 0, ((Columns.Count + 1 ) * (cellSize +15)), gridController.View.Frame.Height );
+			CGRect frame = new CGRect(0, 0, ((Columns.Count + 1) * (cellSize + 15)), gridController.View.Frame.Height);
 
 			//			CGRect frame = new CGRect (0, 0, gridController.View.Frame.Width + 
-//				(Columns.Count > 4 ? (Columns.Count -4) * (cellSize +4) : 0), gridController.View.Frame.Height );
+			//				(Columns.Count > 4 ? (Columns.Count -4) * (cellSize +4) : 0), gridController.View.Frame.Height );
 			CGRect frame2 = gridController.View.Frame;
 			//CGRect frame2 = new CGRect (20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height - 40);
-//			UITextView disclaimerView = new UITextView (frame);
-//			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
-//			disclaimerView.TextColor = UIColor.White;
-//			disclaimerView.TextAlignment = UITextAlignment.Left;
-//			disclaimerView.Text = "";
-//			foreach (var col in Columns) {
-//				disclaimerView.Text += " " + col;
-//			}
-//			foreach (var row in Rows) {
-//				disclaimerView.Text += "\n" + row;
-//			}
-//			disclaimerView.Font = UIFont.SystemFontOfSize (16f);
-//			disclaimerView.Editable = false;
-//			disclaimerView.DataDetectorTypes = UIDataDetectorType.Link;
-//			signatureController.View.AddSubview (disclaimerView);
+			//			UITextView disclaimerView = new UITextView (frame);
+			//			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha (0, 0);
+			//			disclaimerView.TextColor = UIColor.White;
+			//			disclaimerView.TextAlignment = UITextAlignment.Left;
+			//			disclaimerView.Text = "";
+			//			foreach (var col in Columns) {
+			//				disclaimerView.Text += " " + col;
+			//			}
+			//			foreach (var row in Rows) {
+			//				disclaimerView.Text += "\n" + row;
+			//			}
+			//			disclaimerView.Font = UIFont.SystemFontOfSize (16f);
+			//			disclaimerView.Editable = false;
+			//			disclaimerView.DataDetectorTypes = UIDataDetectorType.Link;
+			//			signatureController.View.AddSubview (disclaimerView);
 
-			var scroll = new UIScrollView (frame2);
-
-
+			var scroll = new UIScrollView(frame2);
 
 
-			if (Source == null) {
-				Source = new UserSource () {
+
+
+			if (Source == null)
+			{
+				Source = new UserSource()
+				{
 					GridType = this.GridType,
 				};
-				var lcol = new List<UserElement> ();
-				lcol.Add (new UserElement (""));
-				foreach (var col in Columns) {
-					lcol.Add (new UserElement (col.Text));
+				var lcol = new List<UserElement>();
+				lcol.Add(new UserElement(""));
+				foreach (var col in Columns)
+				{
+					lcol.Add(new UserElement(col.Text));
 				}
-				Source.Rows.Add (lcol);
-				foreach (var row in Rows) {
-					var lrow = new List<UserElement> ();
-					lrow.Add (new UserElement (row.Text));
-					foreach (var col in Columns) {
-						lrow.Add (new UserElement (this.GridType, true, false) {
+				Source.Rows.Add(lcol);
+				foreach (var row in Rows)
+				{
+					var lrow = new List<UserElement>();
+					lrow.Add(new UserElement(row.Text));
+					foreach (var col in Columns)
+					{
+						lrow.Add(new UserElement(this.GridType, true, false)
+						{
 							AnswerId = row.AnswerId,
 							ColumnId = col.AnswerId
 						});
 					}
-					Source.Rows.Add (lrow);
+					Source.Rows.Add(lrow);
 				}
 			}
 
@@ -218,10 +288,10 @@ namespace MonoTouch.Dialog
 
 
 
-			var layout = new UICollectionViewFlowLayout ();
-			layout.SectionInset = new UIEdgeInsets (1,1,1,1);
-			layout.ItemSize = new CGSize ((float)cellSize-1, (float)cellSize-1);
-			var collectionViewUser = new UICollectionView (frame, layout);
+			var layout = new UICollectionViewFlowLayout();
+			layout.SectionInset = new UIEdgeInsets(1, 1, 1, 1);
+			layout.ItemSize = new CGSize((float)cellSize - 1, (float)cellSize - 1);
+			var collectionViewUser = new UICollectionView(frame, layout);
 			collectionViewUser.BackgroundColor = UIColor.White;
 
 			collectionViewUser.RegisterClassForCell(typeof(UserCell), UserCell.CellID);
@@ -234,28 +304,32 @@ namespace MonoTouch.Dialog
 			collectionViewUser.ReloadData();
 
 
-			scroll.AddSubview (collectionViewUser);
+			scroll.AddSubview(collectionViewUser);
 			scroll.ContentSize = frame.Size;
 			if (scroll.ContentSize.Width < gridController.View.Frame.Width)
-				scroll.ContentOffset = new CGPoint (scroll.ContentSize.Width / 2 - scroll.Bounds.Size.Width / 2 +10, 0f);
-			gridController.View.AddSubview (scroll);
+				scroll.ContentOffset = new CGPoint(scroll.ContentSize.Width / 2 - scroll.Bounds.Size.Width / 2 + 10, 0f);
+			gridController.View.AddSubview(scroll);
 
 
 			gridController.NavigationItem.Title = Caption;
-			gridController.NavigationItem.RightBarButtonItem = new UIBarButtonItem (string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) => {
+			gridController.NavigationItem.RightBarButtonItem = new UIBarButtonItem(string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) =>
+			{
 
 				string text = "";
-				foreach (var row in Source.Rows) {
-					foreach (var el in row) {
-						if (el.Checked == true) {
+				foreach (var row in Source.Rows)
+				{
+					foreach (var el in row)
+					{
+						if (el.Checked == true)
+						{
 							if (text == "")
 								text = this.Rows.SingleOrDefault(r => r.AnswerId == el.AnswerId).Text + "-" +
 									this.Columns.SingleOrDefault(r => r.AnswerId == el.ColumnId).Text +
-									( (GridType == GridAnswerType.Text || GridType == GridAnswerType.Number) ? ":" + el.Caption : "");
+									((GridType == GridAnswerType.Text || GridType == GridAnswerType.Number) ? ":" + el.Caption : "");
 							else
 								text += "\n" + this.Rows.SingleOrDefault(r => r.AnswerId == el.AnswerId).Text + "-" +
-									this.Columns.SingleOrDefault(r => r.AnswerId == el.ColumnId).Text + 
-									( (GridType == GridAnswerType.Text || GridType == GridAnswerType.Number) ? ":" + el.Caption : "");
+									this.Columns.SingleOrDefault(r => r.AnswerId == el.ColumnId).Text +
+									((GridType == GridAnswerType.Text || GridType == GridAnswerType.Number) ? ":" + el.Caption : "");
 						}
 					}
 				}
@@ -264,17 +338,17 @@ namespace MonoTouch.Dialog
 				ValueGrid = text;
 				var selected = OnSelected;
 				if (selected != null)
-					selected (this, EventArgs.Empty);
+					selected(this, EventArgs.Empty);
 				gridController.NavigationController
 #if XAMCORE_2_0
-                    .PopViewController (true);
+					.PopViewController(true);
 #else
                     .PopViewControllerAnimated (true);  
 #endif
-			});	
-			
-			dvc.ActivateController (gridController);
-			
+			});
+
+			dvc.ActivateController(gridController);
+
 		}
 
 		public event EventHandler<EventArgs> OnSelected;
@@ -322,32 +396,36 @@ namespace MonoTouch.Dialog
 				return true;
 			}
 
-//			public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
-//			{
-//				var cell = (UserCell) collectionView.CellForItem(indexPath);
-//			}
+			//			public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
+			//			{
+			//				var cell = (UserCell) collectionView.CellForItem(indexPath);
+			//			}
 
 			public override void ItemUnhighlighted(UICollectionView collectionView, NSIndexPath indexPath)
 			{
-				var cell = (UserCell) collectionView.CellForItem(indexPath);
+				var cell = (UserCell)collectionView.CellForItem(indexPath);
 
 				UserElement row = Rows[indexPath.Section][indexPath.Row];
-				if (row.Tappable) {
-					if (GridType == GridAnswerType.Checkbox) {
+				if (row.Tappable)
+				{
+					if (GridType == GridAnswerType.Checkbox)
+					{
 						row.Checked = row.Checked ? false : true;
 						row.Caption = row.Checked ? "☑" : "☐";
-					} else if (GridType == GridAnswerType.Text) {
+					}
+					else if (GridType == GridAnswerType.Text)
+					{
 						row.Checked = true;
 						row.Caption = "risposta";
 					}
-					cell.UpdateRow (row, FontSize);
+					cell.UpdateRow(row, FontSize);
 				}
 				//row.Tapped.Invoke();
 			}
 
 			public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
 			{
-				var cell = (UserCell) collectionView.DequeueReusableCell(UserCell.CellID, indexPath);
+				var cell = (UserCell)collectionView.DequeueReusableCell(UserCell.CellID, indexPath);
 
 				UserElement row = Rows[indexPath.Section][indexPath.Row];
 
@@ -359,11 +437,11 @@ namespace MonoTouch.Dialog
 
 		public class UserElement
 		{
-//			public UserElement(String caption, NSAction tapped)
-//			{
-//				Caption = caption;
-//				Tapped = tapped;
-//			}
+			//			public UserElement(String caption, NSAction tapped)
+			//			{
+			//				Caption = caption;
+			//				Tapped = tapped;
+			//			}
 
 			public UserElement(string caption)
 			{
@@ -373,15 +451,15 @@ namespace MonoTouch.Dialog
 				Checked = false;
 			}
 
-//			public UserElement(GridAnswerType type)
-//			{
-//				Type = type;
-//				if (type == GridAnswerType.Checkbox)
-//					Caption = "☐";
-//				else
-//					Caption = "";
-//			}
-				
+			//			public UserElement(GridAnswerType type)
+			//			{
+			//				Type = type;
+			//				if (type == GridAnswerType.Checkbox)
+			//					Caption = "☐";
+			//				else
+			//					Caption = "";
+			//			}
+
 			public UserElement(GridAnswerType type, bool tappable, bool check)
 			{
 				Type = type;
@@ -422,7 +500,7 @@ namespace MonoTouch.Dialog
 			public Guid AnswerId { get; set; }
 			public Guid ColumnId { get; set; }
 
-//			public NSAction Tapped { get; set; }
+			//			public NSAction Tapped { get; set; }
 		}
 
 
@@ -445,12 +523,12 @@ namespace MonoTouch.Dialog
 		{
 			public static NSString CellID = new NSString("UserSource");
 
-			[Export ("initWithFrame:")]
-			public UserCell (CGRect frame) : base (frame)
+			[Export("initWithFrame:")]
+			public UserCell(CGRect frame) : base(frame)
 			{
-				BackgroundView = new UIView{BackgroundColor = UIColor.Black};
+				BackgroundView = new UIView { BackgroundColor = UIColor.Black };
 
-				SelectedBackgroundView = new UIView{BackgroundColor = UIColor.Blue};
+				SelectedBackgroundView = new UIView { BackgroundColor = UIColor.Blue };
 
 				ContentView.Layer.BorderColor = UIColor.Black.CGColor;
 				ContentView.Layer.BorderWidth = 0.0f;
@@ -488,29 +566,31 @@ namespace MonoTouch.Dialog
 
 				LabelView.Frame = new CGRect(0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
 
-				if (element.Type == GridAnswerType.Text || element.Type == GridAnswerType.Number) {
-					LabelView.Frame = new CGRect (0, 0, 0, 0);
-					TextBox.Frame = new CGRect (0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
+				if (element.Type == GridAnswerType.Text || element.Type == GridAnswerType.Number)
+				{
+					LabelView.Frame = new CGRect(0, 0, 0, 0);
+					TextBox.Frame = new CGRect(0, 0, ContentView.Frame.Width, ContentView.Frame.Height);
 					//TextBox.BorderStyle = UITextBorderStyle.Line;
 
 					TextBox.TextAlignment = UITextAlignment.Center;
 					TextBox.Text = element.Caption;
-					TextBox.EditingChanged += (object sender, EventArgs e) => {
+					TextBox.EditingChanged += (object sender, EventArgs e) =>
+					{
 						element.Caption = ((UITextField)sender).Text;
 						element.Checked = true;
 					};
 					if (element.Type == GridAnswerType.Number)
 						TextBox.KeyboardType = UIKeyboardType.NumberPad;
 
-					OtherView.Frame = new CGRect (0, ContentView.Frame.Height - 30, ContentView.Frame.Width, 1);
+					OtherView.Frame = new CGRect(0, ContentView.Frame.Height - 30, ContentView.Frame.Width, 1);
 				}
 			}
 		}
 
-//		private void elementTapped(String title)
-//		{
-//			new UIAlertView("Tapped", title, null, "OK", null).Show();
-//		}
+		//		private void elementTapped(String title)
+		//		{
+		//			new UIAlertView("Tapped", title, null, "OK", null).Show();
+		//		}
 	}
 }
 

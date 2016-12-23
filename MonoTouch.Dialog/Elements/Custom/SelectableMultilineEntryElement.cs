@@ -86,6 +86,9 @@ namespace MonoTouch.Dialog
 		public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = base.GetCell(tv);
+			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+			
 			if (!string.IsNullOrWhiteSpace(Value) && Value.Length > 0)
 			{
 				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
@@ -94,6 +97,18 @@ namespace MonoTouch.Dialog
 				cell.TextLabel.Text += "*";
 			return cell;
 		}
+
+		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		{
+			float heightBase= (float)base.GetHeight(tableView, indexPath);
+			return Math.Max(80, heightBase) + 1;
+		}
+
+		//public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		//{
+		//	return 90f;
+		//	//return base.GetHeight(tableView, indexPath);
+		//}
 	}
 }
 

@@ -54,6 +54,7 @@ namespace MonoTouch.Dialog
 				{
 					return null;
 				}
+				else
 				{
 					return Convert.ToBase64String(Value.AsJPEG(0.2f).ToArray());
 				}
@@ -91,6 +92,7 @@ namespace MonoTouch.Dialog
 			}
 		}
 
+
 		public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = tv.DequeueReusableCell(CellKey);
@@ -110,9 +112,12 @@ namespace MonoTouch.Dialog
 
 			if (this.Value != null)
 			{
-				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
-				cell.ImageView.Image = this.Value;
-				//cell.ImageView.Frame.X = 20;
+				if (!this.Value.Size.IsEmpty)
+				{
+					cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
+					cell.ImageView.Image = this.Value;
+					//cell.ImageView.Frame.X = 20;
+				}
 			}
 			return cell;
 		}
@@ -125,7 +130,9 @@ namespace MonoTouch.Dialog
 			public SignatureViewController(SignatureElement container)
 				: base()
 			{
-				this.View.BackgroundColor = UIColor.FromWhiteAlpha(1f, 0.3f);
+				
+					this.View.BackgroundColor = UIColor.FromWhiteAlpha(1f, 0.3f);
+
 			}
 
 			public override void ViewWillDisappear(bool animated)
@@ -180,6 +187,7 @@ namespace MonoTouch.Dialog
 #endif
 				(20, 20, signatureController.View.Frame.Width - 40, signatureController.View.Frame.Height / 4);
 			UITextView disclaimerView = new UITextView(frame);
+			//disclaimerView.BackgroundColor = UIColor.Gray;
 			disclaimerView.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
 			disclaimerView.TextColor = UIColor.Black;
 			disclaimerView.TextAlignment = UITextAlignment.Center;
@@ -189,16 +197,19 @@ namespace MonoTouch.Dialog
 			disclaimerView.DataDetectorTypes = UIDataDetectorType.Link;
 
 			disclaimerView.Text = _disclaimer;
+			signatureController.View.BackgroundColor = UIColor.LightGray;
 			signatureController.View.AddSubview(dv);
+
 			signatureController.View.AddSubview(disclaimerView);
 			signatureController.NavigationItem.Title = Caption;
 			signatureController.NavigationItem.RightBarButtonItem = new UIBarButtonItem(string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) =>
 			{
 				//Value = dv.GetDrawingImage ();
 				Value = dv.IncrementalImage;
-				var selected = OnSelected;
-				if (selected != null)
-					selected(this, EventArgs.Empty);
+					var selected = OnSelected;
+					if (selected != null)
+						selected(this, EventArgs.Empty);
+				
 				signatureController.NavigationController.
 #if XAMCORE_2_0
 					PopViewController(true);
@@ -210,6 +221,7 @@ namespace MonoTouch.Dialog
 			dvc.ActivateController(signatureController);
 
 		}
+
 
 		public event EventHandler<EventArgs> OnSelected;
 	}

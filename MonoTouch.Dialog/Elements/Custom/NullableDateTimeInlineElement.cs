@@ -156,7 +156,7 @@ namespace MonoTouch.Dialog
 					_inline_date_element.DateSelected += (DateTime? date) =>
 					{
 						this.DateValue = date;
-						cell.DetailTextLabel.Text = FormatDate(date);
+						cell.DetailTextLabel.Text = FormatDate(date)  + date.Value.ToString(" HH:mm");;
 						Value = cell.DetailTextLabel.Text;
 						cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
 						if (DateSelected != null)       // Fire our changed event.

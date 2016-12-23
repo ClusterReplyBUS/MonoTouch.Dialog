@@ -57,7 +57,7 @@ namespace MonoTouch.Dialog
 			{
 				if (Value != null)
 				{
-					
+
 					return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
 				}
 				else
@@ -87,7 +87,7 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel,bool isReadOnly) : this(caption)
+		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel, bool isReadOnly) : this(caption)
 		{
 			this.Base64Value = base64value;
 			this._showSelector = showSelector;
@@ -97,7 +97,7 @@ namespace MonoTouch.Dialog
 				this._selectorTakePhotoLabel = selectorTakePhotoLabel;
 			this.IsReadOnly = isReadOnly;
 		}
-		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null,false)
+		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null, false)
 		{
 		}
 
@@ -132,12 +132,20 @@ namespace MonoTouch.Dialog
 				cell.TextLabel.Text += '*';
 
 			//cell.TextLabel.TextColor = UIColor.Purple;
-
-			if (this.Value != null)
+			if (!IsReadOnly)
 			{
-				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
+				if (this.Value != null)
+				{
+					cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
+					cell.ImageView.Image = this.Value;
+					//cell.ImageView.Frame.X = 20;
+				}
+			}
+			else
+			{
+				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+				cell.Selected = false;
 				cell.ImageView.Image = this.Value;
-				//cell.ImageView.Frame.X = 20;
 			}
 			return cell;
 		}
@@ -171,8 +179,8 @@ namespace MonoTouch.Dialog
 		{
 			if (IsReadOnly)
 			{
-				return;		
-			
+
+				return;
 			}
 			else
 			{
@@ -186,8 +194,8 @@ namespace MonoTouch.Dialog
 				 {
 					 if (e.Value != null)
 						 Value = e.Value;
-				//OnSendResponse(e.Value);
-			};
+					 //OnSendResponse(e.Value);
+				 };
 			}
 		}
 
@@ -207,6 +215,6 @@ namespace MonoTouch.Dialog
 
 		//}
 
-	
+
 	}
 }

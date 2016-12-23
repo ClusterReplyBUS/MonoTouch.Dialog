@@ -39,7 +39,6 @@ namespace MonoTouch.Dialog
 				return val;
 			}
 			set {
-				
 				bool emit = (val == null && value != null) || (val != null && value == null) || val.Id != value.Id;
 				val = value;
 				if (emit && ValueChanged != null)
@@ -97,7 +96,10 @@ namespace MonoTouch.Dialog
 
 			return cell;
 		}
-
+		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		{
+			return base.GetHeight(tableView, indexPath);
+		}
 		protected override void Dispose (bool disposing)
 		{
 			if (disposing) {
