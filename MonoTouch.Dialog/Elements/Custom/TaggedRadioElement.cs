@@ -23,7 +23,6 @@ namespace MonoTouch.Dialog
 {
 	public class TaggedRadioElement :RadioElement, ITaggedNodeElement
 	{
-		
 		public bool IsBlank { get; set; }
 
 		public UIColor _originalColor = null;

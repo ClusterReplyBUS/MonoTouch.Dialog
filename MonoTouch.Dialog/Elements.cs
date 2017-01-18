@@ -143,11 +143,18 @@ namespace MonoTouch.Dialog
 				{
 					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
 				}
+				else if (CellKey.Description.Equals("TwoStateElement"))
+				{
+					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
+				}
 				else
 				{
 					cell = new UITableViewCell(UITableViewCellStyle.Value1, CellKey);
 				}
+				cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+				cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+
 			}
 			//cell.BackgroundColor = UIColor.Red;
 			//cell.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, tv.Frame.Height, tv.Frame.Width);
@@ -309,7 +316,6 @@ namespace MonoTouch.Dialog
 			{
 				count = reference.Count(f => f == '\n');
 				captionLenght = reference.Length;
-
 			}
 			if (captionLenght > 0)
 			{
@@ -340,15 +346,15 @@ namespace MonoTouch.Dialog
 			int numLines = (int)Math.Ceiling(captionLenght / width) + count;
 			//cell.TextLabel.Lines = numLines;
 			int lineCount = 0;
-			if (cell != null && cell.DetailTextLabel != null)
+			if (cell != null && cell.DetailTextLabel != null && cell.DetailTextLabel.Text!=null)
 			{
 				lineCount = (int)cell.DetailTextLabel.Lines;
-
-				using (StringReader r = new StringReader(cell.DetailTextLabel.Text))
-				{
-					while (r.ReadLine() != null)
-						lineCount++;
+					using (StringReader r = new StringReader(cell.DetailTextLabel.Text))
+					{
+						while (r.ReadLine() != null)
+							lineCount++;
 				}
+
 				//cell.DetailTextLabel.Lines = lineCount;
 				numLines = numLines + lineCount;
 			}
@@ -874,8 +880,9 @@ namespace MonoTouch.Dialog
 				}
 				else if ((this as ReadonlyElement) != null)
 				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, skey);
+					cell = new UITableViewCell(UITableViewCellStyle.Default, skey);
 				}
+
 				else
 				{ 
 					cell = new UITableViewCell(Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1, Value == null ? skey : skeyvalue);
@@ -1391,7 +1398,10 @@ namespace MonoTouch.Dialog
 
 			bool selected = RadioIdx == ((RadioGroup)(root.group)).Selected;
 			cell.Accessory = selected ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-
+			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+			
 			return cell;
 		}
 
@@ -1413,7 +1423,6 @@ namespace MonoTouch.Dialog
 					cell.Accessory = UITableViewCellAccessory.Checkmark;
 				root.RadioSelected = RadioIdx;
 			}
-
 			base.Selected(dvc, tableView, indexPath);
 		}
 	}
@@ -3339,7 +3348,7 @@ namespace MonoTouch.Dialog
 			var cell = tv.DequeueReusableCell(key);
 			if (cell == null)
 			{
-				var style = summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1;
+				var style = summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle;
 
 				cell = new UITableViewCell(style, key);
 				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
@@ -3469,6 +3478,12 @@ namespace MonoTouch.Dialog
 			if (path == null)
 				return;
 			TableView.ReloadRows(new NSIndexPath[] { path }, animation);
+		}
+
+		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		{
+			float heightBase = (float)base.GetHeight(tableView, indexPath) + 1;
+			return Math.Max(90, heightBase);
 		}
 
 	}

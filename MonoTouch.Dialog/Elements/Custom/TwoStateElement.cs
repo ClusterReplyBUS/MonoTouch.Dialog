@@ -79,27 +79,33 @@ namespace MonoTouch.Dialog
 				Value = choices [(int)sc.SelectedSegment];
 			}, UIControlEvent.ValueChanged);
 
-			var cell = tv.DequeueReusableCell (CellKey);
-//			if (cell == null) {
-				cell = new UITableViewCell (UITableViewCellStyle.Default, CellKey);
+			var cell = base.GetCell(tv);
+
+		//	var cell = tv.DequeueReusableCell (CellKey);
+		//			if (cell == null) {
+		//cell = new UITableViewCell (UITableViewCellStyle.Subtitle, CellKey);
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 				cell.AddSubview (sc);
-//			} 
-//			else
-//				RemoveTag (cell, 1);
+		//			} 
+		//			else
+		//				RemoveTag (cell, 1);
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize (17);
-			//cell.Frame.Height = 44;
+		//cell.Frame.Height = 44;
 			cell.TextLabel.Text = Caption;
 			if (this.IsMandatory)
 				cell.TextLabel.Text += "*";
-			
-
+			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+			cell.TextLabel.AdjustsFontSizeToFitWidth = true;		
 			return cell;
+		
 		}
+
 		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
-			return base.GetHeight(tableView, indexPath);
+			float heightBase = (float)base.GetHeight(tableView, indexPath) + 1;
+			return Math.Max(70, heightBase);
 		}
+
 		protected override void Dispose (bool disposing)
 		{
 			if (disposing) {

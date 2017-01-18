@@ -38,7 +38,9 @@ namespace MonoTouch.Dialog
                 cell.DetailTextLabel.Lines = 0;
             if (cell.TextLabel != null)
                 cell.TextLabel.Lines = 0;
-            return cell;
+			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+
+			return cell;
         }
 		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{

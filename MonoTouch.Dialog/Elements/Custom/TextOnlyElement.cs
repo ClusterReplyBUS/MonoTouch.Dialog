@@ -45,19 +45,22 @@ namespace MonoTouch.Dialog
                 cell.TextLabel.Lines = 0;
                 var height = HeightForWidth(cell.Frame.Width);
                 cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, cell.TextLabel.Frame.Width, Math.Max(cell.Frame.Height, height));
-
+				cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+				
             }
             return cell;
         }
 
         public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
         {
-            //return base.GetHeight(tableView, indexPath);
-            //return LabelSize.Height + 30;
-            var cell = GetCell(tableView);
-            var height = HeightForWidth(cell.Frame.Width);
-            //return Math.Max(cell.Frame.Height, height);
-            return height;
+            ////return base.GetHeight(tableView, indexPath);
+            ////return LabelSize.Height + 30;
+            //var cell = GetCell(tableView);
+            //var height = HeightForWidth(cell.Frame.Width);
+            ////return Math.Max(cell.Frame.Height, height);
+            //return height+10;
+			float heightBase = (float)base.GetHeight(tableView, indexPath) + 1;
+			return Math.Max(70, heightBase);
         }
     }
 }
