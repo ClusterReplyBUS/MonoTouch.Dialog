@@ -6,6 +6,7 @@ namespace MonoTouch.Dialog
 {
 	public partial class PhotoViewController : UIViewController
 	{
+		UIBarButtonItem btnClear;
 		private string _BtnSelectPhoto;
 		private string _BtnTakePicture;
 
@@ -21,7 +22,14 @@ namespace MonoTouch.Dialog
 		{
 			base.ViewDidLoad();
 
-
+			btnClear = new UIBarButtonItem("CLEAR", UIBarButtonItemStyle.Done,(object sender, EventArgs e) =>
+				   {
+					   OnSendResponse(null);
+					   BeginInvokeOnMainThread(() => NavigationController.PopViewController(true));
+				
+				   });
+			this.NavigationItem.SetRightBarButtonItem(btnClear,false);
+		
 			SelectPhotoBtn.SetTitle(_BtnSelectPhoto, UIControlState.Normal);
 
 			SelectPhotoBtn.TouchUpInside += (sender, e) =>
@@ -40,6 +48,9 @@ namespace MonoTouch.Dialog
 			 {
 				 TakePhoto(this);
 			 };
+
+			//NavigationItem.RightBarButtonItem = new UIBarButtonItem();
+
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
@@ -52,10 +63,10 @@ namespace MonoTouch.Dialog
 		public event EventHandler<CapturePhotoEventArgs> SendResponse;
 		private void OnSendResponse(UIImage image)
 		{
-			if (SendResponse != null)
-			{
-				SendResponse(this, new CapturePhotoEventArgs { Value = image });
-			}
+			//if (SendResponse != null)
+			//{
+			SendResponse(this, new CapturePhotoEventArgs { Value = image });
+			//}
 		}
 
 		public class CapturePhotoEventArgs : EventArgs
@@ -70,9 +81,9 @@ namespace MonoTouch.Dialog
 			Camera.TakePicture(uvc, (obj) =>
 			{
 				var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
-				//Value = photo;
-				//Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
-				OnSendResponse(photo);
+		//Value = photo;
+		//Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
+		OnSendResponse(photo);
 				BeginInvokeOnMainThread(() => NavigationController.PopViewController(true));
 			});
 		}

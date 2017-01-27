@@ -57,7 +57,6 @@ namespace MonoTouch.Dialog
 			{
 				if (Value != null)
 				{
-
 					return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
 				}
 				else
@@ -140,6 +139,11 @@ namespace MonoTouch.Dialog
 					cell.ImageView.Image = this.Value;
 					//cell.ImageView.Frame.X = 20;
 				}
+				else
+				{ 
+					cell.BackgroundColor = UIColor.White;
+					cell.ImageView.Image = this.Value;
+				}
 			}
 			else
 			{
@@ -192,8 +196,9 @@ namespace MonoTouch.Dialog
 
 				PhotoVC.SendResponse += (s, e) =>
 				 {
-					 if (e.Value != null)
+					 //if (e.Value != null)
 						 Value = e.Value;
+				
 					 //OnSendResponse(e.Value);
 				 };
 			}

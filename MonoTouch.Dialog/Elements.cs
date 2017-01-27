@@ -880,7 +880,7 @@ namespace MonoTouch.Dialog
 				}
 				else if ((this as ReadonlyElement) != null)
 				{
-					cell = new UITableViewCell(UITableViewCellStyle.Default, skey);
+					cell = new UITableViewCell(UITableViewCellStyle.Value1, skey);
 				}
 
 				else
