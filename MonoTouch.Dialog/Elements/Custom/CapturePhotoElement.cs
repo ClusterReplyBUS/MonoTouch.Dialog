@@ -77,6 +77,8 @@ namespace MonoTouch.Dialog
 		protected string _selectorCancelLabel = "Cancel";
 		protected string _selectorTakePhotoLabel = "Take photo";
 		protected string _selectorPickImageLabel = "Pick image";
+		protected string _deleteButtonLabel = "Delete";
+		
 
 		float newHeight = 1024f;
 
@@ -86,7 +88,7 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel, bool isReadOnly) : this(caption)
+		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel,string deleteButton, bool isReadOnly) : this(caption)
 		{
 			this.Base64Value = base64value;
 			this._showSelector = showSelector;
@@ -96,7 +98,7 @@ namespace MonoTouch.Dialog
 				this._selectorTakePhotoLabel = selectorTakePhotoLabel;
 			this.IsReadOnly = isReadOnly;
 		}
-		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null, false)
+		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null,null, false)
 		{
 		}
 
@@ -188,7 +190,7 @@ namespace MonoTouch.Dialog
 			}
 			else
 			{
-				var PhotoVC = new PhotoViewController(_selectorPickImageLabel, _selectorTakePhotoLabel)
+				var PhotoVC = new PhotoViewController(_selectorPickImageLabel, _selectorTakePhotoLabel,_deleteButtonLabel)
 				{
 					Title = Caption
 				};

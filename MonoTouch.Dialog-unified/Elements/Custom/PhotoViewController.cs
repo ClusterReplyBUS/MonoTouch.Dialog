@@ -9,12 +9,15 @@ namespace MonoTouch.Dialog
 		UIBarButtonItem btnClear;
 		private string _BtnSelectPhoto;
 		private string _BtnTakePicture;
+		private string _deleteButtonLabel;
+		
 
-
-		public PhotoViewController(string BtnSelectPhoto, string BtnTakePicture) : base("PhotoViewController", null)
+		public PhotoViewController(string BtnSelectPhoto, string BtnTakePicture,string DeleteButtonLabel) : base("PhotoViewController", null)
 		{
 			this._BtnSelectPhoto = BtnSelectPhoto;
 			this._BtnTakePicture = BtnTakePicture;
+			this._deleteButtonLabel = DeleteButtonLabel;
+
 		}
 
 
@@ -22,7 +25,7 @@ namespace MonoTouch.Dialog
 		{
 			base.ViewDidLoad();
 
-			btnClear = new UIBarButtonItem("CLEAR", UIBarButtonItemStyle.Done,(object sender, EventArgs e) =>
+			btnClear = new UIBarButtonItem(_deleteButtonLabel, UIBarButtonItemStyle.Done,(object sender, EventArgs e) =>
 				   {
 					   OnSendResponse(null);
 					   BeginInvokeOnMainThread(() => NavigationController.PopViewController(true));
