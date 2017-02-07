@@ -29,88 +29,109 @@ namespace MonoTouch.Dialog
 	public class TwoStateElement : Element
 	{
 
-		public bool IsMandatory{ get; set; }
+		//public bool IsMandatory { get; set; }
 
 		TwoStateChoice val;
 		List<TwoStateChoice> choices;
 
-		public virtual TwoStateChoice Value {
-			get {
+		public virtual TwoStateChoice Value
+		{
+			get
+			{
 				return val;
 			}
-			set {
+			set
+			{
 				bool emit = (val == null && value != null) || (val != null && value == null) || val.Id != value.Id;
 				val = value;
 				if (emit && ValueChanged != null)
-					ValueChanged (this, EventArgs.Empty);
+					ValueChanged(this, EventArgs.Empty);
 			}
 		}
 
 		public event EventHandler ValueChanged;
 
-		public TwoStateElement (string caption, TwoStateChoice firstChoice, TwoStateChoice secondChoice, bool firstIsDefault) : base (caption)
+		public TwoStateElement(string caption, TwoStateChoice firstChoice, TwoStateChoice secondChoice, bool firstIsDefault) : base(caption)
 		{
-			this.choices = new List<TwoStateChoice> (){ firstChoice, secondChoice };
+			this.choices = new List<TwoStateChoice>() { firstChoice, secondChoice };
 			val = firstIsDefault ? firstChoice : secondChoice;
 		}
 
-		static NSString bkey = new NSString ("TwoStateElement");
+		static NSString bkey = new NSString("TwoStateElement");
 		UISegmentedControl sc;
-		protected override NSString CellKey {
-			get {
+		protected override NSString CellKey
+		{
+			get
+			{
 				return bkey;
 			}
 		}
-
-		public override UITableViewCell GetCell (UITableView tv)
+		public override UITableViewCell GetCell(UITableView tv)
 		{
-			sc = new UISegmentedControl () {
-				BackgroundColor = UIColor.Clear,
-				Tag = 1,
-			};
-			sc.Selected = true;
-
-			sc.InsertSegment (choices [0].Text, 0, false);
-			sc.InsertSegment (choices [1].Text, 1, false);
-			sc.Frame = new CGRect (570f, 8f, 150f, 26f);
-
-			sc.SelectedSegment = choices.FindIndex (e => e.Id == val.Id);
-			sc.AddTarget (delegate {
-				Value = choices [(int)sc.SelectedSegment];
-			}, UIControlEvent.ValueChanged);
-
-			var cell = base.GetCell(tv);
-
-		//	var cell = tv.DequeueReusableCell (CellKey);
-		//			if (cell == null) {
-		//cell = new UITableViewCell (UITableViewCellStyle.Subtitle, CellKey);
+			var cell = (DialogCell)tv.DequeueReusableCell(CellKey);
+			if (cell == null)
+			{
+				cell = new DialogCell(UITableViewCellStyle.Value1, CellKey);
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-				cell.AddSubview (sc);
-		//			} 
-		//			else
-		//				RemoveTag (cell, 1);
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize (17);
-		//cell.Frame.Height = 44;
-			cell.TextLabel.Text = Caption;
-			if (this.IsMandatory)
-				cell.TextLabel.Text += "*";
-			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
-			cell.TextLabel.AdjustsFontSizeToFitWidth = true;		
+
+				if (cell.TextLabel != null)
+				{
+					cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+					cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+					cell.TextLabel.Text = Caption;
+					cell.TextLabel.Lines = 0;
+					if (this.IsMandatory)
+						cell.TextLabel.Text += "*";
+				}
+
+				sc = new UISegmentedControl()
+				{
+					BackgroundColor = UIColor.Clear,
+					Tag = 1,
+				};
+				sc.Selected = true;
+
+				sc.InsertSegment(choices[0].Text, 0, false);
+				sc.InsertSegment(choices[1].Text, 1, false);
+				sc.SelectedSegment = choices.FindIndex(e => e.Id == val.Id);
+				sc.AddTarget(delegate
+				{
+					Value = choices[(int)sc.SelectedSegment];
+				}, UIControlEvent.ValueChanged);
+
+				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+					sc.Frame = new CGRect(570f, 8f, 150f, 26f);
+				else
+					sc.Frame = new CGRect(210f, 15f, 100f, 26f);
+
+				cell.AddSubview(sc);
+				cell.SubviewsLayoutted += (sender, e) =>
+				{
+					var nw = sc.Frame.X - 10f - cell.TextLabel.Frame.X;
+					var nh = HeightForWidth(nw);
+					cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, (cell.Frame.Height - nh) / 2, nw, nh);
+					sc.Frame = new CGRect(sc.Frame.X, (cell.Frame.Height - sc.Frame.Height) / 2, sc.Frame.Width, sc.Frame.Height);
+					Console.WriteLine();
+				};
+			}
 			return cell;
-		
+
 		}
 
 		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
-			float heightBase = (float)base.GetHeight(tableView, indexPath) + 1;
-			return Math.Max(70, heightBase);
+			var heightBase = base.GetHeight(tableView, indexPath) + 1;
+			var nh = HeightForWidth(sc.Frame.X - 30f) + 30;
+			return nh > heightBase ? nh : heightBase;
 		}
 
-		protected override void Dispose (bool disposing)
+		protected override void Dispose(bool disposing)
 		{
-			if (disposing) {
-				if (sc != null) {
-					sc.Dispose ();
+			if (disposing)
+			{
+				if (sc != null)
+				{
+					sc.Dispose();
 					sc = null;
 				}
 			}
@@ -119,7 +140,7 @@ namespace MonoTouch.Dialog
 
 	public class TwoStateChoice
 	{
-		public Guid Id{ get; set; }
+		public Guid Id { get; set; }
 
 		public string Text { get; set; }
 	}

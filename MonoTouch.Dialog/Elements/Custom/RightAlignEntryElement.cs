@@ -37,7 +37,7 @@ namespace MonoTouch.Dialog
 		
 		#region PUBLIC PROPERTIES
 
-		public bool IsMandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 
 		//public bool IsPassword { get; set; }
 		#endregion

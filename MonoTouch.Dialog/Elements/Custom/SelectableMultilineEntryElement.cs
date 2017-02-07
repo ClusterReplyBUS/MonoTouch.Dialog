@@ -27,7 +27,7 @@ namespace MonoTouch.Dialog
 	public class SelectableMultilineEntryElement : ReadonlyElement
 	{
 		///s.agostini
-		public bool IsMandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 		public bool IsReadonly { get; set; }
 		///
 
@@ -87,7 +87,7 @@ namespace MonoTouch.Dialog
 		{
 			var cell = base.GetCell(tv);
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+			//cell.TextLabel.AdjustsFontSizeToFitWidth = true;
 			
 			if (!string.IsNullOrWhiteSpace(Value) && Value.Length > 0)
 			{
@@ -100,8 +100,9 @@ namespace MonoTouch.Dialog
 
 		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
-			float heightBase= (float)base.GetHeight(tableView, indexPath);
-			return Math.Max(80, heightBase) + 1;
+			var heightBase = base.GetHeight(tableView, indexPath) + 1;
+			var nh = HeightForWidth(tableView.Frame.Width - 30f) + 30;
+			return nh > heightBase ? nh : heightBase;
 		}
 
 		//public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)

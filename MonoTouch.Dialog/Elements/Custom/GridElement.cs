@@ -29,7 +29,7 @@ namespace MonoTouch.Dialog
 {
 	public class GridElement : Element//, IElementSizing
 	{
-		public bool Mandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 
 		public object ValueGrid { get; set; }
 
@@ -74,7 +74,7 @@ namespace MonoTouch.Dialog
 			cell.TextLabel.Text = Caption;
 			cell.DetailTextLabel.Text = "";
 
-			if (this.Mandatory)
+			if (this.IsMandatory)
 				cell.TextLabel.Text += '*';
 
 			//cell.TextLabel.TextColor = UIColor.Purple;

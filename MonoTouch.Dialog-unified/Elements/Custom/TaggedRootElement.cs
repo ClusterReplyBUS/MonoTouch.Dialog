@@ -12,7 +12,7 @@ public class TaggedRootElement<ElementType> : RootElement
 		private Dictionary<object, ElementType> _selectedChilds;
 		private UIColor _defaultColor;
 
-		public bool IsMandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 
 		public ElementType SelectedChild
 		{
@@ -59,9 +59,12 @@ public class TaggedRootElement<ElementType> : RootElement
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			if (this.IsMandatory)
 				cell.TextLabel.Text += "*";
-			//				cell.TextLabel.TextColor = UIColor.Purple;
-			//			else
-			//				cell.TextLabel.TextColor = UIColor.Black;
+
+            if (cell.DetailTextLabel != null)
+				cell.DetailTextLabel.Lines = 0;
+			if (cell.TextLabel != null)
+				cell.TextLabel.Lines = 0;
+
 			if (SelectedChildren != null && SelectedChildren.Count > 0)
 			{
 				if ((SelectedChildren.ContainsKey("single") && !(SelectedChildren["single"] as TaggedRadioElement).IsBlank) || !SelectedChildren.ContainsKey("single"))

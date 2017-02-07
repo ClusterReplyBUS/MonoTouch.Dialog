@@ -25,7 +25,7 @@ namespace MonoTouch.Dialog
 {
 	public class NullableDateElementInline : StringElement
 	{
-		public bool IsMandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 
 		static NSString skey = new NSString("NullableDateTimeElementInline");
 		public DateTime? DateValue;

@@ -45,7 +45,7 @@ namespace MonoTouch.Dialog
 	public class SignatureElement : Element
 	{
 		private string _disclaimer;
-		public bool Mandatory { get; set; }
+		//public bool IsMandatory { get; set; }
 		public string SignatureBase64
 		{
 			get
@@ -61,10 +61,13 @@ namespace MonoTouch.Dialog
 			}
 			set
 			{
-				NSData image = new NSData(value, NSDataBase64DecodingOptions.None);
-				Value = UIImage.LoadFromData(image);
+				if (string.IsNullOrWhiteSpace(value))
+					Value = null;
+				else {
+					NSData image = new NSData(value, NSDataBase64DecodingOptions.None);
+					Value = UIImage.LoadFromData(image);
+				}
 			}
-
 		}
 
 		public UIImage Value { get; set; }
@@ -74,12 +77,12 @@ namespace MonoTouch.Dialog
 		private string _saveLabel;
 
 		public SignatureElement(string caption, string disclaimer, string saveLabel)
-			: this(caption, disclaimer)
+				: this(caption, disclaimer)
 		{
 			_saveLabel = saveLabel;
 		}
 		public SignatureElement(string caption, string disclaimer)
-			: base(caption)
+				: base(caption)
 		{
 			_disclaimer = disclaimer;
 		}
@@ -105,7 +108,7 @@ namespace MonoTouch.Dialog
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			//s.agostini
 			cell.TextLabel.Text = Caption;
-			if (this.Mandatory)
+			if (this.IsMandatory)
 				cell.TextLabel.Text += '*';
 
 			//cell.TextLabel.TextColor = UIColor.Purple;
@@ -130,8 +133,8 @@ namespace MonoTouch.Dialog
 			public SignatureViewController(SignatureElement container)
 				: base()
 			{
-				
-					this.View.BackgroundColor = UIColor.FromWhiteAlpha(1f, 0.3f);
+
+				this.View.BackgroundColor = UIColor.FromWhiteAlpha(1f, 0.3f);
 
 			}
 
@@ -171,7 +174,7 @@ namespace MonoTouch.Dialog
 				UIImageView background = new UIImageView(UIImage.FromFile("images/Signature.png"));
 				var newWidth = signatureController.View.Frame.Width - 40;
 				var newHeight = signatureController.View.Frame.Height * background.Frame.Height / background.Frame.Width;
-				background.Frame = new CGRect(20, signatureController.View.Frame.Height-40 - newHeight, newWidth, newHeight);
+				background.Frame = new CGRect(20, signatureController.View.Frame.Height - 40 - newHeight, newWidth, newHeight);
 				signatureController.View.AddSubview(background);
 			}
 			catch
@@ -204,19 +207,19 @@ namespace MonoTouch.Dialog
 			signatureController.NavigationItem.Title = Caption;
 			signatureController.NavigationItem.RightBarButtonItem = new UIBarButtonItem(string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) =>
 			{
-				//Value = dv.GetDrawingImage ();
-				Value = dv.IncrementalImage;
-					var selected = OnSelected;
-					if (selected != null)
-						selected(this, EventArgs.Empty);
-				
+			//Value = dv.GetDrawingImage ();
+			Value = dv.IncrementalImage;
+				var selected = OnSelected;
+				if (selected != null)
+					selected(this, EventArgs.Empty);
+
 				signatureController.NavigationController.
 #if XAMCORE_2_0
 					PopViewController(true);
 #else
                     PopViewControllerAnimated(true);
 #endif
-			});
+		});
 
 			dvc.ActivateController(signatureController);
 

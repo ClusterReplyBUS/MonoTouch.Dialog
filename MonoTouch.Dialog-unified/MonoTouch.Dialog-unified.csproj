@@ -142,6 +142,7 @@
     <Compile Include="Elements\Custom\PhotoViewController.designer.cs">
       <DependentUpon>PhotoViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

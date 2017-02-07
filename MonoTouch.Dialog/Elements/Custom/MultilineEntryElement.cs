@@ -33,7 +33,7 @@ namespace MonoTouch.Dialog
 	public class MultilineEntryElement : Element, IElementSizing
 	{
 		///s.agostini
-		public bool IsMandatory{ get; set; }
+		//public bool IsMandatory{ get; set; }
 		///
 
 		public string Value { 

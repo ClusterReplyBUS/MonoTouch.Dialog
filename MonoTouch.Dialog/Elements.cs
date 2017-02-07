@@ -64,7 +64,9 @@ namespace MonoTouch.Dialog
 		/// for the root RootElement.
 		/// </remarks>
 		public Element Parent;
-
+		///s.agostini
+		public bool IsMandatory { get; set; }
+		
 		public object Tag { get; set; }
 
 		/// <summary>
@@ -143,10 +145,10 @@ namespace MonoTouch.Dialog
 				{
 					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
 				}
-				else if (CellKey.Description.Equals("TwoStateElement"))
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
-				}
+				//else if (CellKey.Description.Equals("TwoStateElement"))
+				//{
+				//	cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
+				//}
 				else
 				{
 					cell = new UITableViewCell(UITableViewCellStyle.Value1, CellKey);
@@ -444,6 +446,7 @@ namespace MonoTouch.Dialog
 
 			cell.TextLabel.Text = Caption;
 			cell.AccessoryView = sw;
+
 
 			return cell;
 		}
@@ -1704,7 +1707,7 @@ namespace MonoTouch.Dialog
 		static NSString entryKey = new NSString("EntryElement");
 		protected virtual NSString EntryKey
 		{
-			get
+			get	
 			{
 				return entryKey;
 			}
