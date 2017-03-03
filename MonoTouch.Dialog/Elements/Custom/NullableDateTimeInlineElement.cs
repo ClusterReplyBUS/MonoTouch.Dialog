@@ -163,7 +163,6 @@ namespace MonoTouch.Dialog
 						cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
 						if (DateSelected != null)       // Fire our changed event.
 							DateSelected();
-						_inline_date_element._date_picker.RemoveFromSuperview();
 
 					};
 
