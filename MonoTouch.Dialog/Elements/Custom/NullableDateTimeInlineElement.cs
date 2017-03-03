@@ -20,6 +20,7 @@ using CGRect = global::System.Drawing.RectangleF;
 #endif
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace MonoTouch.Dialog
 {
@@ -36,6 +37,7 @@ namespace MonoTouch.Dialog
 		private bool _picker_present = false;
 		private UIColor _defaultColor = UIColor.White;
         private UIDatePickerMode _mode = UIDatePickerMode.Date;
+		private const int DATE_PICKER_TAG = 125673;
 
 		public NullableDateElementInline(string caption, DateTime? date) : this(caption, date, UIDatePickerMode.Date) { }
 		public NullableDateElementInline(string caption, DateTime? date, UIDatePickerMode mode)
@@ -161,6 +163,8 @@ namespace MonoTouch.Dialog
 						cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
 						if (DateSelected != null)       // Fire our changed event.
 							DateSelected();
+						_inline_date_element._date_picker.RemoveFromSuperview();
+
 					};
 
 					_inline_date_element.ClearPressed += () =>
@@ -172,10 +176,22 @@ namespace MonoTouch.Dialog
 						cell.DetailTextLabel.TextColor = UIColor.Gray;
 						section.Remove(_inline_date_element);
 						_picker_present = false;
+						_inline_date_element._date_picker.RemoveFromSuperview();
+       
 						if (PickerClosed != null)
 							PickerClosed();
 						cell.BackgroundColor = _defaultColor ?? UIColor.White;
 					};
+					_inline_date_element.DonePressed += () =>
+					  {
+						Value = _inline_date_element._date_picker.Date.ToDateTime().ToString();
+						cell.DetailTextLabel.TextColor = UIColor.Gray;
+						  section.Remove(_inline_date_element);
+						  _picker_present = false;
+						  _inline_date_element._date_picker.RemoveFromSuperview();
+						  
+						  cell.BackgroundColor = _defaultColor ?? UIColor.White;
+					  };
 
 					section.Insert(index + 1, UITableViewRowAnimation.Bottom, _inline_date_element);
 					_picker_present = true;
@@ -237,11 +253,13 @@ namespace MonoTouch.Dialog
 		{
 			public UIDatePicker _date_picker;
 			private UIButton _clear_cancel_button;
+			private UIButton _done_button;
 
 			static NSString skey = new NSString("InlineDateElement");
 
 			public event Action<DateTime?> DateSelected;
 			public event Action ClearPressed;
+			public event Action DonePressed;
 
 			private DateTime? _current_date;
 			private CGSize _picker_size;
@@ -254,6 +272,7 @@ namespace MonoTouch.Dialog
 				_current_date = current_date;
 				_date_picker = new UIDatePicker();
 				_date_picker.Mode = mode;
+				_date_picker.Tag = DATE_PICKER_TAG;
 				_picker_size = _date_picker.SizeThatFits(CGSize.Empty);
 				_cell_size = _picker_size;
 				_cell_size.Height += 30f; // Add a little bit for the clear button
@@ -281,13 +300,23 @@ namespace MonoTouch.Dialog
 						DateSelected(_date_picker.Date.ToDateTime());
 				};
 
+
+
 				if (_clear_cancel_button == null)
 				{
 					_clear_cancel_button = UIButton.FromType(UIButtonType.RoundedRect);
-					_clear_cancel_button.SetTitle("Clear", UIControlState.Normal);                 
+					_clear_cancel_button.SetTitle("Clear", UIControlState.Normal);
 				}
-				_clear_cancel_button.Frame = new CGRect(tv.Frame.Width/2 - 20f, _cell_size.Height - 40f, 40f, 40f);
+				_clear_cancel_button.Frame = new CGRect(tv.Frame.Width / 2 - 20f, _cell_size.Height - 40f, 40f, 40f);
+				if (_done_button == null)
+				{
+					_done_button = UIButton.FromType(UIButtonType.RoundedRect);
+					_done_button.SetTitle("Done", UIControlState.Normal);
+				}
+				_done_button.Frame = new CGRect(tv.Frame.Width / 2 + 40f, _cell_size.Height - 40f, 40f, 40f);
+
 				_date_picker.Frame = new CGRect(tv.Frame.Width / 2 - _picker_size.Width / 2, _cell_size.Height / 2 - _picker_size.Height / 2, _picker_size.Width, _picker_size.Height);
+
 				_clear_cancel_button.TouchUpInside += (object sender, EventArgs e) =>
 				{
 					// Clear button pressed. 
@@ -295,9 +324,20 @@ namespace MonoTouch.Dialog
 						ClearPressed();
 				};
 
-				cell.AddSubview(_date_picker);
+				_done_button.TouchUpInside += (sender, e) =>
+				{
+
+					if (DonePressed != null)
+						DonePressed();
+				};
+
+				if (!cell.Subviews.Any(s => s.Tag == DATE_PICKER_TAG))
+				{
+					cell.AddSubview(_date_picker);
+				}
 
 				cell.AddSubview(_clear_cancel_button);
+				cell.AddSubview(_done_button);
 
 				return cell;
 			}
