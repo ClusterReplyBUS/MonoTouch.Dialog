@@ -60,7 +60,7 @@ namespace MonoTouch.Dialog
 
 		protected internal NSDateFormatter fmt = new NSDateFormatter()
 		{
-			DateStyle = NSDateFormatterStyle.Medium
+			DateStyle = NSDateFormatterStyle.Medium,
 		};
 
 		protected override void Dispose(bool disposing)
@@ -82,7 +82,7 @@ namespace MonoTouch.Dialog
 				return " ";
 
 			dt = GetDateWithKind(dt);
-			return fmt.ToString(dt.Value.ToNSDate());
+			return fmt.ToString(dt.Value.ToLocalTime().ToNSDate());
 		}
 
 		protected DateTime? GetDateWithKind(DateTime? dt)
@@ -291,12 +291,13 @@ namespace MonoTouch.Dialog
 				if (!_current_date.HasValue && DateSelected != null)
 					DateSelected(DateTime.Now);
 				else if (_current_date.HasValue)
-					_date_picker.Date = _current_date.Value.ToNSDate();
+					_date_picker.Date = _current_date.Value.ToLocalTime().ToNSDate();
 
+				_date_picker.TimeZone = NSTimeZone.LocalTimeZone;
 				_date_picker.ValueChanged += (object sender, EventArgs e) =>
 				{
 					if (DateSelected != null)
-						DateSelected(_date_picker.Date.ToDateTime());
+						DateSelected(_date_picker.Date.ToDateTime().ToLocalTime());
 				};
 
 
