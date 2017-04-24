@@ -848,6 +848,8 @@ namespace MonoTouch.Dialog
 	/// </summary>
 	public partial class StringElement : Element
 	{
+		//public bool IsMandatory { get; set; }
+		
 	    static NSString skey = new NSString("StringElement");
 		static NSString skeyvalue = new NSString("StringElementValue");
 		public UITextAlignment Alignment = UITextAlignment.Left;
@@ -893,7 +895,6 @@ namespace MonoTouch.Dialog
 			}
 			cell.SelectionStyle = (Tapped != null) ? UITableViewCellSelectionStyle.Blue : UITableViewCellSelectionStyle.None;
 			cell.Accessory = UITableViewCellAccessory.None;
-
 			cell.TextLabel.Text = Caption;
 			cell.TextLabel.TextAlignment = Alignment;
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
@@ -914,6 +915,7 @@ namespace MonoTouch.Dialog
 				cell.DetailTextLabel.Frame = new CGRect(cell.DetailTextLabel.Frame.X, cell.DetailTextLabel.Frame.Y, width, newHeight);
 
 			}
+
 			return cell;
 		}
 
