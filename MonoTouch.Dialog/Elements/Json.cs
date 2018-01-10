@@ -159,7 +159,8 @@ namespace MonoTouch.Dialog {
 							return;
 						}
 					} catch (Exception ee){
-						Console.WriteLine (ee);
+						Console.WriteLine(ee.Message + ee.StackTrace);
+						
 					}
 				}
 				var alert = new UIAlertView ("Error", "Unable to download data", null, "Ok");
@@ -852,6 +853,7 @@ namespace MonoTouch.Dialog {
 					}
 				} catch (Exception e) {
 					Console.WriteLine ("Error processing Json {0}, exception {1}", array, e);
+						Console.WriteLine(e.Message + e.StackTrace);
 				}
 				if (element != null)
 					section.Add (element);

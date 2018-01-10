@@ -41,7 +41,7 @@ using MonoTouch.CoreGraphics;
 
 using MonoTouch.Dialog.Utilities;
 
-namespace MonoTouch.Dialog.Utilities 
+namespace MonoTouch.Dialog.Utilities
 {
 	/// <summary>
 	///    This interface needs to be implemented to be notified when an image
@@ -49,10 +49,11 @@ namespace MonoTouch.Dialog.Utilities
 	///    Upon notification, the code should call RequestImage again, this time
 	///    the image will be loaded from the on-disk cache or the in-memory cache.
 	/// </summary>
-	public interface IImageUpdated {
-		void UpdatedImage (Uri uri);
+	public interface IImageUpdated
+	{
+		void UpdatedImage(Uri uri);
 	}
-	
+
 	/// <summary>
 	///   Network image loader, with local file system cache and in-memory cache
 	/// </summary>
@@ -75,26 +76,26 @@ namespace MonoTouch.Dialog.Utilities
 
 	public class ImageLoader
 	{
-        public readonly static string BaseDir = Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), "..");
+		public readonly static string BaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..");
 		const int MaxRequests = 6;
-		static string PicDir; 
-		
+		static string PicDir;
+
 		// Cache of recently used images
-		LRUCache<Uri,UIImage> cache;
-		
+		LRUCache<Uri, UIImage> cache;
+
 		// A list of requests that have been issues, with a list of objects to notify.
 		static Dictionary<Uri, List<IImageUpdated>> pendingRequests;
-		
+
 		// A list of updates that have completed, we must notify the main thread about them.
 		static HashSet<Uri> queuedUpdates;
-		
+
 		// A queue used to avoid flooding the network stack with HTTP requests
 		static Stack<Uri> requestQueue;
-		
-		static NSString nsDispatcher = new NSString ("x");
-		
-		static MD5CryptoServiceProvider checksum = new MD5CryptoServiceProvider ();
-		
+
+		static NSString nsDispatcher = new NSString("x");
+
+		static MD5CryptoServiceProvider checksum = new MD5CryptoServiceProvider();
+
 		/// <summary>
 		///    This contains the default loader which is configured to be 50 images
 		///    up to 4 megs of memory.   Assigning to this property a new value will
@@ -102,19 +103,19 @@ namespace MonoTouch.Dialog.Utilities
 		///    an image is requested.
 		/// </summary>
 		public static ImageLoader DefaultLoader;
-		
-		static ImageLoader ()
+
+		static ImageLoader()
 		{
-			PicDir = Path.Combine (BaseDir, "Library/Caches/Pictures.MonoTouch.Dialog/");
-			
-			if (!Directory.Exists (PicDir))
-				Directory.CreateDirectory (PicDir);
-			
-			pendingRequests = new Dictionary<Uri,List<IImageUpdated>> ();
+			PicDir = Path.Combine(BaseDir, "Library/Caches/Pictures.MonoTouch.Dialog/");
+
+			if (!Directory.Exists(PicDir))
+				Directory.CreateDirectory(PicDir);
+
+			pendingRequests = new Dictionary<Uri, List<IImageUpdated>>();
 			queuedUpdates = new HashSet<Uri>();
-			requestQueue = new Stack<Uri> ();
+			requestQueue = new Stack<Uri>();
 		}
-		
+
 		/// <summary>
 		///   Creates a new instance of the image loader
 		/// </summary>
@@ -124,54 +125,55 @@ namespace MonoTouch.Dialog.Utilities
 		/// <param name="memoryLimit">
 		/// The maximum number of bytes to consume by the image loader cache.
 		/// </param>
-		public ImageLoader (int cacheSize, int memoryLimit)
+		public ImageLoader(int cacheSize, int memoryLimit)
 		{
-			cache = new LRUCache<Uri, UIImage> (cacheSize, memoryLimit, sizer);
+			cache = new LRUCache<Uri, UIImage>(cacheSize, memoryLimit, sizer);
 		}
-		
-		static int sizer (UIImage img)
+
+		static int sizer(UIImage img)
 		{
 			var cg = img.CGImage;
 			return (int)(cg.BytesPerRow * cg.Height);
 		}
-		
+
 		/// <summary>
 		///    Purges the contents of the DefaultLoader
 		/// </summary>
-		public static void Purge ()
+		public static void Purge()
 		{
 			if (DefaultLoader != null)
-				DefaultLoader.PurgeCache ();
+				DefaultLoader.PurgeCache();
 		}
-		
+
 		/// <summary>
 		///    Purges the cache of this instance of the ImageLoader, releasing 
 		///    all the memory used by the images in the caches.
 		/// </summary>
-		public void PurgeCache ()
+		public void PurgeCache()
 		{
 			lock (cache)
-				cache.Purge ();
+				cache.Purge();
 		}
-		
-		static int hex (int v)
+
+		static int hex(int v)
 		{
 			if (v < 10)
 				return '0' + v;
-			return 'a' + v-10;
+			return 'a' + v - 10;
 		}
 
-		static string md5 (string input)
+		static string md5(string input)
 		{
-			var bytes = checksum.ComputeHash (Encoding.UTF8.GetBytes (input));
-			var ret = new char [32];
-			for (int i = 0; i < 16; i++){
-				ret [i*2] = (char)hex (bytes [i] >> 4);
-				ret [i*2+1] = (char)hex (bytes [i] & 0xf);
+			var bytes = checksum.ComputeHash(Encoding.UTF8.GetBytes(input));
+			var ret = new char[32];
+			for (int i = 0; i < 16; i++)
+			{
+				ret[i * 2] = (char)hex(bytes[i] >> 4);
+				ret[i * 2 + 1] = (char)hex(bytes[i] & 0xf);
 			}
-			return new string (ret);
+			return new string(ret);
 		}
-		
+
 		/// <summary>
 		///   Requests an image to be loaded using the default image loader
 		/// </summary>
@@ -184,13 +186,13 @@ namespace MonoTouch.Dialog.Utilities
 		/// <returns>
 		/// If the image has already been downloaded, or is in the cache, this will return the image as a UIImage.
 		/// </returns>
-		public static UIImage DefaultRequestImage (Uri uri, IImageUpdated notify)
+		public static UIImage DefaultRequestImage(Uri uri, IImageUpdated notify)
 		{
 			if (DefaultLoader == null)
-				DefaultLoader = new ImageLoader (50, 4*1024*1024);
-			return DefaultLoader.RequestImage (uri, notify);
+				DefaultLoader = new ImageLoader(50, 4 * 1024 * 1024);
+			return DefaultLoader.RequestImage(uri, notify);
 		}
-		
+
 		/// <summary>
 		///   Requests an image to be loaded from the network
 		/// </summary>
@@ -203,156 +205,192 @@ namespace MonoTouch.Dialog.Utilities
 		/// <returns>
 		/// If the image has already been downloaded, or is in the cache, this will return the image as a UIImage.
 		/// </returns>
-		public UIImage RequestImage (Uri uri, IImageUpdated notify)
+		public UIImage RequestImage(Uri uri, IImageUpdated notify)
 		{
 			UIImage ret;
-			
-			lock (cache){
-				ret = cache [uri];
+
+			lock (cache)
+			{
+				ret = cache[uri];
 				if (ret != null)
 					return ret;
 			}
 
-			lock (requestQueue){
-				if (pendingRequests.ContainsKey (uri)) {
-					if (!pendingRequests [uri].Contains(notify))
-						pendingRequests [uri].Add (notify);
+			lock (requestQueue)
+			{
+				if (pendingRequests.ContainsKey(uri))
+				{
+					if (!pendingRequests[uri].Contains(notify))
+						pendingRequests[uri].Add(notify);
 					return null;
-				}				
+				}
 			}
 
-			string picfile = uri.IsFile ? uri.LocalPath : PicDir + md5 (uri.AbsoluteUri);
-			if (File.Exists (picfile)){
-				ret = UIImage.FromFile (picfile);
-				if (ret != null){
+			string picfile = uri.IsFile ? uri.LocalPath : PicDir + md5(uri.AbsoluteUri);
+			if (File.Exists(picfile))
+			{
+				ret = UIImage.FromFile(picfile);
+				if (ret != null)
+				{
 					lock (cache)
-						cache [uri] = ret;
+						cache[uri] = ret;
 					return ret;
 				}
-			} 
+			}
 			if (uri.IsFile)
 				return null;
-			QueueRequest (uri, notify);
+			QueueRequest(uri, notify);
 			return null;
 		}
-		
-		static void QueueRequest (Uri uri, IImageUpdated notify)
+
+		static void QueueRequest(Uri uri, IImageUpdated notify)
 		{
 			if (notify == null)
-				throw new ArgumentNullException ("notify");
-			
-			lock (requestQueue){
-				if (pendingRequests.ContainsKey (uri)){
+				throw new ArgumentNullException("notify");
+
+			lock (requestQueue)
+			{
+				if (pendingRequests.ContainsKey(uri))
+				{
 					//Util.Log ("pendingRequest: added new listener for {0}", id);
-					pendingRequests [uri].Add (notify);
+					pendingRequests[uri].Add(notify);
 					return;
 				}
-				var slot = new List<IImageUpdated> (4);
-				slot.Add (notify);
-				pendingRequests [uri] = slot;
-				
+				var slot = new List<IImageUpdated>(4);
+				slot.Add(notify);
+				pendingRequests[uri] = slot;
+
 				if (picDownloaders >= MaxRequests)
-					requestQueue.Push (uri);
-				else {
-					ThreadPool.QueueUserWorkItem (delegate { 
-							try {
-								StartPicDownload (uri); 
-							} catch (Exception e){
-								Console.WriteLine (e);
-							}
-						});
+					requestQueue.Push(uri);
+				else
+				{
+					ThreadPool.QueueUserWorkItem(delegate
+					{
+						try
+						{
+							StartPicDownload(uri);
+						}
+						catch (Exception e)
+						{
+							Console.WriteLine(e.Message + e.StackTrace);
+
+						}
+					});
 				}
 			}
 		}
-		
-		static bool Download (Uri uri)
+
+		static bool Download(Uri uri)
 		{
-			try {
+			try
+			{
 				NSUrlResponse response;
 				NSError error;
-				
-				var target =  PicDir + md5 (uri.AbsoluteUri);
-				var req = new NSUrlRequest (new NSUrl (uri.AbsoluteUri.ToString ()), NSUrlRequestCachePolicy.UseProtocolCachePolicy, 120);
-				var data = NSUrlConnection.SendSynchronousRequest (req, out response, out error);
-				return data.Save (target, true, out error);
-			} catch (Exception e) {
-				Console.WriteLine ("Problem with {0} {1}", uri, e);
+
+				var target = PicDir + md5(uri.AbsoluteUri);
+				var req = new NSUrlRequest(new NSUrl(uri.AbsoluteUri.ToString()), NSUrlRequestCachePolicy.UseProtocolCachePolicy, 120);
+				var data = NSUrlConnection.SendSynchronousRequest(req, out response, out error);
+				return data.Save(target, true, out error);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message + e.StackTrace);
+				Console.WriteLine("Problem with {0} {1}", uri, e);
 				return false;
 			}
 		}
-		
+
 		static long picDownloaders;
-		
-		static void StartPicDownload (Uri uri)
+
+		static void StartPicDownload(Uri uri)
 		{
-			Interlocked.Increment (ref picDownloaders);
-			try {
-				_StartPicDownload (uri);
-			} catch (Exception e){
-				Console.Error.WriteLine ("CRITICAL: should have never happened {0}", e);
+			Interlocked.Increment(ref picDownloaders);
+			try
+			{
+				_StartPicDownload(uri);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message + e.StackTrace);
+				Console.Error.WriteLine("CRITICAL: should have never happened {0}", e);
 			}
 			//Util.Log ("Leaving StartPicDownload {0}", picDownloaders);
-			Interlocked.Decrement (ref picDownloaders);
+			Interlocked.Decrement(ref picDownloaders);
 		}
-		
-		static void _StartPicDownload (Uri uri)
+
+		static void _StartPicDownload(Uri uri)
 		{
-			do {
+			do
+			{
 				bool downloaded = false;
-				
+
 				//System.Threading.Thread.Sleep (5000);
-				downloaded = Download (uri);
+				downloaded = Download(uri);
 				//if (!downloaded)
 				//	Console.WriteLine ("Error fetching picture for {0} to {1}", uri, target);
-				
+
 				// Cluster all updates together
 				bool doInvoke = false;
-				
-				lock (requestQueue){
-					if (downloaded){
-						queuedUpdates.Add (uri);
-					
+
+				lock (requestQueue)
+				{
+					if (downloaded)
+					{
+						queuedUpdates.Add(uri);
+
 						// If this is the first queued update, must notify
 						if (queuedUpdates.Count == 1)
 							doInvoke = true;
-					} else
-						pendingRequests.Remove (uri);
+					}
+					else
+						pendingRequests.Remove(uri);
 
 					// Try to get more jobs.
-					if (requestQueue.Count > 0){
-						uri = requestQueue.Pop ();
-						if (uri == null){
-							Console.Error.WriteLine ("Dropping request {0} because url is null", uri);
-							pendingRequests.Remove (uri);
+					if (requestQueue.Count > 0)
+					{
+						uri = requestQueue.Pop();
+						if (uri == null)
+						{
+							Console.Error.WriteLine("Dropping request {0} because url is null", uri);
+							pendingRequests.Remove(uri);
 							uri = null;
 						}
-					} else {
+					}
+					else
+					{
 						//Util.Log ("Leaving because requestQueue.Count = {0} NOTE: {1}", requestQueue.Count, pendingRequests.Count);
 						uri = null;
 					}
-				}	
+				}
 				if (doInvoke)
-					nsDispatcher.BeginInvokeOnMainThread (NotifyImageListeners);
-				
+					nsDispatcher.BeginInvokeOnMainThread(NotifyImageListeners);
+
 			} while (uri != null);
 		}
-		
+
 		// Runs on the main thread
-		static void NotifyImageListeners ()
+		static void NotifyImageListeners()
 		{
-			lock (requestQueue){
-				foreach (var quri in queuedUpdates){
-					var list = pendingRequests [quri];
-					pendingRequests.Remove (quri);
-					foreach (var pr in list){
-						try {
-							pr.UpdatedImage (quri);
-						} catch (Exception e){
-							Console.WriteLine (e);
+			lock (requestQueue)
+			{
+				foreach (var quri in queuedUpdates)
+				{
+					var list = pendingRequests[quri];
+					pendingRequests.Remove(quri);
+					foreach (var pr in list)
+					{
+						try
+						{
+							pr.UpdatedImage(quri);
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex.Message + ex.StackTrace);
+
 						}
 					}
 				}
-				queuedUpdates.Clear ();
+				queuedUpdates.Clear();
 			}
 		}
 	}
