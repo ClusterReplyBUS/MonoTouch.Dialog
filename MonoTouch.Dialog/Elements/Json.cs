@@ -159,7 +159,6 @@ namespace MonoTouch.Dialog {
 							return;
 						}
 					} catch (Exception ee){
-						Console.WriteLine(ee.Message + ee.StackTrace);
 						
 					}
 				}
@@ -264,7 +263,6 @@ namespace MonoTouch.Dialog {
 		
 		static void Error (string msg)
 		{
-			Console.WriteLine (msg);
 		}
 		
 		static void Error (string fmt, params object [] args)
@@ -360,7 +358,6 @@ namespace MonoTouch.Dialog {
 			case "twitter": return UIKeyboardType.Twitter;
 			case "url": return UIKeyboardType.Url;
 			default:
-				Console.WriteLine ("Unknown keyboard type: {0}, valid values are numbers, default, ascii, numbers-and-punctuation, decimal, email, name, twitter and url", kbdType);
 				break;
 			}
 			return UIKeyboardType.Default;
@@ -381,7 +378,6 @@ namespace MonoTouch.Dialog {
 			case "send": return UIReturnKeyType.Send;
 			case "yahoo": return UIReturnKeyType.Yahoo;
 			default:
-				Console.WriteLine ("Unknown return key type `{0}', valid values are default, done, emergencycall, go, google, join, next, route, search, send and yahoo");
 				break;
 			}
 			return UIReturnKeyType.Default;
@@ -395,7 +391,6 @@ namespace MonoTouch.Dialog {
 			case "words": return UITextAutocapitalizationType.Words;
 			case "all": return UITextAutocapitalizationType.AllCharacters;
 			default:
-				Console.WriteLine ("Unknown autocapitalization value: `{0}', allowed values are sentences, none, words and all");
 				break;
 			}
 			return UITextAutocapitalizationType.Sentences;
@@ -458,7 +453,6 @@ namespace MonoTouch.Dialog {
 		
 		static void ColorError (string text)
 		{
-			Console.WriteLine ("Unknown color specification {0}, expecting #rgb, #rgba, #rrggbb or #rrggbbaa formats", text);
 		}
 		
 		static UIColor ParseColor (string text)
@@ -552,7 +546,6 @@ namespace MonoTouch.Dialog {
 			case "left": return UITextAlignment.Left;
 			case "right": return UITextAlignment.Right;
 			default:
-				Console.WriteLine ("Unknown alignment `{0}'. valid values are left, center, right", align);
 				return UITextAlignment.Left;
 			}
 		}

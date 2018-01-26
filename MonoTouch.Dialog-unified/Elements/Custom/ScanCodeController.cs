@@ -14,7 +14,9 @@ namespace MonoTouch.Dialog
         public async override void ViewDidLoad()
         {
             MobileBarcodeScanner _scanner = new MobileBarcodeScanner();
-          
+            _scanner.UseCustomOverlay = false;
+            _scanner.FlashButtonText = "Flash";
+            _scanner.Torch(false);
             var result = await _scanner.Scan();
 
             if (result != null)

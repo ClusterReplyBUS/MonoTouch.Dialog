@@ -111,7 +111,6 @@ namespace MonoTouch.Dialog
 					var nh = HeightForWidth(nw);
 					cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, (cell.Frame.Height - nh) / 2, nw, nh);
 					sc.Frame = new CGRect(sc.Frame.X, (cell.Frame.Height - sc.Frame.Height) / 2, sc.Frame.Width, sc.Frame.Height);
-					Console.WriteLine();
 				};
 			}
 			return cell;

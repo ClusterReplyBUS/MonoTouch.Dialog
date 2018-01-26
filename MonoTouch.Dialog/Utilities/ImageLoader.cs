@@ -272,7 +272,6 @@ namespace MonoTouch.Dialog.Utilities
 						}
 						catch (Exception e)
 						{
-							Console.WriteLine(e.Message + e.StackTrace);
 
 						}
 					});
@@ -294,8 +293,6 @@ namespace MonoTouch.Dialog.Utilities
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message + e.StackTrace);
-				Console.WriteLine("Problem with {0} {1}", uri, e);
 				return false;
 			}
 		}
@@ -311,8 +308,6 @@ namespace MonoTouch.Dialog.Utilities
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message + e.StackTrace);
-				Console.Error.WriteLine("CRITICAL: should have never happened {0}", e);
 			}
 			//Util.Log ("Leaving StartPicDownload {0}", picDownloaders);
 			Interlocked.Decrement(ref picDownloaders);
@@ -385,7 +380,6 @@ namespace MonoTouch.Dialog.Utilities
 						}
 						catch (Exception ex)
 						{
-							Console.WriteLine(ex.Message + ex.StackTrace);
 
 						}
 					}

@@ -216,7 +216,6 @@ namespace MonoTouch.Dialog
 				Autorotate = dvc.Autorotate,
 			};
 			int cellSize = 0;
-			Console.WriteLine(UIDevice.CurrentDevice.Model);
 			if (UIDevice.CurrentDevice.Model.Contains("iPhone"))
 			{
 				cellSize = 60;

@@ -179,7 +179,6 @@ namespace MonoTouch.Dialog
 			}
 			catch
 			{
-				Console.WriteLine("Unable to load images/Signature.png for background image");
 			}
 
 			var frame = new
