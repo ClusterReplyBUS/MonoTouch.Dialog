@@ -148,6 +148,7 @@
     <Compile Include="Elements\Custom\ScanCodeController.designer.cs">
       <DependentUpon>ScanCodeController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Elements\Custom\CustomOverlayScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

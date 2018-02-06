@@ -1,5 +1,5 @@
 ﻿using System;
-
+using CoreGraphics;
 using UIKit;
 using ZXing.Mobile;
 
@@ -13,16 +13,31 @@ namespace MonoTouch.Dialog
 
         public async override void ViewDidLoad()
         {
-            MobileBarcodeScanner _scanner = new MobileBarcodeScanner();
-            _scanner.UseCustomOverlay = false;
-            _scanner.FlashButtonText = "Flash";
-            _scanner.Torch(false);
+            MobileBarcodeScanner _scanner = new MobileBarcodeScanner(this);
+
+            CustomOverlayScanner overlay = new CustomOverlayScanner(new CGRect(0, 0, View.Frame.Width, View.Frame.Height), "", "", "Cancel", "Flash", () =>
+            {
+                _scanner.Cancel();
+            },
+              () => { 
+                _scanner.Torch(!_scanner.IsTorchOn); 
+                });
+
+            _scanner.UseCustomOverlay = true;
+            _scanner.CustomOverlay = overlay;
+            _scanner.AutoFocus();
+            //  _scanner.Torch(false);
+
             var result = await _scanner.Scan();
 
             if (result != null)
             {
                 OnSendResponse(result.Text);
-                BeginInvokeOnMainThread(() => NavigationController.PopViewController(true));
+                BeginInvokeOnMainThread(() =>
+                {
+                    if (this.NavigationController != null)
+                        this.NavigationController.PopViewController(true);
+                });
             }
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
