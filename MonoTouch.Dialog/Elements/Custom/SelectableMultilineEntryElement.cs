@@ -63,7 +63,7 @@ namespace MonoTouch.Dialog
 
 			disclaimerView.Font = UIFont.SystemFontOfSize(16f);
 			disclaimerView.Editable = true;
-
+            disclaimerView.BecomeFirstResponder();
 			controller.View.AddSubview(disclaimerView);
 			controller.NavigationItem.Title = Caption;
 			controller.NavigationItem.RightBarButtonItem = new UIBarButtonItem(string.IsNullOrEmpty(_saveLabel) ? "Save" : _saveLabel, UIBarButtonItemStyle.Done, (object sender, EventArgs e) =>

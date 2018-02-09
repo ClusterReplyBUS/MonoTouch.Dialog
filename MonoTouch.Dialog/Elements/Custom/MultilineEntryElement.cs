@@ -218,6 +218,7 @@ namespace MonoTouch.Dialog
 				BackgroundColor = UIColor.Clear,
 				TextColor=UIColor.Black,
 				Editable = editable,
+
 				//TextAlignment = UITextAlignment.Right,
 			};
 		}
@@ -276,7 +277,7 @@ namespace MonoTouch.Dialog
 						
 						if (focus != null && focus != this)
 							break;
-					}
+					} 
 					
 					if (focus != this)
 						focus.BecomeFirstResponder (true);
@@ -284,12 +285,13 @@ namespace MonoTouch.Dialog
 						focus.ResignFirstResponder (true);
 					
 					return true;
-				};*/
+				};
 				entry.Started += delegate {
 					entry.ReturnKeyType = UIReturnKeyType.Default;
 
 					tv.ScrollToRow (IndexPath, UITableViewScrollPosition.Middle, true);
-				};
+				}; */
+                
 			}
 			if (becomeResponder) {
 				entry.BecomeFirstResponder ();
@@ -304,6 +306,7 @@ namespace MonoTouch.Dialog
             if (this.IsMandatory)
                 cell.TextLabel.Text += "*";
 			cell.ContentView.AddSubview (entry);
+
 			return cell;
 		}
 		
