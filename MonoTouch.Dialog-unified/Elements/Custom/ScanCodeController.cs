@@ -27,8 +27,10 @@ namespace MonoTouch.Dialog
             _scanner.CustomOverlay = overlay;
             _scanner.AutoFocus();
             //  _scanner.Torch(false);
-
-            var result = await _scanner.Scan();
+            MobileBarcodeScanningOptions option = new MobileBarcodeScanningOptions();
+            option.TryHarder = true;
+            option.TryInverted = true;
+            var result = await _scanner.Scan(option);
 
             if (result != null)
             {

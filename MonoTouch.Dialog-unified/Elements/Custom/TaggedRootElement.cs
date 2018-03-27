@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Foundation;
 using UIKit;
 
 
@@ -94,7 +95,14 @@ public class TaggedRootElement<ElementType> : RootElement
 			base.Selected(dvc, tableView, path);
 			dvc.NavigationItem.Title = _backButtonLabel;
 		}
+        #endif
+        public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+        {
+            var heightBase = base.GetHeight(tableView, indexPath) + 1;
+            var nh = HeightForWidth(tableView.Frame.Width - 30f) + 30;
+            return nh > heightBase ? nh : heightBase;
+        }
 	
-#endif
+
 	}
 }

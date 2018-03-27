@@ -42,11 +42,18 @@ namespace MonoTouch.Dialog
 
 			return cell;
         }
-		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
-		{
-			float heightBase=(float)base.GetHeight(tableView, indexPath)+1;
-			return Math.Max(70, heightBase);
-		}
+		//public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+		//{
+		//	float heightBase=(float)base.GetHeight(tableView, indexPath)+1;
+		//	return Math.Max(70, heightBase);
+		//}
+
+        public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
+        {
+            var heightBase = base.GetHeight(tableView, indexPath) + 1;
+            var nh = HeightForWidth(tableView.Frame.Width - 30f) + 30;
+            return nh > heightBase ? nh : heightBase;
+        }
         /*
         public virtual nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
         {
