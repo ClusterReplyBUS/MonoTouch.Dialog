@@ -64,8 +64,9 @@ namespace MonoTouch.Dialog
 		/// for the root RootElement.
 		/// </remarks>
 		public Element Parent;
-		///s.agostini
-		public bool IsMandatory { get; set; }
+        ///s.agostini
+        public bool IsMandatory { get; set; }
+        public bool IsMissing { get; set; }
 		
 		public object Tag { get; set; }
 
@@ -83,6 +84,7 @@ namespace MonoTouch.Dialog
 		public Element(string caption)
 		{
 			this.Caption = caption;
+            this.IsMissing = false;
 		}
 
 		public void Dispose()
@@ -129,38 +131,35 @@ namespace MonoTouch.Dialog
 			{
 				return cellkey;
 			}
-		}
-
-		/// <summary>
-		/// Gets a UITableViewCell for this element.   Can be overridden, but if you
-		/// customize the style or contents of the cell you must also override the CellKey
-		/// property in your derived class.
-		/// </summary>
-		public virtual UITableViewCell GetCell(UITableView tv)
+            set
+            {
+                cellkey = value;
+            }
+        }
+        protected virtual UITableViewCellStyle CellStyle => UITableViewCellStyle.Value1;
+        /// <summary>
+        /// Gets a UITableViewCell for this element.   Can be overridden, but if you
+        /// customize the style or contents of the cell you must also override the CellKey
+        /// property in your derived class.
+        /// </summary>
+        public virtual UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
+            var cell = tv.DequeueReusableCell(CellKey);
+            if (cell == null)
 			{
-				if (CellKey.Description.Equals("GridElement"))
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
-				}
-				//else if (CellKey.Description.Equals("TwoStateElement"))
-				//{
-				//	cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellKey);
-				//}
-				else
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Value1, CellKey);
-				}
-				cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+                cell = new DialogCell(CellStyle, CellKey);
+
+                cell.TextLabel.AdjustsFontSizeToFitWidth = true;
 				cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
 
-			}
-			//cell.BackgroundColor = UIColor.Red;
-			//cell.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, tv.Frame.Height, tv.Frame.Width);
-			return cell;
+                if (this.IsMissing)
+                    cell.TextLabel.TextColor = UIColor.Red;
+
+            }
+            //cell.BackgroundColor = UIColor.Red;
+            //cell.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, tv.Frame.Height, tv.Frame.Width);
+            return cell;
 			//return new UITableViewCell (UITableViewCellStyle.Default, CellKey);
 		}
 
@@ -417,7 +416,8 @@ namespace MonoTouch.Dialog
 				return bkey;
 			}
 		}
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
 			if (sw == null)
 			{
@@ -435,13 +435,15 @@ namespace MonoTouch.Dialog
 			else
 				sw.On = Value;
 
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+				//cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-			}
-			else
+			//}
+			//else
 				RemoveTag(cell, 1);
 
 			cell.TextLabel.Text = Caption;
@@ -576,8 +578,9 @@ namespace MonoTouch.Dialog
 		}
 		public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey) as TextWithImageCellView;
-			if (cell == null)
+            var cell = tv.DequeueReusableCell(CellKey) as TextWithImageCellView;
+
+            if (cell == null)
 				cell = new TextWithImageCellView(this);
 			else
 				cell.UpdateFrom(this);
@@ -643,15 +646,18 @@ namespace MonoTouch.Dialog
 				return skey;
 			}
 		}
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+				//cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-			}
-			else
+			//}
+			//else
 				RemoveTag(cell, 1);
 
 			CGSize captionSize = new CGSize(0, 0);
@@ -743,15 +749,17 @@ namespace MonoTouch.Dialog
 				nsUrl = new NSUrl(value);
 			}
 		}
-
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+			//	cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+			//}
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
 			cell.TextLabel.Text = Caption;
@@ -854,8 +862,8 @@ namespace MonoTouch.Dialog
 		static NSString skeyvalue = new NSString("StringElementValue");
 		public UITextAlignment Alignment = UITextAlignment.Left;
 		public string Value;
-
-		public StringElement(string caption) : base(caption) { }
+        protected override NSString CellKey => Value == null ? skey : skeyvalue;
+        public StringElement(string caption) : base(caption) { }
 
 		public StringElement(string caption, string value) : base(caption)
 		{
@@ -873,26 +881,29 @@ namespace MonoTouch.Dialog
 		}
 
 		public event NSAction Tapped;
+        protected override UITableViewCellStyle CellStyle => Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1;
 
-		public override UITableViewCell GetCell(UITableView tv)
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(Value == null ? skey : skeyvalue);
-			if (cell == null)
-			{
-				if ((this as SelectableMultilineEntryElement) != null)
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, skey);
-				}
-				else if ((this as ReadonlyElement) != null)
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Value1, skey);
-				}
+            //var cell = tv.DequeueReusableCell(Value == null ? skey : skeyvalue);
+            var cell = base.GetCell(tv);
 
-				else
-				{ 
-					cell = new UITableViewCell(Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1, Value == null ? skey : skeyvalue);
-				}
-			}
+   //         if (cell == null)
+			//{
+			//	if ((this as SelectableMultilineEntryElement) != null)
+			//	{
+			//		cell = new UITableViewCell(UITableViewCellStyle.Subtitle, skey);
+			//	}
+			//	else if ((this as ReadonlyElement) != null)
+			//	{
+			//		cell = new UITableViewCell(UITableViewCellStyle.Value1, skey);
+			//	}
+
+			//	else
+			//	{ 
+			//		cell = new UITableViewCell(Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1, Value == null ? skey : skeyvalue);
+			//	}
+			//}
 			cell.SelectionStyle = (Tapped != null) ? UITableViewCellSelectionStyle.Blue : UITableViewCellSelectionStyle.None;
 			cell.Accessory = UITableViewCellAccessory.None;
 			cell.TextLabel.Text = Caption;
@@ -1057,16 +1068,20 @@ namespace MonoTouch.Dialog
 		{
 			return skey[style];
 		}
+        protected override UITableViewCellStyle CellStyle => style;
+        protected override NSString CellKey => (NSString)GetKey((int)style);
 
-		public override UITableViewCell GetCell(UITableView tv)
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var key = GetKey((int)style);
-			var cell = tv.DequeueReusableCell(key);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(style, key);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+			//var key = GetKey((int)style);
+			//var cell = tv.DequeueReusableCell(key);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+			//	cell = new UITableViewCell(style, CellKey);
+			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+			//}
 			PrepareCell(cell);
 			return cell;
 		}
@@ -1299,14 +1314,17 @@ namespace MonoTouch.Dialog
 				return skey;
 			}
 		}
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+			//	cell = new UITableViewCell(Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle, CellKey);
+			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+			//}
 
 			cell.Accessory = Accessory;
 			cell.TextLabel.Text = Caption;
@@ -1541,14 +1559,16 @@ namespace MonoTouch.Dialog
 				return ikey;
 			}
 		}
-
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
-			}
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+			//	cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+			//}
 
 			if (scaled == null)
 				return cell;
@@ -1952,17 +1972,17 @@ namespace MonoTouch.Dialog
 			}
 		}
 
-		UITableViewCell cell;
+		//UITableViewCell cell;
 		public override UITableViewCell GetCell(UITableView tv)
 		{
+            var cell = base.GetCell(tv);
 			if (cell == null)
 			{
 				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-				cell.TextLabel.Font = font;
-
-			}
-			cell.TextLabel.Text = Caption;
+            }
+            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+            cell.TextLabel.Font = font;
+            cell.TextLabel.Text = Caption;
 			cell.TextLabel.Lines = 0;
 			nfloat nwidth = 600;
 			if (tv.Frame != default(CGRect))
@@ -2447,34 +2467,42 @@ namespace MonoTouch.Dialog
 				return key;
 			}
 		}
-		public override UITableViewCell GetCell(UITableView tv)
-		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
-				if ((Flags & CellFlags.Transparent) != 0)
-				{
-					cell.BackgroundColor = UIColor.Clear;
+        public override UITableViewCell GetCell(UITableView tv)
+        {
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
 
-					//
-					// This trick is necessary to keep the background clear, otherwise
-					// it gets painted as black
-					//
-					cell.BackgroundView = new UIView(CGRect.Empty)
-					{
-						BackgroundColor = UIColor.Clear
-					};
-				}
-				if ((Flags & CellFlags.DisableSelection) != 0)
-					cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+            if (cell == null)
+            {
+                cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+            }
+            if ((Flags & CellFlags.Transparent) != 0)
+            {
+                cell.BackgroundColor = UIColor.Clear;
 
-				if (Caption != null)
-					cell.TextLabel.Text = Caption;
-				cell.ContentView.AddSubview(ContainerView);
-			}
-			return cell;
-		}
+                //
+                // This trick is necessary to keep the background clear, otherwise
+                // it gets painted as black
+                //
+                cell.BackgroundView = new UIView(CGRect.Empty)
+                {
+                    BackgroundColor = UIColor.Clear
+                };
+            }
+            if ((Flags & CellFlags.DisableSelection) != 0)
+                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+
+            if (Caption != null)
+                cell.TextLabel.Text = Caption;
+            ContainerView.Tag = 1;
+            UIView view = cell.ContentView.ViewWithTag(1);
+            if (view != null)
+                view = ContainerView;
+            else
+                cell.ContentView.AddSubview(ContainerView);
+
+            return cell;
+        }
 
 		public nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
@@ -3346,18 +3374,20 @@ namespace MonoTouch.Dialog
 					radio.Selected = value;
 			}
 		}
-
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override NSString CellKey => summarySection == -1 ? rkey1 : rkey2;
+        protected override UITableViewCellStyle CellStyle => summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			NSString key = summarySection == -1 ? rkey1 : rkey2;
-			var cell = tv.DequeueReusableCell(key);
-			if (cell == null)
-			{
-				var style = summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle;
+            //NSString key = summarySection == -1 ? rkey1 : rkey2;
+            //var cell = tv.DequeueReusableCell(key);
+            var cell = base.GetCell(tv);
+   //         if (cell == null)
+			//{
+			//	var style = summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Subtitle;
 
-				cell = new UITableViewCell(style, key);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+			//	cell = new UITableViewCell(style, CellKey);
+			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+			//}
 
 			cell.TextLabel.Text = Caption;
 			var radio = group as RadioGroup;

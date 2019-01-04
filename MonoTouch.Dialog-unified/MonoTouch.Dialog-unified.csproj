@@ -157,13 +157,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ZXing.Net.Mobile.Core">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.3.2\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
     </Reference>
     <Reference Include="zxing.portable">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.3.2\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
     </Reference>
     <Reference Include="ZXingNetMobile">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.3.2\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -173,8 +173,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\Signature.png" />
-    <None Include="packages.config" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Elements\Custom\PhotoViewController.xib" />

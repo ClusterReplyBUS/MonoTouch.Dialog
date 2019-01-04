@@ -30,7 +30,7 @@ namespace MonoTouch.Dialog
             : base(caption, value)
         {
         }
-
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Value1;
         public override UITableViewCell GetCell(UITableView tv)
         {
             var cell = base.GetCell(tv);

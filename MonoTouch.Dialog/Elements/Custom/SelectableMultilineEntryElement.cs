@@ -33,7 +33,7 @@ namespace MonoTouch.Dialog
 
 		private string _saveLabel;
 
-		public SelectableMultilineEntryElement(string caption, string value, string saveLabel)
+		public SelectableMultilineEntryElement(string caption, bool mandatory, string value, string saveLabel)
 			: base(caption, value)
 		{
 			_saveLabel = saveLabel;
@@ -83,7 +83,8 @@ namespace MonoTouch.Dialog
 		}
 		public event EventHandler<EventArgs> OnSave;
 
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Subtitle;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = base.GetCell(tv);
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;

@@ -59,52 +59,67 @@ namespace MonoTouch.Dialog
 			Font = font;
 			TextColor = textColor;
 		}
-		
-		public override UITableViewCell GetCell (UITableView tv)
-		{
-			var cell = tv.DequeueReusableCell (key);
-			UIActivityIndicatorView activityIndicator;
-			UILabel caption;
-			
-			if (cell == null){
-				cell = new UITableViewCell (UITableViewCellStyle.Default, key);
-			
-				activityIndicator = new UIActivityIndicatorView () {
-					ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray,
-					Tag = 1
-				};
-				caption = new UILabel () {
-					AdjustsFontSizeToFitWidth = false,
-					AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
-					Tag = 2
-				};
-				cell.ContentView.AddSubview (caption);
-				cell.ContentView.AddSubview (activityIndicator);
-			} else {
-				activityIndicator = cell.ContentView.ViewWithTag (1) as UIActivityIndicatorView;
-				caption = cell.ContentView.ViewWithTag (2) as UILabel;
-			}
-			if (Animating){
-				caption.Text = LoadingCaption;
-				activityIndicator.Hidden = false;
-				activityIndicator.StartAnimating ();
-			} else {
-				caption.Text = NormalCaption;
-				activityIndicator.Hidden = true;
-				activityIndicator.StopAnimating ();
-			}
-			if (BackgroundColor != null){
-				cell.ContentView.BackgroundColor = BackgroundColor ?? UIColor.Clear;
-			} else {
-				cell.ContentView.BackgroundColor = null;
-			}
-			caption.BackgroundColor = UIColor.Clear;
-			caption.TextColor = TextColor ?? UIColor.Black;
-			caption.Font = Font ?? UIFont.BoldSystemFontOfSize (16);
-			caption.TextAlignment = Alignment;
-			Layout (cell, activityIndicator, caption);
-			return cell;
-		}
+
+        protected override NSString CellKey => key;
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
+        {
+            //var cell = tv.DequeueReusableCell (key);
+            var cell = base.GetCell(tv);
+
+            UIActivityIndicatorView activityIndicator;
+            UILabel caption;
+
+            //if (cell == null){
+            //cell = new UITableViewCell (UITableViewCellStyle.Default, key);
+            activityIndicator = cell.ContentView.ViewWithTag(1) as UIActivityIndicatorView;
+            if (activityIndicator == null)
+            {
+                activityIndicator = new UIActivityIndicatorView()
+                {
+                    ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray,
+                    Tag = 1
+                };
+                cell.ContentView.AddSubview(activityIndicator);
+            }
+            caption = cell.ContentView.ViewWithTag(2) as UILabel;
+            if (caption == null)
+            {
+                caption = new UILabel()
+                {
+                    AdjustsFontSizeToFitWidth = false,
+                    AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
+                    Tag = 2
+                };
+                cell.ContentView.AddSubview(caption);
+            }
+            if (Animating)
+            {
+                caption.Text = LoadingCaption;
+                activityIndicator.Hidden = false;
+                activityIndicator.StartAnimating();
+            }
+            else
+            {
+                caption.Text = NormalCaption;
+                activityIndicator.Hidden = true;
+                activityIndicator.StopAnimating();
+            }
+            if (BackgroundColor != null)
+            {
+                cell.ContentView.BackgroundColor = BackgroundColor ?? UIColor.Clear;
+            }
+            else
+            {
+                cell.ContentView.BackgroundColor = null;
+            }
+            caption.BackgroundColor = UIColor.Clear;
+            caption.TextColor = TextColor ?? UIColor.Black;
+            caption.Font = Font ?? UIFont.BoldSystemFontOfSize(16);
+            caption.TextAlignment = Alignment;
+            Layout(cell, activityIndicator, caption);
+            return cell;
+        }
 		
 		public bool Animating {
 			get {

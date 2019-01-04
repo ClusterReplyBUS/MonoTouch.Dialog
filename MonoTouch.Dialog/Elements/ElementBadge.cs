@@ -60,8 +60,9 @@ namespace MonoTouch.Dialog
 		public UITableViewCellAccessory Accessory = UITableViewCellAccessory.None;
 		UIImage image;
 		UIFont font;
-	
-		public BadgeElement (UIImage badgeImage, string cellText)
+        protected override NSString CellKey => ckey;
+
+        public BadgeElement (UIImage badgeImage, string cellText)
 			: this (badgeImage, cellText, null)
 		{
 		}
@@ -88,15 +89,18 @@ namespace MonoTouch.Dialog
 				font = value;
 			}
 		}
-		
-		public override UITableViewCell GetCell (UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+
+        public override UITableViewCell GetCell (UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell (ckey);
-			if (cell == null){
-				cell = new UITableViewCell (UITableViewCellStyle.Default, ckey) {
-					SelectionStyle = UITableViewCellSelectionStyle.Blue
-				};
-			}
+            //var cell = tv.DequeueReusableCell (ckey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null){
+			//	cell = new UITableViewCell (UITableViewCellStyle.Default, ckey) {
+			//		SelectionStyle = UITableViewCellSelectionStyle.Blue
+			//	};
+			//}
 			cell.Accessory = Accessory;
 			var tl = cell.TextLabel;
 			tl.Text = Caption;

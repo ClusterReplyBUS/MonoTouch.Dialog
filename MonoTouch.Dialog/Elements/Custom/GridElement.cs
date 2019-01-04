@@ -58,26 +58,22 @@ namespace MonoTouch.Dialog
 				return hkey;
 			}
 		}
-
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Subtitle;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = base.GetCell(tv);
-			//cell.TextLabel.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, 50f, tv.Frame.Height);
-			//cell.TextLabel.BackgroundColor = UIColor.Yellow;
-			//cell.DetailTextLabel.Frame=new CGRect(tv.Frame.X, tv.Frame.Y, 80f, tv.Frame.Height);
-			cell.TextLabel.Lines = 0;
+            cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+            cell.TextLabel.Lines = 0;
 			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+
 			//s.agostini
 			cell.TextLabel.Text = Caption;
 			cell.DetailTextLabel.Text = "";
 
 			if (this.IsMandatory)
 				cell.TextLabel.Text += '*';
-
-			//cell.TextLabel.TextColor = UIColor.Purple;
 
 			if (this.ValueGrid != null)
 			{

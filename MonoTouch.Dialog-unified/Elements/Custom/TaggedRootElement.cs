@@ -49,6 +49,7 @@ public class TaggedRootElement<ElementType> : RootElement
 
 		public TaggedRootElement(string caption, Group group, object tag, string backButtonLabel) : base(caption, group)
 		{
+         
 			this.Tag = tag;
 			this.IsMandatory = false;
 			this._backButtonLabel = backButtonLabel;
@@ -98,9 +99,15 @@ public class TaggedRootElement<ElementType> : RootElement
         #endif
         public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
         {
-            var heightBase = base.GetHeight(tableView, indexPath) + 1;
-            var nh = HeightForWidth(tableView.Frame.Width - 30f) + 30;
-            return nh > heightBase ? nh : heightBase;
+            //var heightBase = base.GetHeight(tableView, indexPath) + 1;
+            //var nh = HeightForWidth(tableView.Frame.Width - 30f) + 30;
+            //return nh > heightBase ? nh : heightBase;
+
+            //float heightBase = (float)base.GetHeight(tableView, indexPath) + 1;
+            //return Math.Max(70, heightBase);
+
+            var width = (tableView.Frame.Width - WIDTH_OFFSET) / 2;
+            return (nfloat)Math.Max(HeightForWidth(Caption, width), 40F);
         }
 	
 

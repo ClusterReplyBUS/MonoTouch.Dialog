@@ -95,15 +95,17 @@ namespace MonoTouch.Dialog
 			}
 		}
 
-
-		public override UITableViewCell GetCell(UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell(UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-			}
+            //var cell = tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null)
+			//{
+			//	cell = new UITableViewCell(UITableViewCellStyle.Default, CellKey);
+			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+			//}
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			//s.agostini
@@ -111,9 +113,7 @@ namespace MonoTouch.Dialog
 			if (this.IsMandatory)
 				cell.TextLabel.Text += '*';
 
-			//cell.TextLabel.TextColor = UIColor.Purple;
-
-			if (this.Value != null)
+                if (this.Value != null)
 			{
 				if (!this.Value.Size.IsEmpty)
 				{

@@ -168,11 +168,13 @@ namespace MonoTouch.Dialog {
 		{
 			Tapped += tapped;
 		}
-		
-		public override UITableViewCell GetCell (UITableView tv)
+
+        protected override NSString CellKey => mKey;
+        public override UITableViewCell GetCell (UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell (mKey) as MessageCell;
-			if (cell == null)
+            var cell = tv.DequeueReusableCell (CellKey) as MessageCell;
+
+            if (cell == null)
 				cell = new MessageCell ();
 			cell.Update (this);
 			return cell;

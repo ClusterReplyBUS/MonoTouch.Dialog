@@ -66,62 +66,65 @@ namespace MonoTouch.Dialog
 				return bkey;
 			}
 		}
-		public override UITableViewCell GetCell(UITableView tv)
-		{
-			var cell = (DialogCell)tv.DequeueReusableCell(CellKey);
-			if (cell == null)
-			{
-				cell = new DialogCell(UITableViewCellStyle.Value1, CellKey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+        public override UITableViewCell GetCell(UITableView tv)
+        {
+            //var cell = (DialogCell)tv.DequeueReusableCell(CellKey);
+            var cell = base.GetCell(tv);
 
-				if (cell.TextLabel != null)
-				{
-					cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
-					cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
-					cell.TextLabel.Text = Caption;
-					cell.TextLabel.Lines = 0;
-					if (this.IsMandatory)
-						cell.TextLabel.Text += "*";
-				}
+            //if (cell == null)
+            //{
+            //    cell = new DialogCell(UITableViewCellStyle.Value1, CellKey);
+            //}
+            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 
-				sc = new UISegmentedControl()
-				{
-					BackgroundColor = UIColor.Clear,
-					Tag = 1,
-				};
-				sc.Selected = true;
+            if (cell.TextLabel != null)
+            {
+                cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+                cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+                cell.TextLabel.Text = Caption;
+                cell.TextLabel.Lines = 0;
+                if (this.IsMandatory)
+                    cell.TextLabel.Text += "*";
+            }
 
-				sc.InsertSegment(choices[0].Text, 0, false);
-				sc.InsertSegment(choices[1].Text, 1, false);
-				sc.SelectedSegment = choices.FindIndex(e => e.Id == val.Id);
-				sc.AddTarget(delegate
-				{
-					Value = choices[(int)sc.SelectedSegment];
-				}, UIControlEvent.ValueChanged);
+            sc = new UISegmentedControl()
+            {
+                BackgroundColor = UIColor.Clear,
+                Tag = 1,
+            };
+            sc.Selected = true;
 
-				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
-					sc.Frame = new CGRect(570f, 8f, 150f, 26f);
-				else
-					sc.Frame = new CGRect(210f, 15f, 100f, 26f);
+            sc.InsertSegment(choices[0].Text, 0, false);
+            sc.InsertSegment(choices[1].Text, 1, false);
+            sc.SelectedSegment = choices.FindIndex(e => e.Id == val.Id);
+            sc.AddTarget(delegate
+            {
+                Value = choices[(int)sc.SelectedSegment];
+            }, UIControlEvent.ValueChanged);
 
-				cell.AddSubview(sc);
-				cell.SubviewsLayoutted += (sender, e) =>
-				{
-					var nw = sc.Frame.X - 10f - cell.TextLabel.Frame.X;
-					var nh = HeightForWidth(nw);
-					cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, (cell.Frame.Height - nh) / 2, nw, nh);
-					sc.Frame = new CGRect(sc.Frame.X, (cell.Frame.Height - sc.Frame.Height) / 2, sc.Frame.Width, sc.Frame.Height);
-				};
-			}
-			return cell;
+            if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+                sc.Frame = new CGRect(570f, 8f, 150f, 26f);
+            else
+                sc.Frame = new CGRect(210f, 15f, 100f, 26f);
 
-		}
+            cell.AddSubview(sc);
+            ((DialogCell)cell).SubviewsLayoutted += (sender, e) =>
+            {
+                var nw = sc.Frame.X - 10f - cell.TextLabel.Frame.X;
+                var nh = HeightForWidth(nw);
+                cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, (cell.Frame.Height - nh) / 2, nw, nh);
+                sc.Frame = new CGRect(sc.Frame.X, (cell.Frame.Height - sc.Frame.Height) / 2, sc.Frame.Width, sc.Frame.Height);
+            };
+            return cell;
+        }
 
 		public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
 			var heightBase = base.GetHeight(tableView, indexPath) + 1;
 			var nh = HeightForWidth(sc.Frame.X - 30f) + 30;
 			return nh > heightBase ? nh : heightBase;
+
+
 		}
 
 		protected override void Dispose(bool disposing)

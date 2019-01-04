@@ -27,11 +27,6 @@ namespace MonoTouch.Dialog
 {
 	public abstract partial class OwnerDrawnElement : Element, IElementSizing
 	{		
-		public string CellReuseIdentifier
-		{
-			get;set;	
-		}
-		
 		public UITableViewCellStyle Style
 		{
 			get;set;	
@@ -39,7 +34,7 @@ namespace MonoTouch.Dialog
 		
 		public OwnerDrawnElement (UITableViewCellStyle style, string cellIdentifier) : base(null)
 		{
-			this.CellReuseIdentifier = cellIdentifier;
+			CellKey = (NSString)cellIdentifier;
 			this.Style = style;
 		}
 		
@@ -47,14 +42,13 @@ namespace MonoTouch.Dialog
 		{
 			return Height(tableView.Bounds);
 		}
-		
-		public override UITableViewCell GetCell (UITableView tv)
+        public override UITableViewCell GetCell (UITableView tv)
 		{
-			OwnerDrawnCell cell = tv.DequeueReusableCell(this.CellReuseIdentifier) as OwnerDrawnCell;
-			
-			if (cell == null)
+            OwnerDrawnCell cell = tv.DequeueReusableCell(CellKey) as OwnerDrawnCell;
+
+            if (cell == null)
 			{
-				cell = new OwnerDrawnCell(this, this.Style, this.CellReuseIdentifier);
+				cell = new OwnerDrawnCell(this, this.Style, CellKey);
 			}
 			else
 			{

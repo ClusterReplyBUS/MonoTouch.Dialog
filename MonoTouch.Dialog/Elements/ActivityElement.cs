@@ -50,13 +50,15 @@ namespace MonoTouch.Dialog
 				return ikey;
 			}
 		}
-
-		public override UITableViewCell GetCell (UITableView tv)
+        protected override UITableViewCellStyle CellStyle => UITableViewCellStyle.Default;
+        public override UITableViewCell GetCell (UITableView tv)
 		{
-			var cell = tv.DequeueReusableCell (CellKey);
-			if (cell == null){
-				cell = new UITableViewCell (UITableViewCellStyle.Default, CellKey);
-			}
+            //var cell = tv.DequeueReusableCell (CellKey);
+            var cell = base.GetCell(tv);
+
+   //         if (cell == null){
+			//	cell = new UITableViewCell (UITableViewCellStyle.Default, CellKey);
+			//}
 
 			indicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
 			var sbounds = tv.Frame;
