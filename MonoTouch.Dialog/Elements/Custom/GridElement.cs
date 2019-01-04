@@ -62,11 +62,11 @@ namespace MonoTouch.Dialog
         public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = base.GetCell(tv);
-            cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+            //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
             cell.TextLabel.Lines = 0;
-			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
-			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+			//cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+			//cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+			//cell.TextLabel.AdjustsFontSizeToFitWidth = true;
 
 			//s.agostini
 			cell.TextLabel.Text = Caption;
@@ -77,7 +77,7 @@ namespace MonoTouch.Dialog
 
 			if (this.ValueGrid != null)
 			{
-				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
+				cell.BackgroundColor = Colors.PaleYellow;
 				//cell.ImageView.Image = this.Value;
 				//cell.ImageView.Frame.X = 20;
 				cell.DetailTextLabel.Text = (string)this.ValueGrid;
@@ -532,7 +532,7 @@ namespace MonoTouch.Dialog
 
 				LabelView = new UILabel();
 				LabelView.BackgroundColor = UIColor.Clear;
-				LabelView.TextColor = UIColor.DarkGray;
+				//LabelView.TextColor = UIColor.DarkGray;
 				LabelView.TextAlignment = UITextAlignment.Center;
 				LabelView.LineBreakMode = UILineBreakMode.WordWrap;
 				LabelView.Lines = 0;

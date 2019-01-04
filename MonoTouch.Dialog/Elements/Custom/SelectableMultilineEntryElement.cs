@@ -92,8 +92,9 @@ namespace MonoTouch.Dialog
 			
 			if (!string.IsNullOrWhiteSpace(Value) && Value.Length > 0)
 			{
-				cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
-			}
+				cell.BackgroundColor = Colors.PaleYellow;
+                IsMissing = false;
+            }
 			if (this.IsMandatory)
 				cell.TextLabel.Text += "*";
 			return cell;

@@ -58,7 +58,7 @@ public class TaggedRootElement<ElementType> : RootElement
 		public override UIKit.UITableViewCell GetCell(UIKit.UITableView tv)
 		{
 			var cell = base.GetCell(tv);
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			if (this.IsMandatory)
 				cell.TextLabel.Text += "*";
 
@@ -73,8 +73,9 @@ public class TaggedRootElement<ElementType> : RootElement
 				{
 					if (_defaultColor == null)
 						_defaultColor = cell.BackgroundColor;
-					cell.BackgroundColor = UIColor.FromRGB(1f, 1f, 0.8f);
-					if (!SelectedChildren.ContainsKey("single"))
+					cell.BackgroundColor = Colors.PaleYellow;
+                    IsMissing = false;
+                    if (!SelectedChildren.ContainsKey("single"))
 						cell.DetailTextLabel.Text = SelectedChildren.Count.ToString();
 				}
 				else

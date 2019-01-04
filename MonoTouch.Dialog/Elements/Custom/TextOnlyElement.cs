@@ -40,17 +40,17 @@ namespace MonoTouch.Dialog
             {
 
                 cell.TextLabel.Font = UIFont.ItalicSystemFontOfSize(17);
-                cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+                //cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 
                 cell.TextLabel.Lines = 0;
                 var height = HeightForWidth(cell.Frame.Width);
                 cell.TextLabel.Frame = new CGRect(cell.TextLabel.Frame.X, cell.TextLabel.Frame.Y, cell.TextLabel.Frame.Width, Math.Max(cell.Frame.Height, height));
-				cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+				//cell.TextLabel.AdjustsFontSizeToFitWidth = true;
 				
             }
             return cell;
         }
-
+        public override bool IsMissing { get => false; set { } }
         public override nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
         {
             ////return base.GetHeight(tableView, indexPath);

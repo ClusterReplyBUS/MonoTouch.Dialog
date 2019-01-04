@@ -305,7 +305,7 @@ namespace MonoTouch.Dialog
 			entry.AutocorrectionType = AutocorrectionType;
 			
 			cell.TextLabel.Text = Caption;
-            cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+            //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
             if (this.IsMandatory)
                 cell.TextLabel.Text += "*";
 			cell.ContentView.AddSubview (entry);

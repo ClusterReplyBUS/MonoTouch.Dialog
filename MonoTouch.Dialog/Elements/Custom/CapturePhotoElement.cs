@@ -127,7 +127,7 @@ namespace MonoTouch.Dialog
 			//	cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
 			//}
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			//s.agostini
 			cell.TextLabel.Text = Caption;
 			if (this.Mandatory)

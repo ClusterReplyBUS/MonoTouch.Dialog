@@ -149,6 +149,7 @@
       <DependentUpon>ScanCodeController.cs</DependentUpon>
     </Compile>
     <Compile Include="Elements\Custom\CustomOverlayScanner.cs" />
+    <Compile Include="Utilities\Colors.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -165,6 +166,7 @@
     <Reference Include="ZXingNetMobile">
       <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">

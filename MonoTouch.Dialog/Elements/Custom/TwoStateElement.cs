@@ -79,8 +79,8 @@ namespace MonoTouch.Dialog
 
             if (cell.TextLabel != null)
             {
-                cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
-                cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+                //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+                //cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
                 cell.TextLabel.Text = Caption;
                 cell.TextLabel.Lines = 0;
                 if (this.IsMandatory)

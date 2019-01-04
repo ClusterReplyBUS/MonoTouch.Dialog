@@ -25,7 +25,6 @@ using System.IO;
 using UIKit;
 using CoreGraphics;
 using Foundation;
-using CoreAnimation;
 
 using NSAction = global::System.Action;
 #else
@@ -49,10 +48,10 @@ using CGRect = global::System.Drawing.RectangleF;
 
 namespace MonoTouch.Dialog
 {
-	/// <summary>
-	/// Base class for all elements in MonoTouch.Dialog
-	/// </summary>
-	public partial class Element : IElementSizing, IDisposable
+    /// <summary>
+    /// Base class for all elements in MonoTouch.Dialog
+    /// </summary>
+    public partial class Element : IElementSizing, IDisposable
 	{
 		protected readonly nfloat WIDTH_OFFSET = (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) ? 40f : 110f;
 		/// <summary>
@@ -66,9 +65,24 @@ namespace MonoTouch.Dialog
 		public Element Parent;
         ///s.agostini
         public bool IsMandatory { get; set; }
-        public bool IsMissing { get; set; }
-		
-		public object Tag { get; set; }
+        protected bool _isMissing = false;
+        public virtual bool IsMissing
+        {
+            get
+            {
+                return _isMissing;
+            }
+            set
+            {
+                _isMissing = value;
+                if (_cell != null && _cell.TextLabel != null)
+                {
+                    _cell.TextLabel.TextColor = value ? UIColor.Red : UIColor.Black;
+                }
+            }
+        }
+        protected UITableViewCell _cell;
+        public object Tag { get; set; }
 
 		/// <summary>
 		///  The caption to display for this given element
@@ -84,7 +98,6 @@ namespace MonoTouch.Dialog
 		public Element(string caption)
 		{
 			this.Caption = caption;
-            this.IsMissing = false;
 		}
 
 		public void Dispose()
@@ -144,23 +157,18 @@ namespace MonoTouch.Dialog
         /// </summary>
         public virtual UITableViewCell GetCell(UITableView tv)
 		{
-            var cell = tv.DequeueReusableCell(CellKey);
-            if (cell == null)
-			{
-                cell = new DialogCell(CellStyle, CellKey);
-
-                cell.TextLabel.AdjustsFontSizeToFitWidth = true;
-				cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-
-                if (this.IsMissing)
-                    cell.TextLabel.TextColor = UIColor.Red;
-
+            _cell = tv.DequeueReusableCell(CellKey + Tag.ToString());
+            if (_cell == null)
+            {
+                _cell = new DialogCell(CellStyle, (NSString) (CellKey + Tag.ToString()));
             }
-            //cell.BackgroundColor = UIColor.Red;
-            //cell.Frame = new CGRect(tv.Frame.X, tv.Frame.Y, tv.Frame.Height, tv.Frame.Width);
-            return cell;
-			//return new UITableViewCell (UITableViewCellStyle.Default, CellKey);
+            _cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+
+            _cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+            _cell.TextLabel.AdjustsFontSizeToFitWidth = true;
+    		_cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
+            _cell.TextLabel.TextColor = IsMissing ? UIColor.Red : UIColor.Black;
+            return _cell;
 		}
 
 		static protected void RemoveTag(UITableViewCell cell, int tag)
@@ -301,7 +309,7 @@ namespace MonoTouch.Dialog
 
 		public virtual nfloat GetHeight(UITableView tableView, NSIndexPath indexPath)
 		{
-			UITableViewCell cell = GetCell(tableView);
+            var cell = _cell;
 			UIEdgeInsets margins = cell.LayoutMargins;
 			float width = 0f;
 			float height = 0f;
@@ -908,7 +916,7 @@ namespace MonoTouch.Dialog
 			cell.Accessory = UITableViewCellAccessory.None;
 			cell.TextLabel.Text = Caption;
 			cell.TextLabel.TextAlignment = Alignment;
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			nfloat width = 600;
 			if (tv.Frame != default(CGRect))
@@ -1092,7 +1100,7 @@ namespace MonoTouch.Dialog
 			var tl = cell.TextLabel;
 			tl.Text = Caption;
 			tl.TextAlignment = Alignment;
-			tl.TextColor = TextColor ?? UIColor.Black;
+			//tl.TextColor = TextColor ?? UIColor.Black;
 			tl.Font = Font ?? UIFont.BoldSystemFontOfSize(17);
 			tl.LineBreakMode = LineBreakMode;
 			tl.Lines = Lines;
@@ -1421,7 +1429,7 @@ namespace MonoTouch.Dialog
 
 			bool selected = RadioIdx == ((RadioGroup)(root.group)).Selected;
 			cell.Accessory = selected ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
+			//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			cell.TextLabel.AdjustsFontSizeToFitWidth = true;
 			

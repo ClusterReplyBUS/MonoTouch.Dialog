@@ -260,10 +260,10 @@ namespace ElementPack
 			
 			entry.AutocapitalizationType = AutocapitalizationType;
 			entry.AutocorrectionType = AutocorrectionType;
-			
-			cell.TextLabel.Text = Caption;
-			cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
-			cell.ContentView.AddSubview (entry);
+            cell.ContentView.AddSubview(entry);
+
+            cell.TextLabel.Text = Caption;
+			//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(17);
 			return cell;
 		}
 		

@@ -66,8 +66,9 @@ namespace MonoTouch.Dialog
 			var cell = this.GetActiveCell ();
 			if (cell != null) {
 				if (!string.IsNullOrEmpty (this.Value)) {
-					cell.BackgroundColor = UIColor.FromRGB (1f, 1f, 0.8f);
-				} else
+					cell.BackgroundColor = Colors.PaleYellow;
+                    IsMissing = false;
+                } else
 					cell.BackgroundColor = _defaultColor;
 			}
 		}
@@ -87,7 +88,8 @@ namespace MonoTouch.Dialog
 				//cell.TextLabel.TextColor = UIColor.Black;
 			}*/
 			if (!string.IsNullOrEmpty (this.Value)) {
-				cell.BackgroundColor = UIColor.FromRGB (1f, 1f, 0.8f);
+				cell.BackgroundColor = Colors.PaleYellow;
+                IsMissing = false;
 			} else
 				cell.BackgroundColor = _defaultColor ?? UIColor.White;
 			return cell;
