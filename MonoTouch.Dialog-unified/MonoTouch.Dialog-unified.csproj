@@ -21,6 +21,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchMinimumOSVersion>12.0</MtouchMinimumOSVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -31,6 +32,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DefineConstants>XAMCORE_2_0</DefineConstants>
+    <MtouchMinimumOSVersion>12.0</MtouchMinimumOSVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\MonoTouch.Dialog\DialogViewController.cs">
@@ -158,15 +160,14 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ZXing.Net.Mobile.Core">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
+      <HintPath>..\..\..\reply-cluster-dcx\IVG-LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
     </Reference>
     <Reference Include="zxing.portable">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
+      <HintPath>..\..\..\reply-cluster-dcx\IVG-LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
     </Reference>
     <Reference Include="ZXingNetMobile">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
+      <HintPath>..\..\..\reply-cluster-dcx\IVG-LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">
@@ -179,8 +180,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Elements\Custom\PhotoViewController.xib" />
-    <InterfaceDefinition Include="Elements\Custom\ScanCodeController.xib" />
+    <!--<InterfaceDefinition Include="Elements\Custom\PhotoViewController.xib" />-->
+    <!--<InterfaceDefinition Include="Elements\Custom\ScanCodeController.xib" />-->
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
