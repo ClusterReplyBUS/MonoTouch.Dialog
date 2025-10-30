@@ -1,12 +1,17 @@
 ﻿using System;
+using UIKit;
+
 namespace MonoTouch.Dialog
 {
     public class ScanCodeElement : LoadMoreElement
     {
+        string cancelLabel;
+        string flashLabel;
 
-
-        public ScanCodeElement(string caption) : base(caption,string.Empty,null)
+        public ScanCodeElement(string caption,string cancelLabel,string flashLabel,string flashOnLabel,string flashOffLabel) : base(caption,string.Empty,null)
         {
+            this.flashLabel = flashLabel;
+            this.cancelLabel = cancelLabel;
             
         }
 
@@ -14,17 +19,18 @@ namespace MonoTouch.Dialog
         public override void Selected(DialogViewController dvc, UIKit.UITableView tableView, Foundation.NSIndexPath indexPath)
         {
             base.Selected(dvc, tableView, indexPath);
-            var scan = new ScanCodeController()
-            {
 
-            };
+            var scan = new ScanCodeController(cancelLabel, flashLabel)
+            {
+             };
             this.Animating = false;
 
             scan.SendResponse += (s, e) =>
             {
                 OnSendResponse(e.ScannerResult);
             };
-            dvc.ActivateController(scan);
+             dvc.ActivateController(scan);
+
         }
 
 

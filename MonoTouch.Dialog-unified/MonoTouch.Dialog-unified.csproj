@@ -157,16 +157,18 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="ZXing.Net.Mobile.Core">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="zxing.portable">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
-    </Reference>
     <Reference Include="ZXingNetMobile">
-      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.3.0.0-beta5\lib\xamarinios10\ZXingNetMobile.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Android" />
+   <Reference Include="Mono.Android" Condition=" '$(TargetFrameworkIdentifier)' == 'MonoAndroid' " />
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\Xamarin.Essentials.1.5.1\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK-1.0" />
+    <Reference Include="System.Drawing.Common.dll" />
+    <Reference Include="zxing">
+      <HintPath>..\..\..\TFS_Git\CNHI_LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.3.0.0-beta5\lib\xamarinios10\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">

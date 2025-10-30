@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGraphics;
 using Foundation;
 using UIKit;
 
@@ -48,12 +49,25 @@ namespace MonoTouch.Dialog
             this.NavigationItem.SetRightBarButtonItem(btnClear, false);
 
             SelectPhotoBtn.SetTitle(_BtnSelectPhoto, UIControlState.Normal);
-
+            SelectPhotoBtn.BackgroundColor = UIColor.FromRGB(0, 177, 64);
             SelectPhotoBtn.TouchUpInside += (sender, e) =>
               {
                   Camera.SelectPicture(this, (obj) =>
                   {
                       var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
+              /*        UIImage lowres = null;
+
+
+                    
+                          byte[] img = photo.AsJPEG().ToArray();
+                        
+
+                      using (NSData jpgImage = photo.AsJPEG(0.2f))
+                      {
+                          byte[] imageBytes = jpgImage.ToArray();
+                          var data = NSData.FromArray(imageBytes);
+                          lowres = UIImage.LoadFromData(data);
+                      } */
                       OnSendResponse(photo);
                       BeginInvokeOnMainThread(() =>
                         {
@@ -66,6 +80,7 @@ namespace MonoTouch.Dialog
               };
 
             takePicture.SetTitle(_BtnTakePicture, UIControlState.Normal);
+            takePicture.BackgroundColor = UIColor.FromRGB(0, 177, 64);
             takePicture.TouchUpInside += (sender, e) =>
              {
                  TakePhoto(this);
@@ -104,7 +119,13 @@ namespace MonoTouch.Dialog
             {
                 var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
                 //Value = photo;
-                //Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
+                //  Value = photo.Scale(new CGSize(this.newHeight * photo.Size.Width / photo.Size.Height, this.newHeight));
+                using (NSData jpgImage = photo.AsJPEG(0.5f))
+                {
+                   // byte[] imageBytes = jpgImage.ToArray();
+                    // upload your image data, write to a file, etc.
+                    photo = UIImage.LoadFromData(jpgImage);
+                }
                 OnSendResponse(photo);
                 BeginInvokeOnMainThread(() => NavigationController.PopViewController(true));
             });

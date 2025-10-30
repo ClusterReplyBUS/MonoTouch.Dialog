@@ -4,6 +4,7 @@ using AVFoundation;
 using CoreGraphics;
 using UIKit;
 
+
 namespace MonoTouch.Dialog
 {
     public class CustomOverlayScanner : UIView
@@ -16,7 +17,7 @@ namespace MonoTouch.Dialog
             this.flashText = flashText ?? "Flash";
             this.topText = topText ?? "";
             this.bottomText = bottomText ?? "";
-
+           
             OnCancel = onCancel;
             OnTorch = onTorch;
             Initialize();

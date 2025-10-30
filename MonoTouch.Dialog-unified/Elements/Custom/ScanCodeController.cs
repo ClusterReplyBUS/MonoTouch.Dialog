@@ -7,17 +7,27 @@ namespace MonoTouch.Dialog
 {
     public partial class ScanCodeController : UIViewController
     {
-        public ScanCodeController() : base("ScanCodeController", null)
+        string cancelLabel;
+        string flashLabel;
+
+        public ScanCodeController(string cancelLabel,string flashLabel) : base("ScanCodeController", null)
         {
+            this.flashLabel = flashLabel;
+            this.cancelLabel = cancelLabel;
         }
+        
+
+
+       
+       
 
         public async override void ViewDidLoad()
         {
             MobileBarcodeScanner _scanner = new MobileBarcodeScanner(this);
-
-            CustomOverlayScanner overlay = new CustomOverlayScanner(new CGRect(0, 0, View.Frame.Width, View.Frame.Height), "", "", "Cancel", "Flash", () =>
+           
+            CustomOverlayScanner overlay = new CustomOverlayScanner(new CGRect(0, 0, View.Frame.Width, View.Frame.Height), "", "", cancelLabel, flashLabel, () =>
             {
-                _scanner.Cancel();
+               _scanner.Cancel();
             },
               () => { 
                 _scanner.Torch(!_scanner.IsTorchOn); 

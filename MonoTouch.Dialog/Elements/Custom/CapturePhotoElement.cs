@@ -49,6 +49,8 @@ namespace MonoTouch.Dialog
 
 		public bool Mandatory { get; set; }
 
+        public float CompressionQuality { get; set; }
+
 		public UIImage Value { get; set; }
 
 		public string Base64Value
@@ -57,7 +59,7 @@ namespace MonoTouch.Dialog
 			{
 				if (Value != null)
 				{
-					return Convert.ToBase64String(this.Value.AsJPEG().ToArray());
+					return Convert.ToBase64String(this.Value.AsJPEG(this.CompressionQuality).ToArray());
 				}
 				else
 				{
@@ -88,7 +90,7 @@ namespace MonoTouch.Dialog
 		{
 		}
 
-		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel,string deleteButton, bool isReadOnly) : this(caption)
+		public CapturePhotoElement(string caption, string base64value, bool showSelector, string selectorTakePhotoLabel, string selectorPickImageLabel,string deleteButton, string cancelButton,bool isReadOnly,float compressionQuality) : this(caption)
 		{
 			this.Base64Value = base64value;
 			this._showSelector = showSelector;
@@ -96,9 +98,15 @@ namespace MonoTouch.Dialog
 				this._selectorPickImageLabel = selectorPickImageLabel;
 			if (!string.IsNullOrWhiteSpace(selectorTakePhotoLabel))
 				this._selectorTakePhotoLabel = selectorTakePhotoLabel;
+			if (!string.IsNullOrWhiteSpace(deleteButton))
+				this._deleteButtonLabel = deleteButton;
+			if (!string.IsNullOrWhiteSpace(cancelButton))
+				this._selectorCancelLabel = cancelButton;
 			this.IsReadOnly = isReadOnly;
-		}
-		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null,null, false)
+            this.CompressionQuality = compressionQuality;
+
+        }
+		public CapturePhotoElement(string caption, string base64value) : this(caption, base64value, false, null, null,null,null, false,0.1f)
 		{
 		}
 
