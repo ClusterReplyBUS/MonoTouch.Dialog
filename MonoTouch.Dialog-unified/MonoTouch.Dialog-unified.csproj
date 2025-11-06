@@ -168,6 +168,12 @@
     <Reference Include="ZXingNetMobile">
       <HintPath>..\..\..\reply-cluster-dcx\IVG-LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\ZXing.Net.Mobile.2.4.1\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\..\..\reply-cluster-dcx\IVG-LeadCapture\Reply.CNHI.LeadCapture.Mobile\packages\Xamarin.Essentials.1.8.1\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK-1.0" />
+    <Reference Include="System.Drawing.Common.dll" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MonoTouch.Dialog\Images\arrow.png">
